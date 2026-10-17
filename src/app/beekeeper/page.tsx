@@ -24,21 +24,15 @@ import {
   X,
   ChevronRight,
   ShieldCheck,
-  AlertTriangle,
   BatteryCharging,
   Wifi,
   Sun,
-  Calendar,
   Layers,
   FileText,
   QrCode,
   Download,
   Send,
-  HelpCircle,
-  Play,
-  Sliders,
   Check,
-  ExternalLink,
 } from "lucide-react";
 
 type TabKey = "home" | "hives" | "harvest" | "sensors" | "advisor";

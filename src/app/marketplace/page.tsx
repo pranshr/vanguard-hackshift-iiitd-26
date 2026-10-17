@@ -6,30 +6,18 @@ import {
   Hexagon,
   ShoppingBag,
   Search,
-  Filter,
   ShieldCheck,
   Star,
   CheckCircle2,
-  SlidersHorizontal,
-  ChevronRight,
   ArrowRight,
-  Sparkles,
   Heart,
   Droplets,
   Scale,
   Award,
   Truck,
-  RotateCcw,
   Plus,
   Minus,
   Trash2,
-  X,
-  ExternalLink,
-  MapPin,
-  Calendar,
-  Layers,
-  Info,
-  Check
 } from "lucide-react";
 
 export interface Product {
@@ -442,6 +430,24 @@ export default function MarketplacePage() {
         </div>
       </header>
 
+      {/* Madhuvan Storefront Flagship Announcement */}
+      <div className="bg-[#FAF0E6] border-b border-[#F0D5C0] px-4 py-2.5 text-xs text-[#8A4B12] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 font-mono">
+        <div className="flex items-center gap-2">
+          <ShieldCheck className="w-4 h-4 text-[#2F6B3A] shrink-0" />
+          <span>
+            Looking for consumer single-origin honey? Visit our new flagship{" "}
+            <strong>Madhuvan Storefront</strong> with live hive telemetry & NMR lab reports.
+          </span>
+        </div>
+        <Link
+          href="/shop"
+          className="underline font-bold shrink-0 hover:text-[#703C0D] flex items-center gap-1"
+        >
+          <span>Explore Madhuvan Storefront</span>
+          <ArrowRight className="w-3 h-3" />
+        </Link>
+      </div>
+
       {/* Hero Banner Section */}
       <section className="bg-[#f7efe4] border-b border-[#e8ded0] py-8 sm:py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
@@ -523,7 +529,7 @@ export default function MarketplacePage() {
               <span>Sort:</span>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) => setSortBy(e.target.value as "featured" | "price-asc" | "price-desc" | "rating")}
                 className="bg-white border border-[#e0d7cb] text-[#24201d] text-xs font-medium py-1.5 px-2 rounded-lg focus:outline-none focus:border-[#b45309]"
               >
                 <option value="featured">Featured</option>
@@ -718,10 +724,11 @@ export default function MarketplacePage() {
       <footer className="border-t border-[#e8e1d7] bg-[#faf8f5] py-8 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-[#7c7267] gap-4">
           <p>© 2026 BEE-Safe Marketplace. Direct Apiary Telemetry Network.</p>
-          <div className="flex gap-4 sm:gap-6 font-medium">
+          <div className="flex flex-wrap gap-4 sm:gap-6 font-medium">
             <Link href="/" className="hover:text-[#24201d]">Landing Overview</Link>
+            <Link href="/shop" className="text-[#8A4B12] font-semibold hover:underline">Madhuvan Storefront</Link>
             <Link href="/beekeeper" className="hover:text-[#24201d]">Beekeeper Dashboard</Link>
-            <span className="hover:text-[#24201d] cursor-pointer">Batch QR Verification</span>
+            <Link href="/verify" className="hover:text-[#24201d]">Batch QR Verification</Link>
             <span className="hover:text-[#24201d] cursor-pointer">Apiarist Vendor Terms</span>
           </div>
         </div>

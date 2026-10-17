@@ -1,27 +1,66 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #faf8f5;
-  --bg-card: #ffffff;
-  --bg-muted: #f4eee6;
-  --border-subtle: #e8e1d7;
-  --text-main: #24201d;
-  --text-muted: #6e655d;
-  --accent-honey: #b45309;
-  --accent-honey-hover: #92400e;
-  --tab-active-bg: #f7efe4;
+  /* Section 7 - Design Tokens: Apothecary x Terroir */
+  --paper: #F6F1E7;
+  --ink: #1C1A17;
+  --amber-deep: #8A4B12;
+  --honey: #C98A2B;
+  --forest: #3F4A3A;
+  --line: #E3DACB;
+  --verified: #2F6B3A;
+
+  /* Legacy mappings to preserve compatibility */
+  --bg-primary: #F6F1E7;
+  --bg-card: #FFFFFF;
+  --bg-muted: #EDE6D8;
+  --border-subtle: #E3DACB;
+  --text-main: #1C1A17;
+  --text-muted: #665E55;
+  --accent-honey: #8A4B12;
+  --accent-honey-hover: #703C0D;
+}
+
+@theme {
+  --color-paper: #F6F1E7;
+  --color-ink: #1C1A17;
+  --color-amber-deep: #8A4B12;
+  --color-honey: #C98A2B;
+  --color-forest: #3F4A3A;
+  --color-line: #E3DACB;
+  --color-verified: #2F6B3A;
+
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-mono), "IBM Plex Mono", Menlo, Consolas, monospace;
 }
 
 body {
-  background-color: var(--bg-primary);
-  color: var(--text-main);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Ensure no pill buttons anywhere */
-button, .btn {
-  border-radius: 8px !important;
+/* Serif headings */
+h1, h2, h3, .font-serif {
+  font-family: var(--font-fraunces), Georgia, serif;
+}
+
+/* Monospace telemetry & identifiers */
+.font-mono, code, kbd {
+  font-family: var(--font-mono), "IBM Plex Mono", Menlo, monospace;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
