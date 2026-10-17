@@ -201,7 +201,7 @@ export default function BeekeeperPage() {
           {/* Top Brand & Portal Info */}
           <div className="pb-5 border-b border-[#e8e1d7] mb-5">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-[#f7efe4] border border-[#e8e1d7] rounded-lg flex items-center justify-center text-[#b45309] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+              <div className="w-10 h-10 bg-[#F2A007] rounded-lg flex items-center justify-center text-[#1C1A17] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
                 <Hexagon className="w-6 h-6 stroke-[2.2]" />
               </div>
               <div>
@@ -234,7 +234,7 @@ export default function BeekeeperPage() {
             <select
               value={selectedHive}
               onChange={(e) => setSelectedHive(e.target.value)}
-              className="w-full text-xs font-semibold bg-white border border-[#e0d7cb] text-[#24201d] rounded-lg p-2.5 focus:outline-none focus:border-[#b45309] shadow-2xs cursor-pointer"
+              className="w-full text-xs font-semibold bg-white border border-[#e0d7cb] text-[#24201d] rounded-lg p-2.5 focus:outline-none focus:border-[#F2A007] shadow-2xs cursor-pointer"
             >
               <option value="Hive #01 - Orchard Yard">Hive #01 - Orchard Yard</option>
               <option value="Hive #02 - Meadow Yard">Hive #02 - Meadow Yard</option>
@@ -257,14 +257,14 @@ export default function BeekeeperPage() {
                   onClick={() => setActiveTab(item.key)}
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-semibold rounded-lg transition-all text-left ${
                     isActive
-                      ? "bg-[#f7efe4] text-[#1c1917] font-bold border border-[#e8ded0] shadow-2xs"
-                      : "text-[#645d56] hover:bg-[#faf6f0] hover:text-[#24201d] border border-transparent"
+                      ? "bg-[#F2A007] text-[#1C1A17] font-bold shadow-xs"
+                      : "text-[#645d56] hover:bg-[#F2A007]/10 hover:text-[#1C1A17] border border-transparent"
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <Icon
                       className={`w-5 h-5 ${
-                        isActive ? "text-[#b45309]" : "text-[#8b7f73]"
+                        isActive ? "text-[#1C1A17]" : "text-[#8b7f73]"
                       }`}
                     />
                     <span>{item.label}</span>
@@ -272,7 +272,7 @@ export default function BeekeeperPage() {
                   <span
                     className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
                       isActive
-                        ? "bg-[#b45309] text-white"
+                        ? "bg-black/15 text-[#1C1A17]"
                         : "bg-[#f4ede3] text-[#7c7267]"
                     }`}
                   >
@@ -286,19 +286,19 @@ export default function BeekeeperPage() {
 
         {/* Sidebar Footer: Apiarist Profile & Actions */}
         <div className="pt-4 border-t border-[#e8e1d7] space-y-3">
-          {/* Quick Inspection Action */}
+          {/* Quick Inspection Action Button */}
           <button
             onClick={() => setShowInspectionModal(true)}
-            className="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-semibold text-[#4b433b] bg-[#faf8f5] border border-[#e0d7cb] rounded-lg hover:bg-[#f5ede2] transition-all"
+            className="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all shadow-xs cursor-pointer active:scale-95"
           >
-            <Plus className="w-3.5 h-3.5 text-[#b45309]" />
+            <Plus className="w-3.5 h-3.5 text-[#1C1A17]" />
             <span>Log Inspection</span>
           </button>
 
           {/* User Profile Card */}
           <div className="p-3 bg-[#faf8f5] border border-[#e8e1d7] rounded-lg flex items-center justify-between">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-9 h-9 rounded-lg bg-[#f7efe4] border border-[#e2d8cb] flex items-center justify-center text-[#b45309] font-bold text-xs shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-[#F2A007] text-[#1C1A17] flex items-center justify-center font-black text-xs shrink-0 shadow-2xs">
                 {currentUser?.name
                   ? currentUser.name
                       .split(" ")
@@ -322,7 +322,7 @@ export default function BeekeeperPage() {
             <button
               type="button"
               onClick={handleLogout}
-              className="p-1.5 text-[#7c7267] hover:text-[#b45309] hover:bg-white rounded-md border border-transparent hover:border-[#e0d7cb] transition-all cursor-pointer"
+              className="p-1.5 text-[#7c7267] hover:text-[#1C1A17] hover:bg-[#F2A007]/20 rounded-md border border-transparent hover:border-[#F2A007]/40 transition-all cursor-pointer"
               title="Log Out of Apiary"
             >
               <LogOut className="w-4 h-4" />
@@ -349,7 +349,7 @@ export default function BeekeeperPage() {
 
             {/* Mobile Brand Link */}
             <Link href="/" className="flex items-center gap-2 md:hidden group">
-              <div className="w-8 h-8 bg-[#f7efe4] border border-[#e8e1d7] rounded-lg flex items-center justify-center text-[#b45309]">
+              <div className="w-8 h-8 bg-[#F2A007] rounded-lg flex items-center justify-center text-[#1C1A17] shadow-2xs">
                 <Hexagon className="w-5 h-5" />
               </div>
               <span className="font-serif font-bold text-lg text-[#24201d] group-hover:text-[var(--signature)] transition-colors">BEE safe</span>
@@ -372,7 +372,7 @@ export default function BeekeeperPage() {
             {/* Quick Status Badges */}
             <div className="hidden lg:flex items-center gap-3 text-xs">
               <div className="flex items-center gap-1.5 text-[#574f46] bg-white border border-[#e8e1d7] px-2.5 py-1 rounded-lg">
-                <Sun className="w-3.5 h-3.5 text-[#d97706]" />
+                <Sun className="w-3.5 h-3.5 text-[#F2A007]" />
                 <span>27°C Sunny</span>
               </div>
               <div className="flex items-center gap-1.5 text-[#16a34a] bg-white border border-[#e8e1d7] px-2.5 py-1 rounded-lg font-medium">
@@ -388,9 +388,9 @@ export default function BeekeeperPage() {
             {/* Quick Log Inspection Button */}
             <button
               onClick={() => setShowInspectionModal(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-[#b45309] rounded-lg hover:bg-[#92400e] transition-all shadow-xs"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all shadow-xs cursor-pointer active:scale-95"
             >
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-3.5 h-3.5 text-[#1C1A17]" />
               <span className="hidden sm:inline">Log Inspection</span>
               <span className="sm:hidden">Inspect</span>
             </button>
@@ -398,7 +398,7 @@ export default function BeekeeperPage() {
             {/* Header Logout Button */}
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#665e55] bg-white border border-[#e0d7cb] rounded-lg hover:bg-[#f5ede2] hover:text-[#b45309] hover:border-[#cfc4b5] transition-all"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#665e55] bg-white border border-[#e0d7cb] rounded-lg hover:bg-[#F2A007]/20 hover:text-[#1C1A17] hover:border-[#F2A007]/40 transition-all cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Log Out</span>
@@ -414,7 +414,7 @@ export default function BeekeeperPage() {
               <div>
                 <div className="flex items-center justify-between pb-3 border-b border-[#e8e1d7] mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-[#f7efe4] rounded-lg flex items-center justify-center text-[#b45309]">
+                    <div className="w-8 h-8 bg-[#F2A007] rounded-lg flex items-center justify-center text-[#1C1A17] shadow-2xs">
                       <Hexagon className="w-5 h-5" />
                     </div>
                     <span className="font-serif font-bold text-lg text-[#24201d]">BEE safe</span>
@@ -435,7 +435,7 @@ export default function BeekeeperPage() {
                   <select
                     value={selectedHive}
                     onChange={(e) => setSelectedHive(e.target.value)}
-                    className="w-full text-xs font-semibold bg-[#faf8f5] border border-[#e0d7cb] text-[#24201d] rounded-lg p-2.5 focus:outline-none focus:border-[#b45309]"
+                    className="w-full text-xs font-semibold bg-[#faf8f5] border border-[#e0d7cb] text-[#24201d] rounded-lg p-2.5 focus:outline-none focus:border-[#F2A007]"
                   >
                     <option value="Hive #01 - Orchard Yard">Hive #01 - Orchard Yard</option>
                     <option value="Hive #02 - Meadow Yard">Hive #02 - Meadow Yard</option>
@@ -460,12 +460,12 @@ export default function BeekeeperPage() {
                         }}
                         className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-semibold rounded-lg transition-all ${
                           isActive
-                            ? "bg-[#f7efe4] text-[#1c1917] border border-[#e8ded0]"
-                            : "text-[#645d56] hover:bg-[#faf6f0]"
+                            ? "bg-[#F2A007] text-[#1C1A17] font-bold shadow-xs"
+                            : "text-[#645d56] hover:bg-[#F2A007]/10"
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          <Icon className={`w-4 h-4 ${isActive ? "text-[#b45309]" : "text-[#8b7f73]"}`} />
+                          <Icon className={`w-4 h-4 ${isActive ? "text-[#1C1A17]" : "text-[#8b7f73]"}`} />
                           <span>{item.label}</span>
                         </div>
                         <ChevronRight className="w-4 h-4 text-[#cfc4b5]" />
@@ -506,7 +506,7 @@ export default function BeekeeperPage() {
               <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#b45309] bg-[#f7efe4] px-2 py-0.5 rounded">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#1C1A17] bg-[#F2A007] px-2 py-0.5 rounded shadow-2xs">
                       Langstroth 10-Frame Deep
                     </span>
                     <span className="text-xs text-[#7c7267]">Last telemetry packet: 8s ago</span>
@@ -522,14 +522,14 @@ export default function BeekeeperPage() {
                 <div className="flex flex-wrap items-center gap-2.5">
                   <button
                     onClick={() => setActiveTab("sensors")}
-                    className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#4b433b] bg-[#faf8f5] border border-[#e0d7cb] rounded-lg hover:bg-[#f5ede2] transition-all"
+                    className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#1C1A17] bg-[#F2A007]/15 border border-[#F2A007]/40 rounded-lg hover:bg-[#F2A007] transition-all shadow-2xs cursor-pointer"
                   >
-                    <RefreshCw className="w-3.5 h-3.5 text-[#b45309]" />
+                    <RefreshCw className="w-3.5 h-3.5 text-[#1C1A17]" />
                     Live Sensors
                   </button>
                   <button
                     onClick={() => setActiveTab("advisor")}
-                    className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-[#b45309] rounded-lg hover:bg-[#92400e] transition-all shadow-xs"
+                    className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all shadow-xs cursor-pointer active:scale-95"
                   >
                     <Brain className="w-3.5 h-3.5" />
                     AI Diagnostic
@@ -540,12 +540,12 @@ export default function BeekeeperPage() {
               {/* 4 Core Parameter Cards (Temp, Humidity, Hive Weight, Bee Acoustic Monitoring) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* 1. Temperature */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#b45309]/50 transition-all">
+                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#F2A007] transition-all">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-semibold uppercase tracking-wider text-[#7c7267]">
                       Temperature
                     </span>
-                    <div className="w-8 h-8 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
+                    <div className="w-8 h-8 rounded-md bg-[#F2A007]/15 border border-[#F2A007]/30 flex items-center justify-center text-[#8A4B12]">
                       <Thermometer className="w-4 h-4" />
                     </div>
                   </div>
@@ -563,12 +563,12 @@ export default function BeekeeperPage() {
                 </div>
 
                 {/* 2. Humidity */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#b45309]/50 transition-all">
+                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#F2A007] transition-all">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-semibold uppercase tracking-wider text-[#7c7267]">
                       Humidity
                     </span>
-                    <div className="w-8 h-8 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
+                    <div className="w-8 h-8 rounded-md bg-[#F2A007]/15 border border-[#F2A007]/30 flex items-center justify-center text-[#8A4B12]">
                       <Droplets className="w-4 h-4" />
                     </div>
                   </div>
@@ -586,12 +586,12 @@ export default function BeekeeperPage() {
                 </div>
 
                 {/* 3. Hive Weight */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#b45309]/50 transition-all">
+                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#F2A007] transition-all">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-semibold uppercase tracking-wider text-[#7c7267]">
                       Hive Weight
                     </span>
-                    <div className="w-8 h-8 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
+                    <div className="w-8 h-8 rounded-md bg-[#F2A007]/15 border border-[#F2A007]/30 flex items-center justify-center text-[#8A4B12]">
                       <Scale className="w-4 h-4" />
                     </div>
                   </div>
@@ -599,22 +599,22 @@ export default function BeekeeperPage() {
                     {telemetry.weight}
                   </div>
                   <div className="text-xs text-[#665e55] mt-2 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#b45309] shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#F2A007] shrink-0" />
                     <span>{telemetry.weightStatus}</span>
                   </div>
                   <div className="mt-3 pt-2 border-t border-[#f4ede3] text-[11px] text-[#7c7267] flex justify-between">
                     <span>Honey Super: ~14.8 kg</span>
-                    <span className="font-semibold text-[#b45309]">Flow Active</span>
+                    <span className="font-semibold text-[#8A4B12]">Flow Active</span>
                   </div>
                 </div>
 
                 {/* 4. Bee Acoustic Monitoring */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#b45309]/50 transition-all">
+                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#F2A007] transition-all">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-semibold uppercase tracking-wider text-[#7c7267]">
                       Acoustic Sound
                     </span>
-                    <div className="w-8 h-8 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
+                    <div className="w-8 h-8 rounded-md bg-[#F2A007]/15 border border-[#F2A007]/30 flex items-center justify-center text-[#8A4B12]">
                       <Activity className="w-4 h-4" />
                     </div>
                   </div>
@@ -639,14 +639,14 @@ export default function BeekeeperPage() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#e8e1d7]">
                     <div>
                       <h3 className="font-bold text-base text-[#24201d] flex items-center gap-2">
-                        <Volume2 className="w-4 h-4 text-[#b45309]" />
+                        <Volume2 className="w-4 h-4 text-[#F2A007]" />
                         <span>Acoustic Frequency Spectrum & Colony Resonance</span>
                       </h3>
                       <p className="text-xs text-[#7c7267] mt-0.5">
                         High-precision MEMS microphone capturing in-hive vibration harmonics.
                       </p>
                     </div>
-                    <span className="text-xs font-bold text-[#16a34a] bg-[#f7efe4] px-2.5 py-1 rounded-md self-start sm:self-auto">
+                    <span className="text-xs font-bold text-[#16a34a] bg-[#F2A007]/15 border border-[#F2A007]/30 px-2.5 py-1 rounded-md self-start sm:self-auto">
                       Normal Brood Hum (200-250 Hz)
                     </span>
                   </div>
@@ -659,7 +659,7 @@ export default function BeekeeperPage() {
                           <div
                             className={`w-full rounded-xs transition-all ${
                               idx >= 3 && idx <= 5
-                                ? "bg-[#b45309]"
+                                ? "bg-[#F2A007]"
                                 : idx > 8
                                 ? "bg-[#cfc4b5]"
                                 : "bg-[#d97706]"
@@ -671,7 +671,7 @@ export default function BeekeeperPage() {
                     </div>
                     <div className="flex justify-between text-[10px] text-[#7c7267] font-semibold border-t border-[#e8ded0] pt-1">
                       <span>100 Hz</span>
-                      <span className="text-[#b45309] font-bold">228 Hz (Peak)</span>
+                      <span className="text-[#8A4B12] font-bold">228 Hz (Peak)</span>
                       <span>350 Hz (Queen)</span>
                       <span>500 Hz (Swarm Band)</span>
                     </div>
@@ -696,7 +696,7 @@ export default function BeekeeperPage() {
                 {/* Colony Status & Queen Card */}
                 <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs space-y-4">
                   <div className="pb-3 border-b border-[#e8e1d7]">
-                    <div className="flex items-center gap-2 text-xs font-semibold text-[#b45309] uppercase tracking-wider mb-1">
+                    <div className="flex items-center gap-2 text-xs font-semibold text-[#8A4B12] uppercase tracking-wider mb-1">
                       <Layers className="w-3.5 h-3.5" />
                       Colony Health Matrix
                     </div>
@@ -710,7 +710,7 @@ export default function BeekeeperPage() {
                     </div>
                     <div className="flex justify-between pb-2 border-b border-[#f4ede3]">
                       <span className="text-[#665e55]">Marking Color:</span>
-                      <span className="font-bold text-[#b45309]">Blue (Year 2025)</span>
+                      <span className="font-bold text-[#8A4B12]">Blue (Year 2025)</span>
                     </div>
                     <div className="flex justify-between pb-2 border-b border-[#f4ede3]">
                       <span className="text-[#665e55]">Laying Pattern:</span>
@@ -726,7 +726,7 @@ export default function BeekeeperPage() {
                     </div>
                   </div>
 
-                  <div className="p-3 bg-[#f7efe4] border border-[#e8ded0] rounded-lg text-xs text-[#574f46]">
+                  <div className="p-3 bg-[#F2A007]/10 border border-[#F2A007]/25 rounded-lg text-xs text-[#574f46]">
                     <strong>Apiarist Tip:</strong> Acacia nectar flow is peaking in your district. Keep entrance reducers open for optimal forager bee traffic.
                   </div>
                 </div>
@@ -742,7 +742,7 @@ export default function BeekeeperPage() {
                     </h3>
                     <button
                       onClick={() => setShowInspectionModal(true)}
-                      className="text-xs font-semibold text-[#b45309] hover:underline"
+                      className="text-xs font-bold text-[#8A4B12] hover:text-[#1C1A17] hover:underline cursor-pointer"
                     >
                       + Add New
                     </button>
@@ -784,7 +784,7 @@ export default function BeekeeperPage() {
                 {/* AI Automated Hive Alert & Recommended Actions */}
                 <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center gap-1.5 text-xs font-semibold text-[#b45309] uppercase tracking-wider mb-2">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8A4B12] uppercase tracking-wider mb-2">
                       <Sparkles className="w-3.5 h-3.5" />
                       Recommended Apiculture Actions
                     </div>
@@ -798,18 +798,18 @@ export default function BeekeeperPage() {
                     <div className="space-y-2 text-xs">
                       <div className="p-2.5 bg-[#faf8f5] border border-[#e8e1d7] rounded-md flex items-center justify-between">
                         <span className="font-medium text-[#24201d]">1. Clean honey extractor & bottling tanks</span>
-                        <span className="text-[10px] font-bold text-[#b45309] bg-[#f7efe4] px-2 py-0.5 rounded">Pending</span>
+                        <span className="text-[10px] font-bold text-[#8A4B12] bg-[#F2A007]/20 border border-[#F2A007]/30 px-2 py-0.5 rounded">Pending</span>
                       </div>
                       <div className="p-2.5 bg-[#faf8f5] border border-[#e8e1d7] rounded-md flex items-center justify-between">
                         <span className="font-medium text-[#24201d]">2. Verify digital refractometer calibration</span>
-                        <span className="text-[10px] font-bold text-[#16a34a] bg-[#f7efe4] px-2 py-0.5 rounded">Ready</span>
+                        <span className="text-[10px] font-bold text-[#16a34a] bg-[#F2A007]/15 border border-[#F2A007]/30 px-2 py-0.5 rounded">Ready</span>
                       </div>
                     </div>
                   </div>
 
                   <button
                     onClick={() => setActiveTab("harvest")}
-                    className="mt-4 w-full py-2.5 text-xs font-semibold text-white bg-[#b45309] rounded-lg hover:bg-[#92400e] transition-all flex items-center justify-center gap-2"
+                    className="mt-4 w-full py-2.5 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer active:scale-95"
                   >
                     <span>Go to Honey Harvest Workflow</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
@@ -833,7 +833,7 @@ export default function BeekeeperPage() {
                 </div>
                 <button
                   onClick={() => alert("New hive hardware node pairing workflow initialized. Ready to attach LoRa/WiFi sensor node.")}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-[#b45309] rounded-lg hover:bg-[#92400e] shadow-xs"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] shadow-xs transition-all cursor-pointer active:scale-95"
                 >
                   <Plus className="w-4 h-4" />
                   Register New Hive Node
@@ -885,15 +885,15 @@ export default function BeekeeperPage() {
                 ].map((h, i) => (
                   <div
                     key={i}
-                    className="bg-white border border-[#e8e1d7] rounded-lg p-5 space-y-4 shadow-2xs hover:border-[#b45309]/50 transition-all flex flex-col justify-between"
+                    className="bg-white border border-[#e8e1d7] rounded-lg p-5 space-y-4 shadow-2xs hover:border-[#F2A007] transition-all flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center justify-between pb-3 border-b border-[#e8e1d7]">
                         <div className="flex items-center gap-2">
-                          <Hexagon className="w-5 h-5 text-[#b45309]" />
+                          <Hexagon className="w-5 h-5 text-[#F2A007]" />
                           <h3 className="font-bold text-sm text-[#24201d]">{h.name}</h3>
                         </div>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#f7efe4] text-[#b45309]">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#F2A007]/20 border border-[#F2A007]/30 text-[#8A4B12]">
                           {h.status}
                         </span>
                       </div>
@@ -909,7 +909,7 @@ export default function BeekeeperPage() {
                         </div>
                         <div className="flex justify-between">
                           <span>Hive Weight:</span>
-                          <span className="font-bold text-[#b45309]">{h.weight} ({h.weightTrend})</span>
+                          <span className="font-bold text-[#8A4B12]">{h.weight} ({h.weightTrend})</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Core Brood Temp:</span>
@@ -931,7 +931,7 @@ export default function BeekeeperPage() {
                           {h.battery}
                         </span>
                         <span className="flex items-center gap-1">
-                          <Wifi className="w-3 h-3 text-[#b45309]" />
+                          <Wifi className="w-3 h-3 text-[#F2A007]" />
                           {h.signal}
                         </span>
                       </div>
@@ -943,7 +943,7 @@ export default function BeekeeperPage() {
                           setSelectedHive(h.name);
                           setActiveTab("sensors");
                         }}
-                        className="flex-1 py-2 text-xs font-semibold text-[#4b433b] bg-[#faf8f5] border border-[#e0d7cb] rounded-lg hover:bg-[#f5ede2]"
+                        className="flex-1 py-2 text-xs font-semibold text-[#4b433b] bg-[#faf8f5] border border-[#e0d7cb] rounded-lg hover:bg-[#f5ede2] transition-colors cursor-pointer"
                       >
                         Telemetry
                       </button>
@@ -952,7 +952,7 @@ export default function BeekeeperPage() {
                           setSelectedHive(h.name);
                           setActiveTab("home");
                         }}
-                        className="flex-1 py-2 text-xs font-semibold text-white bg-[#b45309] rounded-lg hover:bg-[#92400e]"
+                        className="flex-1 py-2 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all shadow-xs cursor-pointer active:scale-95"
                       >
                         Inspect
                       </button>
@@ -978,14 +978,14 @@ export default function BeekeeperPage() {
               {/* Pre-Harvest Telemetry Check Banner */}
               <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs">
                 <h3 className="font-bold text-base text-[#24201d] mb-3 flex items-center gap-2">
-                  <Droplet className="w-4 h-4 text-[#b45309]" />
+                  <Droplet className="w-4 h-4 text-[#F2A007]" />
                   <span>Harvest Readiness Diagnosis ({selectedHive})</span>
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
                   <div className="p-3 bg-[#faf8f5] border border-[#e8e1d7] rounded-lg">
                     <div className="text-[#7c7267]">Load Cell Honey Surplus</div>
-                    <div className="text-xl font-extrabold text-[#b45309] mt-1">+18.5 kg</div>
+                    <div className="text-xl font-extrabold text-[#8A4B12] mt-1">+18.5 kg</div>
                     <div className="text-[11px] text-[#16a34a] mt-0.5">✓ Ready for extraction</div>
                   </div>
 
@@ -1016,7 +1016,7 @@ export default function BeekeeperPage() {
                       <select
                         value={harvestHive}
                         onChange={(e) => setHarvestHive(e.target.value)}
-                        className="w-full px-3 py-2 text-sm border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#b45309] bg-white cursor-pointer"
+                        className="w-full px-3 py-2 text-sm border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#F2A007] bg-white cursor-pointer"
                       >
                         <option value="Hive #01 - Orchard Yard">Hive #01 - Orchard Yard</option>
                         <option value="Hive #02 - Meadow Yard">Hive #02 - Meadow Yard</option>
@@ -1035,7 +1035,7 @@ export default function BeekeeperPage() {
                         value={harvestWeight}
                         onChange={(e) => setHarvestWeight(e.target.value)}
                         placeholder="e.g. 18.5"
-                        className="w-full px-3 py-2 text-sm border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#b45309]"
+                        className="w-full px-3 py-2 text-sm border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#F2A007]"
                       >
                       </input>
                     </div>
@@ -1050,7 +1050,7 @@ export default function BeekeeperPage() {
                         value={harvestMoisture}
                         onChange={(e) => setHarvestMoisture(e.target.value)}
                         placeholder="e.g. 17.2%"
-                        className="w-full px-3 py-2 text-sm border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#b45309]"
+                        className="w-full px-3 py-2 text-sm border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#F2A007]"
                       >
                       </input>
                       <span className="text-[11px] text-[#16a34a] font-medium mt-1 block">
@@ -1068,7 +1068,7 @@ export default function BeekeeperPage() {
                         value={harvestFloral}
                         onChange={(e) => setHarvestFloral(e.target.value)}
                         placeholder="e.g. Acacia Wildflower"
-                        className="w-full px-3 py-2 text-sm border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#b45309]"
+                        className="w-full px-3 py-2 text-sm border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#F2A007]"
                       >
                       </input>
                     </div>
@@ -1082,13 +1082,13 @@ export default function BeekeeperPage() {
                         setHarvestMoisture("17.2");
                         setHarvestFloral("Acacia Wildflower");
                       }}
-                      className="px-4 py-2 text-xs font-semibold text-[#574f46] bg-[#faf8f5] border border-[#e0d7cb] rounded-lg hover:bg-[#ede3d5]"
+                      className="px-4 py-2 text-xs font-semibold text-[#574f46] bg-[#faf8f5] border border-[#e0d7cb] rounded-lg hover:bg-[#ede3d5] transition-colors cursor-pointer"
                     >
                       Reset Form
                     </button>
                     <button
                       type="submit"
-                      className="px-5 py-2 text-xs font-semibold text-white bg-[#b45309] rounded-lg hover:bg-[#92400e] shadow-xs"
+                      className="px-5 py-2 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] shadow-xs transition-all cursor-pointer active:scale-95"
                     >
                       Generate Batch Certificate
                     </button>
@@ -1098,17 +1098,17 @@ export default function BeekeeperPage() {
 
               {/* Generated Batch Traceability Card */}
               {createdBatch && (
-                <div className="bg-white border-2 border-[#b45309] rounded-lg p-5 sm:p-6 shadow-md space-y-4">
+                <div className="bg-white border-2 border-[#F2A007] rounded-lg p-5 sm:p-6 shadow-md space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#e8e1d7] gap-2">
                     <div>
-                      <div className="text-[11px] font-bold text-[#b45309] uppercase tracking-wider">
+                      <div className="text-[11px] font-bold text-[#8A4B12] uppercase tracking-wider">
                         Traceable Apiary Certification
                       </div>
                       <h3 className="font-extrabold text-lg text-[#24201d]">
                         Batch #{createdBatch.id}
                       </h3>
                     </div>
-                    <span className="text-xs font-bold text-[#16a34a] bg-[#f7efe4] px-3 py-1 rounded-md">
+                    <span className="text-xs font-bold text-[#16a34a] bg-[#F2A007]/15 border border-[#F2A007]/30 px-3 py-1 rounded-md">
                       ✓ Certified Organic & Lab Checked
                     </span>
                   </div>
@@ -1120,7 +1120,7 @@ export default function BeekeeperPage() {
                     </div>
                     <div className="p-3 bg-[#faf8f5] rounded-md">
                       <span className="text-[#7c7267] block">Total Harvest</span>
-                      <strong className="text-[#b45309]">{createdBatch.weight} kg</strong>
+                      <strong className="text-[#8A4B12]">{createdBatch.weight} kg</strong>
                     </div>
                     <div className="p-3 bg-[#faf8f5] rounded-md">
                       <span className="text-[#7c7267] block">Moisture Ratio</span>
@@ -1134,12 +1134,12 @@ export default function BeekeeperPage() {
 
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-[#e8e1d7] text-xs text-[#7c7267]">
                     <div className="flex items-center gap-2">
-                      <QrCode className="w-5 h-5 text-[#b45309]" />
+                      <QrCode className="w-5 h-5 text-[#F2A007]" />
                       <span>Consumer Traceability QR Code Ready for Packaging</span>
                     </div>
                     <button
                       onClick={() => alert(`Batch ${createdBatch.id} metadata exported to CSV/Label printer.`)}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#f7efe4] text-[#b45309] font-bold rounded-lg hover:bg-[#ede3d5]"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#F2A007] text-[#1C1A17] font-bold rounded-lg hover:bg-[#d98f06] transition-all shadow-xs cursor-pointer active:scale-95"
                     >
                       <Download className="w-4 h-4" />
                       Download Label & QR
@@ -1162,7 +1162,7 @@ export default function BeekeeperPage() {
               <div className="bg-white border border-[#e8e1d7] rounded-xl p-5 sm:p-6 shadow-2xs space-y-4">
                 <div className="flex items-center justify-between pb-3 border-b border-[#f0eae1]">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-lg bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
+                    <div className="w-9 h-9 rounded-lg bg-[#F2A007] text-[#1C1A17] flex items-center justify-center shadow-2xs">
                       <Activity className="w-5 h-5" />
                     </div>
                     <div>
@@ -1190,7 +1190,7 @@ export default function BeekeeperPage() {
                       <span className="font-bold text-[#16a34a]">Calm Colony Worker Buzz (Optimal)</span>
                     </div>
                     <div className="w-full bg-[#e8e1d7] h-3.5 rounded-sm overflow-hidden flex">
-                      <div className="bg-[#b45309] h-full" style={{ width: "42%" }} title="Worker Hum (150-250Hz)" />
+                      <div className="bg-[#F2A007] h-full" style={{ width: "42%" }} title="Worker Hum (150-250Hz)" />
                       <div className="bg-[#d97706] h-full" style={{ width: "12%" }} title="Queen Tone (300-400Hz)" />
                       <div className="bg-[#e8ded0] h-full flex-1" title="High Freq Roar (450-600Hz)" />
                     </div>
@@ -1210,7 +1210,7 @@ export default function BeekeeperPage() {
           {activeTab === "advisor" && (
             <div className="space-y-6">
               <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 sm:p-6 shadow-2xs">
-                <div className="flex items-center gap-2 text-xs font-semibold text-[#b45309] uppercase tracking-wider mb-1">
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#8A4B12] uppercase tracking-wider mb-1">
                   <Sparkles className="w-4 h-4" />
                   Real-time Multi-Vector AI Diagnostic Engine
                 </div>
@@ -1224,7 +1224,7 @@ export default function BeekeeperPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs space-y-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
+                    <div className="w-8 h-8 rounded-md bg-[#F2A007]/15 border border-[#F2A007]/30 flex items-center justify-center text-[#8A4B12]">
                       <Activity className="w-4 h-4" />
                     </div>
                     <div>
@@ -1241,14 +1241,14 @@ export default function BeekeeperPage() {
 
                 <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs space-y-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
+                    <div className="w-8 h-8 rounded-md bg-[#F2A007]/15 border border-[#F2A007]/30 flex items-center justify-center text-[#8A4B12]">
                       <Scale className="w-4 h-4" />
                     </div>
                     <div>
                       <h3 className="font-bold text-sm text-[#24201d]">
                         Honey Super & Nectar Flow Timing
                       </h3>
-                      <span className="text-[11px] text-[#b45309] font-semibold">Action in 2 Days</span>
+                      <span className="text-[11px] text-[#8A4B12] font-semibold">Action in 2 Days</span>
                     </div>
                   </div>
                   <p className="text-xs text-[#665e55] leading-relaxed">
@@ -1279,15 +1279,15 @@ export default function BeekeeperPage() {
                       <div
                         className={`max-w-[85%] sm:max-w-[75%] rounded-lg p-3 text-xs leading-relaxed shadow-2xs ${
                           msg.sender === "user"
-                            ? "bg-[#b45309] text-white"
+                            ? "bg-[#F2A007] text-[#1C1A17] font-medium shadow-xs"
                             : "bg-white border border-[#e8e1d7] text-[#24201d]"
                         }`}
                       >
                         <div className="flex items-center justify-between gap-4 mb-1">
-                          <span className={`font-bold text-[10px] uppercase ${msg.sender === "user" ? "text-white/80" : "text-[#b45309]"}`}>
+                          <span className={`font-bold text-[10px] uppercase ${msg.sender === "user" ? "text-[#1C1A17]/80" : "text-[#8A4B12]"}`}>
                             {msg.sender === "user" ? "Ritesh Kumar" : "BEE safe AI"}
                           </span>
-                          <span className={`text-[10px] ${msg.sender === "user" ? "text-white/70" : "text-[#7c7267]"}`}>
+                          <span className={`text-[10px] ${msg.sender === "user" ? "text-[#1C1A17]/70" : "text-[#7c7267]"}`}>
                             {msg.time}
                           </span>
                         </div>
@@ -1307,7 +1307,7 @@ export default function BeekeeperPage() {
                     <button
                       key={idx}
                       onClick={() => setAiQuery(suggestion)}
-                      className="px-2.5 py-1 bg-white border border-[#e0d7cb] rounded-md text-[#574f46] hover:bg-[#f5ede2] hover:text-[#b45309] shrink-0 transition-all"
+                      className="px-2.5 py-1 bg-white border border-[#e0d7cb] rounded-md text-[#574f46] hover:bg-[#F2A007]/20 hover:text-[#1C1A17] shrink-0 transition-all cursor-pointer"
                     >
                       {suggestion}
                     </button>
@@ -1321,11 +1321,11 @@ export default function BeekeeperPage() {
                     value={aiQuery}
                     onChange={(e) => setAiQuery(e.target.value)}
                     placeholder="Ask AI advisor about colony health, acoustic spikes, floral flow, or treatments..."
-                    className="flex-1 px-3 py-2 text-xs border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#b45309]"
+                    className="flex-1 px-3 py-2 text-xs border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#F2A007]"
                   />
                   <button
                     type="submit"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[#b45309] rounded-lg hover:bg-[#92400e] transition-all shadow-xs"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all shadow-xs cursor-pointer active:scale-95"
                   >
                     <span>Send</span>
                     <Send className="w-3.5 h-3.5" />
@@ -1345,7 +1345,7 @@ export default function BeekeeperPage() {
           <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 sm:p-6 w-full max-w-lg shadow-xl">
             <div className="flex items-center justify-between pb-3 border-b border-[#e8e1d7] mb-4">
               <div className="flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#b45309]" />
+                <FileText className="w-5 h-5 text-[#F2A007]" />
                 <h3 className="font-bold text-base text-[#24201d]">Log Colony Inspection</h3>
               </div>
               <button
@@ -1353,7 +1353,7 @@ export default function BeekeeperPage() {
                   setShowInspectionModal(false);
                   setInspectionSuccess(false);
                 }}
-                className="text-[#7c7267] hover:text-[#24201d] p-1"
+                className="text-[#7c7267] hover:text-[#24201d] p-1 cursor-pointer"
               >
                 ✕
               </button>
@@ -1361,7 +1361,7 @@ export default function BeekeeperPage() {
 
             {inspectionSuccess ? (
               <div className="text-center py-6 space-y-3">
-                <div className="w-12 h-12 bg-[#f7efe4] border border-[#e8ded0] text-[#16a34a] rounded-full mx-auto flex items-center justify-center">
+                <div className="w-12 h-12 bg-[#F2A007]/15 border border-[#F2A007]/30 text-[#16a34a] rounded-full mx-auto flex items-center justify-center">
                   <Check className="w-6 h-6 stroke-[3]" />
                 </div>
                 <h4 className="font-bold text-base text-[#24201d]">Inspection Log Saved!</h4>
@@ -1373,7 +1373,7 @@ export default function BeekeeperPage() {
                     setShowInspectionModal(false);
                     setInspectionSuccess(false);
                   }}
-                  className="px-5 py-2 text-xs font-semibold text-white bg-[#b45309] rounded-lg hover:bg-[#92400e]"
+                  className="px-5 py-2 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] shadow-xs cursor-pointer active:scale-95"
                 >
                   Done
                 </button>
@@ -1441,7 +1441,7 @@ export default function BeekeeperPage() {
                     rows={3}
                     placeholder="e.g. Good honey stores, added queen excluder, acoustic hum normal."
                     defaultValue="Checked central brood frames. Queen active on frame 5. Strong pollen reserves. Acoustic telemetry verified normal."
-                    className="w-full px-3 py-2 border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#b45309]"
+                    className="w-full px-3 py-2 border border-[#e0d7cb] rounded-lg focus:outline-none focus:border-[#F2A007]"
                   />
                 </div>
 
@@ -1449,13 +1449,13 @@ export default function BeekeeperPage() {
                   <button
                     type="button"
                     onClick={() => setShowInspectionModal(false)}
-                    className="px-4 py-2 font-semibold text-[#574f46] bg-[#faf8f5] border border-[#e0d7cb] rounded-lg hover:bg-[#ede3d5]"
+                    className="px-4 py-2 font-semibold text-[#574f46] bg-[#faf8f5] border border-[#e0d7cb] rounded-lg hover:bg-[#ede3d5] cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2 font-semibold text-white bg-[#b45309] rounded-lg hover:bg-[#92400e]"
+                    className="px-5 py-2 font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] shadow-xs cursor-pointer active:scale-95"
                   >
                     Save Inspection Log
                   </button>
@@ -1498,7 +1498,7 @@ export default function BeekeeperPage() {
             >
               <Icon
                 className={`w-5 h-5 mb-1 transition-transform ${
-                  isActive ? "text-[#b45309] stroke-[2.4] scale-110" : "text-[#7c7267] stroke-[1.8]"
+                  isActive ? "text-[#F2A007] stroke-[2.4] scale-110" : "text-[#7c7267] stroke-[1.8]"
                 }`}
               />
               <span
@@ -1515,3 +1515,4 @@ export default function BeekeeperPage() {
     </div>
   );
 }
+
