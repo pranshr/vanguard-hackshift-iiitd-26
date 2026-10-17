@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import {
-  ARTISANAL_ACCESSORIES,
   getRecommendedAdditions,
   LastMinuteRecommendation,
 } from "@/data/recommendations";

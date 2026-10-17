@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { Star, ShoppingBag, Check } from "lucide-react";
 
@@ -135,11 +136,12 @@ export function OriginCardsSection() {
               </div>
 
               {/* Floating Studio Product Jar Image */}
-              <img
+              <Image
                 src={card.image}
                 alt={card.title}
-                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
-                loading="lazy"
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
               />
 
               {/* Hover Quick Add Button */}

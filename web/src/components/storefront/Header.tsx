@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { BeehiveCartIcon } from "@/components/storefront/BeehiveCartIcon";
 import {
-  ShoppingBag,
   ChevronDown,
   Menu,
   X,

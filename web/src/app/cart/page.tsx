@@ -8,7 +8,6 @@ import { StorefrontFooter } from "@/components/storefront/Footer";
 import { BeehiveCartIcon } from "@/components/storefront/BeehiveCartIcon";
 import { CartRecommendations } from "@/components/storefront/CartRecommendations";
 import {
-  ShoppingBag,
   Trash2,
   Plus,
   Minus,

@@ -24,21 +24,15 @@ import {
   X,
   ChevronRight,
   ShieldCheck,
-  AlertTriangle,
   BatteryCharging,
   Wifi,
   Sun,
-  Calendar,
   Layers,
   FileText,
   QrCode,
   Download,
   Send,
-  HelpCircle,
-  Play,
-  Sliders,
   Check,
-  ExternalLink,
 } from "lucide-react";
 
 type TabKey = "home" | "hives" | "harvest" | "sensors" | "advisor";
@@ -49,9 +43,6 @@ export default function BeekeeperPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("home");
   const [selectedHive, setSelectedHive] = useState("Hive #01 - Orchard Yard");
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-
-  // Time range filter for sensor data
-  const [sensorTimeRange, setSensorTimeRange] = useState<"24h" | "7d" | "30d">("24h");
 
   // Inspection quick log modal state
   const [showInspectionModal, setShowInspectionModal] = useState(false);

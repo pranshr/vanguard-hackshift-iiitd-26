@@ -20,7 +20,6 @@ interface GlobalTelemetryStore {
 }
 
 declare global {
-  // eslint-disable-next-line no-var
   var __HONEYCHAIN_TELEMETRY__: GlobalTelemetryStore | undefined;
 }
 
