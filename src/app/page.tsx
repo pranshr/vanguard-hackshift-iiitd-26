@@ -45,13 +45,13 @@ export default function LandingPage() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-3">
             {/* Marketplace Button */}
-            <button
-              onClick={() => setShowMarketModal(true)}
+            <Link
+              href="/marketplace"
               className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#4b433b] bg-white border border-[#e0d7cb] rounded-lg hover:bg-[#f5ede2] hover:border-[#cfc4b5] transition-all"
             >
               <ShoppingBag className="w-4 h-4 text-[#b45309]" />
               Marketplace
-            </button>
+            </Link>
 
             {/* Register Button */}
             <button
@@ -94,16 +94,14 @@ export default function LandingPage() {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-[#e8e1d7] bg-[#faf8f5] px-4 py-3 space-y-2">
-            <button
-              onClick={() => {
-                setShowMarketModal(true);
-                setMobileMenuOpen(false);
-              }}
+            <Link
+              href="/marketplace"
+              onClick={() => setMobileMenuOpen(false)}
               className="w-full flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-[#4b433b] bg-white border border-[#e0d7cb] rounded-lg hover:bg-[#f5ede2]"
             >
               <ShoppingBag className="w-4 h-4 text-[#b45309]" />
               Marketplace
-            </button>
+            </Link>
             <button
               onClick={() => {
                 setShowRegisterModal(true);
@@ -154,12 +152,12 @@ export default function LandingPage() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
 
-              <button
-                onClick={() => setShowMarketModal(true)}
+              <Link
+                href="/marketplace"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm sm:text-base font-medium text-[#4b433b] bg-white border border-[#e0d7cb] rounded-lg hover:bg-[#f5ede2] transition-all text-center"
               >
                 Explore Marketplace
-              </button>
+              </Link>
             </div>
           </div>
 

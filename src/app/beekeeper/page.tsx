@@ -256,7 +256,16 @@ export default function BeekeeperPage() {
         </div>
 
         {/* Sidebar Footer: Apiarist Profile & Actions */}
-        <div className="pt-4 border-t border-[#e8e1d7] space-y-3">
+        <div className="pt-4 border-t border-[#e8e1d7] space-y-2">
+          {/* Marketplace Navigation */}
+          <Link
+            href="/marketplace"
+            className="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-semibold text-[#b45309] bg-[#f7efe4] border border-[#e8ded0] rounded-lg hover:bg-[#ede3d5] transition-all"
+          >
+            <Hexagon className="w-3.5 h-3.5" />
+            <span>Open Marketplace</span>
+          </Link>
+
           {/* Quick Inspection Action */}
           <button
             onClick={() => setShowInspectionModal(true)}
