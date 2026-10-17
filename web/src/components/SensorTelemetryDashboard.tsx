@@ -230,9 +230,9 @@ export default function SensorTelemetryDashboard({
         max: 45,
         unit: "kg",
         ticks: [30, 33, 36, 39, 42, 45],
-        color: "#b45309",
+        color: "#F2A007",
         fillGradient: "url(#weightAreaGrad)",
-        dotFill: "#b45309",
+        dotFill: "#F2A007",
       };
     } else {
       // In "all" mode, show the temperature scale (20°C - 40°C) as the primary base
@@ -615,7 +615,7 @@ export default function SensorTelemetryDashboard({
                 <path
                   d={createSmoothPath(pointsWeight)}
                   fill="none"
-                  stroke="#b45309"
+                  stroke="#F2A007"
                   strokeWidth="2.2"
                 />
               </>
@@ -678,7 +678,7 @@ export default function SensorTelemetryDashboard({
                       cy={pointsWeight[hoverIndex ?? 30]?.y ?? currentHoverPos.y}
                       r="4"
                       fill="#ffffff"
-                      stroke="#b45309"
+                      stroke="#F2A007"
                       strokeWidth="2.5"
                     />
                   </>
@@ -923,7 +923,7 @@ export default function SensorTelemetryDashboard({
             </button>
             <button
               onClick={() => setShowIotModal(true)}
-              className="px-2.5 sm:px-3 py-1.5 text-xs font-bold text-[#b45309] bg-[#f7efe4] border border-[#e8ded0] rounded-lg hover:bg-[#ede3d5] transition-colors whitespace-nowrap cursor-pointer"
+              className="px-2.5 sm:px-3 py-1.5 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all whitespace-nowrap cursor-pointer shadow-xs active:scale-95"
             >
               Connect IoT
             </button>
@@ -939,7 +939,7 @@ export default function SensorTelemetryDashboard({
           <div className="bg-white border border-[#e8e1d7] rounded-2xl p-5 sm:p-6 w-full max-w-xl shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-[#e8e1d7] mb-4">
               <div className="flex items-center gap-2">
-                <Sliders className="w-5 h-5 text-[#b45309]" />
+                <Sliders className="w-5 h-5 text-[#F2A007]" />
                 <h3 className="font-bold text-base sm:text-lg text-[#24201d]">
                   IoT Hardware Connection
                 </h3>
@@ -974,7 +974,7 @@ export default function SensorTelemetryDashboard({
               <div className="flex justify-end pt-2">
                 <button
                   onClick={() => setShowIotModal(false)}
-                  className="w-full sm:w-auto px-4 py-2 bg-[#b45309] text-white font-bold rounded-lg hover:bg-[#92400e] transition-all text-center cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 bg-[#F2A007] text-[#1C1A17] font-bold rounded-lg hover:bg-[#d98f06] transition-all text-center cursor-pointer shadow-xs active:scale-95"
                 >
                   Theek Hai, Samjh Gaya
                 </button>
