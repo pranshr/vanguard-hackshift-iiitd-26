@@ -1,129 +1,176 @@
 import React from "react";
 import Link from "next/link";
 import { ShieldCheck, ExternalLink, ArrowRight } from "lucide-react";
+import { CSE_STUDY_DATA } from "@/data/storefront";
 
 export function StorefrontFooter() {
   return (
-    <footer className="border-t border-[#E3DACB] bg-[#EFE9DD] text-[#1C1A17] pt-14 pb-12 mt-20">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-[#DDD3C2]">
-          {/* Brand & Mission */}
-          <div className="md:col-span-5 space-y-4">
-            <div className="flex items-baseline gap-2.5">
-              <span className="font-serif text-2xl font-bold tracking-tight text-[#1C1A17]">
-                Madhuvan
-              </span>
-              <span className="text-[11px] font-mono text-[#3F4A3A] bg-[#DFD5C2] border border-[#CFC3AE] px-1.5 py-0.5 rounded">
-                Raw Honey
-              </span>
-            </div>
-            <p className="text-sm text-[#665E55] leading-relaxed max-w-md">
-              Single-origin raw honey harvested across regional Indian floral flows. Unheated, coarse-filtered, and verified from the smart hive scale to the laboratory NMR report.
-            </p>
-            <div className="flex items-center gap-2 pt-1">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono text-[#2F6B3A] bg-[#DFEBDC] border border-[#C5DBC0] rounded">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                Verified by HoneyChain
-              </span>
-              <span className="text-xs text-[#665E55] font-mono">
-                Ethereum Sepolia Testnet
-              </span>
-            </div>
-          </div>
-
-          {/* CSE 2020 Study Card */}
-          <div className="md:col-span-4 bg-[#F6F1E7] border border-[#E3DACB] rounded p-4 space-y-2.5">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-[#8A4B12] font-semibold block">
-              Why Verification Matters
+    <footer className="relative bg-[var(--dark-card)] text-[var(--paper)] pt-16 sm:pt-20 overflow-hidden">
+      {/* Top Navigation Grid */}
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12">
+          {/* Left Column: For Beekeepers & Partners */}
+          <div className="md:col-span-4 space-y-4">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-[var(--signature)] font-semibold block">
+              For Beekeepers & Partners
             </span>
-            <p className="text-xs text-[#1C1A17] leading-relaxed font-medium">
-              In 2020, the Centre for Science and Environment (CSE) tested major Indian honey brands with Nuclear Magnetic Resonance (NMR) spectroscopy: <strong className="text-[#8A4B12]">10 of 13 brands failed</strong> due to adulteration with modified sugar syrups.
+            <p className="text-xs sm:text-sm text-[var(--tag-border)]/80 leading-relaxed max-w-sm">
+              BEE safe equips cooperative apiaries across India with IoT weight telemetry and direct testnet verification records.
             </p>
-            <a
-              href="https://www.cseindia.org/cse-investigation-finds-adulterated-honey-in-indian-market-10519"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] font-mono text-[#8A4B12] hover:underline"
-            >
-              <span>Read the CSE 2020 study</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
+            <ul className="space-y-2.5 pt-1 text-xs font-mono">
+              <li>
+                <Link
+                  href="/beekeeper"
+                  className="inline-flex items-center gap-1.5 text-white hover:text-[var(--signature)] transition-colors"
+                >
+                  <span>Beekeeper Portal</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/sensors"
+                  className="inline-flex items-center gap-1.5 text-white hover:text-[var(--signature)] transition-colors"
+                >
+                  <span>Live Telemetry Streams</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/marketplace"
+                  className="inline-flex items-center gap-1.5 text-white hover:text-[var(--signature)] transition-colors"
+                >
+                  <span>Apiary Supplies</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </li>
+            </ul>
           </div>
 
-          {/* Navigation Links */}
-          <div className="md:col-span-3 grid grid-cols-2 gap-6 text-xs">
-            <div>
-              <p className="font-mono font-semibold uppercase tracking-wider text-[#3F4A3A] mb-3">
-                Storefront
-              </p>
-              <ul className="space-y-2 text-[#665E55]">
-                <li>
-                  <Link href="/shop" className="hover:text-[#1C1A17] transition-colors">
-                    Shop Origins
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/verify" className="hover:text-[#1C1A17] transition-colors">
-                    Verify a Jar
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/our-hives" className="hover:text-[#1C1A17] transition-colors">
-                    Our Hives & IoT
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/sensors" className="hover:text-[#1C1A17] transition-colors">
-                    Live Telemetry
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/cart" className="hover:text-[#1C1A17] transition-colors">
-                    View Cart
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p className="font-mono font-semibold uppercase tracking-wider text-[#3F4A3A] mb-3">
-                Partners
-              </p>
-              <ul className="space-y-2 text-[#665E55]">
-                <li>
-                  <Link href="/beekeeper" className="hover:text-[#1C1A17] transition-colors flex items-center gap-1">
-                    <span>Beekeeper Portal</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/marketplace" className="hover:text-[#1C1A17] transition-colors">
-                    Equipment Catalog
-                  </Link>
-                </li>
-                <li>
-                  <a
-                    href="https://sepolia.etherscan.io"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-[#1C1A17] transition-colors flex items-center gap-1"
-                  >
-                    <span>Sepolia Explorer</span>
-                    <ExternalLink className="w-2.5 h-2.5" />
-                  </a>
-                </li>
-              </ul>
-            </div>
+          {/* Column 2: Storefront Origins */}
+          <div className="md:col-span-3 space-y-3">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-[var(--text-light)] block">
+              Storefront
+            </span>
+            <ul className="space-y-2 text-xs text-[var(--tag-border)]/90">
+              <li>
+                <Link href="/shop" className="hover:text-white transition-colors">
+                  Shop All Origins
+                </Link>
+              </li>
+              <li>
+                <Link href="/shop/muzaffarpur-litchi" className="hover:text-white transition-colors">
+                  Muzaffarpur Litchi Blossom
+                </Link>
+              </li>
+              <li>
+                <Link href="/shop/kashmir-white-acacia" className="hover:text-white transition-colors">
+                  Kashmir White Acacia
+                </Link>
+              </li>
+              <li>
+                <Link href="/shop/sundarbans-wild-mangrove" className="hover:text-white transition-colors">
+                  Sundarbans Wild Mangrove
+                </Link>
+              </li>
+              <li>
+                <Link href="/shop/terroir-tasting-trio" className="hover:text-white transition-colors">
+                  The Terroir Tasting Trio
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Beekeeper & IoT */}
+          <div className="md:col-span-3 space-y-3">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-[var(--text-light)] block">
+              Beekeeper & Telemetry
+            </span>
+            <ul className="space-y-2 text-xs text-[var(--tag-border)]/90">
+              <li>
+                <Link href="/beekeeper" className="hover:text-white transition-colors">
+                  Beekeepers Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link href="/our-hives" className="hover:text-white transition-colors">
+                  Our Hives & IoT Scales
+                </Link>
+              </li>
+              <li>
+                <a
+                  href={CSE_STUDY_DATA.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 hover:text-white transition-colors"
+                >
+                  <span>CSE 2020 Honey Report</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </li>
+              <li>
+                <Link href="/sensors" className="hover:text-white transition-colors">
+                  Live Sensor Network
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: About & Learn */}
+          <div className="md:col-span-2 space-y-3">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-[var(--text-light)] block">
+              About
+            </span>
+            <ul className="space-y-2 text-xs text-[var(--tag-border)]/90">
+              <li>
+                <Link href="/our-story" className="hover:text-white transition-colors">
+                  Our Story
+                </Link>
+              </li>
+              <li>
+                <Link href="/our-story#faq" className="hover:text-white transition-colors">
+                  FAQ & Guides
+                </Link>
+              </li>
+              <li>
+                <Link href="/cart" className="hover:text-white transition-colors">
+                  Cart
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
+      </div>
 
-        {/* SIH Note & Disclaimer */}
-        <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono text-[#786E64]">
-          <p>
-            Smart India Hackathon 2026 · Problem SIH26021 · Team Vanguard15
-          </p>
-          <p className="text-[11px] text-[#8C8276]">
-            Demo batches for SIH judging · Sepolia testnet ledger · NMR testing by accredited partner laboratories
-          </p>
+      {/* Full-Bleed Photo Area with Giant "BEE safe" Wordmark Across the Bottom */}
+      <div className="relative border-t border-white/10 pt-16 sm:pt-24 pb-8 overflow-hidden">
+        {/* Background photo overlay */}
+        <div
+          className="absolute inset-0 bg-cover bg-bottom opacity-15 pointer-events-none"
+          style={{
+            backgroundImage: "url('/images/iot-smart-hive.jpg'), radial-gradient(circle at 50% 100%, var(--amber-deep) 0%, var(--dark-card) 80%)",
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Edge-to-edge Giant Wordmark matching Manukora reference */}
+        <div className="relative max-w-full px-4 text-center select-none pointer-events-none">
+          <span className="font-serif text-[18vw] leading-none font-bold tracking-tight text-white/90 block drop-shadow-sm whitespace-nowrap">
+            BEE safe
+          </span>
+        </div>
+
+        {/* Legal & Attribution Bar */}
+        <div className="relative max-w-[1240px] mx-auto px-4 sm:px-6 pt-6 mt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-[var(--text-subtle)]">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-[var(--signature)]" />
+            <span>Every Batch Traceable · Verified by HoneyChain</span>
+          </div>
+
+          <div className="text-[11px] text-[var(--text-subtle)]">
+            Precision Apiculture · Real-Time IoT Telemetry & Blockchain Proof
+          </div>
         </div>
       </div>
     </footer>
