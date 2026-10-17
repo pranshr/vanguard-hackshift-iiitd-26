@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
+import { BeehiveCartIcon } from "@/components/storefront/BeehiveCartIcon";
 import {
   ShoppingBag,
   ChevronDown,
@@ -264,15 +265,16 @@ export function StorefrontHeader() {
             Beekeepers Dashboard
           </Link>
 
-          {/* Cart Icon */}
+          {/* Cart Icon: Beehive Cart Icon */}
           <Link
             href="/cart"
-            className="relative inline-flex items-center justify-center w-10 h-10 rounded-full border border-[var(--line)] bg-white/80 hover:bg-white text-[var(--ink)] transition-colors shrink-0"
-            aria-label="View shopping cart"
+            id="header-beehive-cart"
+            className="relative inline-flex items-center justify-center w-10 h-10 rounded-full border border-[var(--line)] bg-white/90 hover:bg-white text-[var(--ink)] hover:border-[var(--signature)] transition-colors shrink-0 group"
+            aria-label={`View shopping cart (${totalCount} items)`}
           >
-            <ShoppingBag className="w-4 h-4 text-[var(--ink)]" />
+            <BeehiveCartIcon count={totalCount} />
             {isHydrated && totalCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-[var(--signature)] text-[var(--ink)] text-[10px] font-mono font-bold flex items-center justify-center rounded-full px-1 shadow-2xs">
+              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-[var(--signature)] text-[var(--ink)] text-[10px] font-mono font-bold flex items-center justify-center rounded-full px-1 shadow-2xs border border-white">
                 {totalCount}
               </span>
             )}
