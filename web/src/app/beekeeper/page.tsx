@@ -317,20 +317,20 @@ export default function BeekeeperPage() {
                   key={item.key}
                   onClick={() => setActiveTab(item.key)}
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-semibold rounded-lg transition-all text-left ${isActive
-                      ? "bg-[#F2A007] text-[#1C1A17] font-bold shadow-xs"
+                      ? "bg-[#F2A007]/15 text-[#1C1A17] font-bold border border-[#F2A007]/35 shadow-2xs"
                       : "text-[#645d56] hover:bg-[#F2A007]/10 hover:text-[#1C1A17] border border-transparent"
                     }`}
                 >
                   <div className="flex items-center gap-3">
                     <Icon
-                      className={`w-5 h-5 ${isActive ? "text-[#1C1A17]" : "text-[#8b7f73]"
+                      className={`w-5 h-5 ${isActive ? "text-[#D97706] stroke-[2.2]" : "text-[#8b7f73]"
                         }`}
                     />
                     <span>{item.label}</span>
                   </div>
                   <span
                     className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${isActive
-                        ? "bg-black/15 text-[#1C1A17]"
+                        ? "bg-[#F2A007]/25 text-[#8A4B12]"
                         : "bg-[#f4ede3] text-[#7c7267]"
                       }`}
                   >
@@ -542,7 +542,7 @@ export default function BeekeeperPage() {
                           setMobileDrawerOpen(false);
                         }}
                         className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-semibold rounded-lg transition-all ${isActive
-                            ? "bg-[#F2A007] text-[#1C1A17] font-bold shadow-xs"
+                            ? "bg-[#F2A007]/15 text-[#1C1A17] font-bold border border-[#F2A007]/35 shadow-2xs"
                             : "text-[#645d56] hover:bg-[#F2A007]/10"
                           }`}
                       >
