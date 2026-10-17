@@ -22,6 +22,8 @@ export interface Product {
   image: string;
   inStock: boolean;
   isTastingBox?: boolean;
+  bestFor?: string;
+  bullets?: string[];
 }
 
 export interface HiveTelemetryPoint {
