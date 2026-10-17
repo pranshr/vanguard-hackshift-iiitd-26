@@ -34,9 +34,17 @@ import {
   Download,
   Send,
   Check,
+  Settings,
+  User,
+  Mail,
+  Phone,
+  Edit3,
+  Globe,
+  Link2,
+  Languages,
 } from "lucide-react";
 
-type TabKey = "home" | "hives" | "harvest" | "sensors" | "advisor";
+type TabKey = "home" | "hives" | "harvest" | "sensors" | "advisor" | "settings";
 
 import SensorTelemetryDashboard from "@/components/SensorTelemetryDashboard";
 
@@ -79,6 +87,52 @@ export default function BeekeeperPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("home");
   const [selectedHive, setSelectedHive] = useState("Hive #01 - Orchard Yard");
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+
+  // User profile & account details state (matching Image 1 & Image 2)
+  const [userName, setUserName] = useState("Ritesh Kumar");
+  const [userRole, setUserRole] = useState("Master Apiarist");
+  const [userEmail, setUserEmail] = useState("kumarritesh2006912@gmail.com");
+  const [userPhone, setUserPhone] = useState("+91  97192  13552");
+  const [selectedLanguage, setSelectedLanguage] = useState<"en" | "hi">("en");
+  const [isEditingAccount, setIsEditingAccount] = useState(false);
+  const [editSuccessMsg, setEditSuccessMsg] = useState("");
+
+  // Sync profile data from localStorage if exists
+  useEffect(() => {
+    try {
+      const auth = localStorage.getItem("beekeeper_auth");
+      if (auth) {
+        const parsed = JSON.parse(auth);
+        if (parsed.name) setUserName(parsed.name);
+        if (parsed.email) setUserEmail(parsed.email);
+        if (parsed.role) setUserRole(parsed.role);
+        if (parsed.phone) setUserPhone(parsed.phone);
+        if (parsed.language) setSelectedLanguage(parsed.language);
+      }
+    } catch {
+      // ignore SSR or storage exceptions
+    }
+  }, []);
+
+  const handleSaveAccountDetails = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    try {
+      const auth = localStorage.getItem("beekeeper_auth");
+      const current = auth ? JSON.parse(auth) : {};
+      const updated = {
+        ...current,
+        name: userName,
+        email: userEmail,
+        phone: userPhone,
+        role: userRole,
+        language: selectedLanguage,
+      };
+      localStorage.setItem("beekeeper_auth", JSON.stringify(updated));
+    } catch {}
+    setIsEditingAccount(false);
+    setEditSuccessMsg("Account details updated successfully!");
+    setTimeout(() => setEditSuccessMsg(""), 3500);
+  };
 
   // Inspection quick log modal state
   const [showInspectionModal, setShowInspectionModal] = useState(false);
@@ -132,6 +186,7 @@ export default function BeekeeperPage() {
     { key: "harvest" as TabKey, label: "Harvest Honey", icon: Droplet, badge: "Ready" },
     { key: "sensors" as TabKey, label: "Sensor Data", icon: Cpu, badge: "4 Ch" },
     { key: "advisor" as TabKey, label: "AI Advisor", icon: Brain, badge: "Active" },
+    { key: "settings" as TabKey, label: "Settings", icon: Settings, badge: "KVIC" },
   ];
 
   // Handle AI question submit
@@ -295,12 +350,20 @@ export default function BeekeeperPage() {
             <span>Log Inspection</span>
           </button>
 
-          {/* User Profile Card */}
-          <div className="p-3 bg-[#faf8f5] border border-[#e8e1d7] rounded-lg flex items-center justify-between">
+          {/* User Profile Card (Matches Image 2 - Clickable to open Profile/Settings) */}
+          <div
+            onClick={() => setActiveTab("settings")}
+            className={`p-3 border rounded-xl flex items-center justify-between cursor-pointer transition-all group ${
+              activeTab === "settings"
+                ? "bg-[#f7efe4] border-[#b45309] shadow-xs"
+                : "bg-[#faf8f5] border-[#e8e1d7] hover:bg-[#f5ede2] hover:border-[#cfc4b5]"
+            }`}
+            title="Open Ritesh Kumar Profile & Account Settings"
+          >
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-9 h-9 rounded-lg bg-[#f7efe4] border border-[#e2d8cb] flex items-center justify-center text-[#b45309] font-bold text-xs shrink-0">
-                {currentUser?.name
-                  ? currentUser.name
+              <div className="w-9 h-9 rounded-lg bg-[#f7efe4] border border-[#e2d8cb] flex items-center justify-center text-[#b45309] font-bold text-xs shrink-0 group-hover:scale-105 transition-transform">
+                {userName
+                  ? userName
                       .split(" ")
                       .filter(Boolean)
                       .map((n) => n[0])
@@ -310,23 +373,28 @@ export default function BeekeeperPage() {
                   : "RK"}
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-bold text-[#24201d] truncate">
-                  {currentUser?.name || "Ritesh Kumar"}
+                <div className="text-xs font-bold text-[#24201d] truncate group-hover:text-[#b45309] transition-colors">
+                  {userName || "Ritesh Kumar"}
                 </div>
                 <div className="text-[10px] text-[#7c7267] font-medium truncate">
-                  {currentUser?.role || "Master Apiarist"}
+                  {userRole || "Master Apiarist"}
                 </div>
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="p-1.5 text-[#7c7267] hover:text-[#b45309] hover:bg-white rounded-md border border-transparent hover:border-[#e0d7cb] transition-all cursor-pointer"
-              title="Log Out of Apiary"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleLogout();
+                }}
+                className="p-1.5 text-[#7c7267] hover:text-[#b45309] hover:bg-white rounded-md border border-transparent hover:border-[#e0d7cb] transition-all cursor-pointer"
+                title="Log Out of Apiary"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </aside>
@@ -359,7 +427,9 @@ export default function BeekeeperPage() {
             <div className="hidden md:flex items-center gap-2 text-xs font-medium text-[#7c7267]">
               <span>Apiary</span>
               <ChevronRight className="w-3.5 h-3.5" />
-              <span className="text-[#24201d] font-bold capitalize">{activeTab}</span>
+              <span className="text-[#24201d] font-bold capitalize">
+                {activeTab === "settings" ? "Account & Settings" : activeTab}
+              </span>
               <span className="text-[#cfc4b5]">•</span>
               <span className="bg-white border border-[#e0d7cb] px-2 py-0.5 rounded text-[11px] font-semibold text-[#4b433b]">
                 {selectedHive}
@@ -393,6 +463,20 @@ export default function BeekeeperPage() {
               <Plus className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Log Inspection</span>
               <span className="sm:hidden">Inspect</span>
+            </button>
+
+            {/* Profile & Settings Button */}
+            <button
+              onClick={() => setActiveTab("settings")}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
+                activeTab === "settings"
+                  ? "bg-[#f7efe4] text-[#b45309] border-[#b45309]"
+                  : "text-[#665e55] bg-white border-[#e0d7cb] hover:bg-[#f5ede2] hover:text-[#b45309]"
+              }`}
+              title="Open Ritesh Kumar Profile & Account Settings"
+            >
+              <Settings className="w-3.5 h-3.5 text-[#b45309]" />
+              <span className="hidden sm:inline">Settings</span>
             </button>
 
             {/* Header Logout Button */}
@@ -477,10 +561,25 @@ export default function BeekeeperPage() {
 
               {/* Drawer Bottom Info */}
               <div className="pt-4 border-t border-[#e8e1d7] text-xs text-[#7c7267] space-y-2">
-                <div className="flex justify-between">
-                  <span>Apiarist:</span>
-                  <span className="font-semibold text-[#24201d]">Ritesh Kumar</span>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTab("settings");
+                    setMobileDrawerOpen(false);
+                  }}
+                  className="w-full flex items-center justify-between p-2.5 rounded-lg bg-[#faf8f5] hover:bg-[#f5ede2] border border-[#e8e1d7] text-left transition-all"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-md bg-[#f7efe4] border border-[#e2d8cb] flex items-center justify-center text-[#b45309] font-bold text-xs">
+                      {userName ? userName.slice(0, 2).toUpperCase() : "RK"}
+                    </div>
+                    <div>
+                      <div className="font-bold text-[#24201d]">{userName}</div>
+                      <div className="text-[10px] text-[#7c7267]">{userRole} • View Profile</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-[#8c7e72]" />
+                </button>
                 <Link
                   href="/"
                   className="w-full flex items-center justify-center gap-2 py-2 text-xs font-semibold text-[#665e55] bg-[#faf8f5] border border-[#e0d7cb] rounded-lg"
@@ -1334,6 +1433,443 @@ export default function BeekeeperPage() {
               </div>
             </div>
           )}
+
+          {/* ======================================================== */}
+          {/* TAB 6: ACCOUNT & SETTINGS (MATCHING IMAGE 1, 2, & 3) */}
+          {/* ======================================================== */}
+          {activeTab === "settings" && (
+            <div className="space-y-6 max-w-5xl">
+              {/* Top Page Heading (from Image 3) */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-[#e8e1d7]">
+                <div>
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-[#fef3c7] border border-[#fde68a] flex items-center justify-center text-[#d97706] shadow-2xs">
+                      <Settings className="w-5 h-5 text-[#d97706]" />
+                    </div>
+                    <h1 className="text-2xl sm:text-3xl font-bold font-serif text-[#24201d] tracking-tight">
+                      Account &amp; Settings
+                    </h1>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#7c7267] mt-1.5 ml-0 sm:ml-10.5">
+                    Manage your account language, voice advisory, and blockchain credentials
+                  </p>
+                </div>
+
+                {editSuccessMsg && (
+                  <div className="inline-flex items-center gap-2 bg-[#f0fdf4] border border-[#bbf7d0] text-[#15803d] px-3.5 py-1.5 rounded-lg text-xs font-semibold shadow-2xs animate-fade-in">
+                    <CheckCircle2 className="w-4 h-4 text-[#16a34a]" />
+                    <span>{editSuccessMsg}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Profile Card & Account Details Container (Images 1, 2, & 3) */}
+              <div className="bg-white border border-[#e8e1d7] rounded-2xl shadow-xs overflow-hidden">
+                {/* Profile Hero Header */}
+                <div className="p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gradient-to-r from-[#fffcf7] via-white to-[#faf6ee]">
+                  <div className="flex items-center gap-5">
+                    {/* Orange Rounded Avatar with Letter 'R' (from Image 3) */}
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#ea580c] via-[#d97706] to-[#b45309] shadow-md flex items-center justify-center text-white text-3xl sm:text-4xl font-bold font-serif shrink-0 border-2 border-white/60">
+                      {userName ? userName.charAt(0).toUpperCase() : "R"}
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <h2 className="text-xl sm:text-2xl font-bold text-[#24201d] tracking-tight">
+                          {userName}
+                        </h2>
+                        {/* Designation from Image 2 */}
+                        <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-[#f7efe4] border border-[#e8ded0] text-[#8c7e72]">
+                          {userRole}
+                        </span>
+                      </div>
+
+                      {/* Badges Row (from Image 3) */}
+                      <div className="flex flex-wrap items-center gap-2 pt-1">
+                        {/* Badge 1: ● BEEKEEPER */}
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-[#fef3c7] text-[#92400e] border border-[#fde68a] shadow-2xs">
+                          <span className="w-2 h-2 rounded-full bg-[#d97706]" />
+                          BEEKEEPER
+                        </span>
+
+                        {/* Badge 2: 🛡️ KVIC Verified */}
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-[#fffbeb] text-[#92400e] border border-[#fcd34d] shadow-2xs">
+                          <ShieldCheck className="w-3.5 h-3.5 text-[#d97706]" />
+                          KVIC Verified
+                        </span>
+
+                        {/* Badge 3: 🔗 Bound (Disconnected) */}
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium bg-[#f1f5f9] text-[#475569] border border-[#cbd5e1] shadow-2xs">
+                          <Link2 className="w-3.5 h-3.5 text-[#64748b]" />
+                          Bound (Disconnected)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Registered Metadata */}
+                  <div className="flex items-center gap-4 text-xs text-[#7c7267] md:border-l md:border-[#ede3d5] md:pl-6">
+                    <div>
+                      <div className="text-[10px] uppercase font-bold text-[#968a7d] tracking-wider">Registered Apiary</div>
+                      <div className="font-semibold text-[#24201d] mt-0.5">Orchard Yard · 4 Hives</div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] uppercase font-bold text-[#968a7d] tracking-wider">Honey Mission ID</div>
+                      <div className="font-mono font-semibold text-[#b45309] mt-0.5">UP-BEE-2026-8849</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ======================================================== */}
+                {/* ACCOUNT DETAILS SUB-SECTION (EXACTLY MATCHING IMAGE 1) */}
+                {/* ======================================================== */}
+                <div className="p-6 sm:p-7 border-t border-[#f0e7db] bg-white">
+                  {/* Card Section Header with User Icon */}
+                  <div className="flex items-center justify-between pb-3">
+                    <div className="flex items-center gap-2">
+                      <User className="w-4 h-4 text-[#d97706]" />
+                      <h3 className="font-bold text-sm sm:text-base text-[#24201d]">
+                        Account Details
+                      </h3>
+                    </div>
+
+                    {!isEditingAccount ? (
+                      <button
+                        type="button"
+                        onClick={() => setIsEditingAccount(true)}
+                        className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#574f46] hover:text-[#b45309] transition-colors cursor-pointer"
+                      >
+                        <Edit3 className="w-3.5 h-3.5 text-[#574f46]" />
+                        <span>Edit Details</span>
+                      </button>
+                    ) : null}
+                  </div>
+
+                  {/* Clean Divider Line */}
+                  <div className="border-t border-[#f0e7db] mb-5" />
+
+                  {/* View Mode vs Edit Mode */}
+                  {!isEditingAccount ? (
+                    <div className="space-y-4 max-w-4xl">
+                      {/* EMAIL ADDRESS */}
+                      <div>
+                        <label className="block text-[11px] font-bold text-[#8c7e72] uppercase tracking-wider mb-1.5">
+                          EMAIL ADDRESS
+                        </label>
+                        <div className="bg-[#faf5ee] border border-[#ede3d5] rounded-xl px-4 py-3.5 flex items-center gap-3 text-sm text-[#24201d] transition-all">
+                          <Mail className="w-4 h-4 text-[#8c7e72] shrink-0" />
+                          <span className="font-medium">{userEmail}</span>
+                        </div>
+                      </div>
+
+                      {/* MOBILE NUMBER (SMS / WHATSAPP ALERTS) */}
+                      <div>
+                        <label className="block text-[11px] font-bold text-[#8c7e72] uppercase tracking-wider mb-1.5">
+                          MOBILE NUMBER (SMS / WHATSAPP ALERTS)
+                        </label>
+                        <div className="bg-[#faf5ee] border border-[#ede3d5] rounded-xl px-4 py-3.5 flex items-center gap-3 text-sm text-[#24201d] transition-all">
+                          <Phone className="w-4 h-4 text-[#8c7e72] shrink-0" />
+                          <span className="font-medium">{userPhone}</span>
+                        </div>
+                      </div>
+
+                      {/* Bottom Right Edit Details Link (Image 1 Alignment) */}
+                      <div className="flex justify-end pt-2">
+                        <button
+                          type="button"
+                          onClick={() => setIsEditingAccount(true)}
+                          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#574f46] hover:text-[#b45309] transition-colors cursor-pointer group"
+                        >
+                          <Edit3 className="w-3.5 h-3.5 text-[#574f46] group-hover:text-[#b45309] transition-colors" />
+                          <span>Edit Details</span>
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSaveAccountDetails} className="space-y-4 max-w-4xl">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-[11px] font-bold text-[#8c7e72] uppercase tracking-wider mb-1.5">
+                            FULL NAME
+                          </label>
+                          <input
+                            type="text"
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
+                            className="w-full bg-white border border-[#b45309] rounded-xl px-4 py-3 text-sm text-[#24201d] focus:outline-none focus:ring-2 focus:ring-[#b45309]/20"
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-[#8c7e72] uppercase tracking-wider mb-1.5">
+                            DESIGNATION / ROLE
+                          </label>
+                          <input
+                            type="text"
+                            value={userRole}
+                            onChange={(e) => setUserRole(e.target.value)}
+                            className="w-full bg-white border border-[#e0d7cb] rounded-xl px-4 py-3 text-sm text-[#24201d] focus:outline-none focus:border-[#b45309]"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-[#8c7e72] uppercase tracking-wider mb-1.5">
+                          EMAIL ADDRESS
+                        </label>
+                        <div className="relative">
+                          <Mail className="w-4 h-4 text-[#8c7e72] absolute left-4 top-3.5" />
+                          <input
+                            type="email"
+                            value={userEmail}
+                            onChange={(e) => setUserEmail(e.target.value)}
+                            className="w-full bg-white border border-[#b45309] rounded-xl pl-11 pr-4 py-3 text-sm text-[#24201d] focus:outline-none focus:ring-2 focus:ring-[#b45309]/20 font-medium"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-[#8c7e72] uppercase tracking-wider mb-1.5">
+                          MOBILE NUMBER (SMS / WHATSAPP ALERTS)
+                        </label>
+                        <div className="relative">
+                          <Phone className="w-4 h-4 text-[#8c7e72] absolute left-4 top-3.5" />
+                          <input
+                            type="tel"
+                            value={userPhone}
+                            onChange={(e) => setUserPhone(e.target.value)}
+                            className="w-full bg-white border border-[#b45309] rounded-xl pl-11 pr-4 py-3 text-sm text-[#24201d] focus:outline-none focus:ring-2 focus:ring-[#b45309]/20 font-medium"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-end gap-3 pt-3">
+                        <button
+                          type="button"
+                          onClick={() => setIsEditingAccount(false)}
+                          className="px-4 py-2 text-xs font-semibold text-[#574f46] bg-[#faf8f5] border border-[#e0d7cb] rounded-lg hover:bg-[#ede3d5] transition-all cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          className="px-5 py-2 text-xs font-semibold text-white bg-[#b45309] rounded-lg hover:bg-[#92400e] transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
+                        >
+                          <Check className="w-3.5 h-3.5 stroke-[3]" />
+                          <span>Save Details</span>
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </div>
+              </div>
+
+              {/* Language Settings Card (Image 3) */}
+              <div className="bg-white border border-[#e8e1d7] rounded-2xl shadow-xs p-6 sm:p-7">
+                {/* Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-[#f0e7db]">
+                  <div className="flex items-start sm:items-center gap-3.5">
+                    <div className="w-10 h-10 rounded-full bg-[#fef3c7] border border-[#fde68a] flex items-center justify-center text-[#d97706] shrink-0 shadow-2xs">
+                      <Languages className="w-5 h-5 text-[#d97706]" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-base sm:text-lg text-[#24201d]">
+                        Language Settings
+                      </h3>
+                      <p className="text-xs sm:text-sm text-[#7c7267] mt-0.5">
+                        Choose your primary language for the portal, voice advice, and IoT alerts.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="inline-block px-3 py-1 text-[11px] font-bold rounded-full bg-[#fef3c7] text-[#92400e] border border-[#fde68a] shadow-2xs">
+                      {selectedLanguage === "en" ? "English Active" : "Hindi Active"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Language Option Cards Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                  {/* Option 1: Hindi */}
+                  <div
+                    onClick={() => {
+                      setSelectedLanguage("hi");
+                      setEditSuccessMsg("Language switched to Hindi!");
+                      setTimeout(() => setEditSuccessMsg(""), 3000);
+                    }}
+                    className={`rounded-2xl p-5 flex flex-col justify-between transition-all cursor-pointer text-left relative ${
+                      selectedLanguage === "hi"
+                        ? "border-2 border-[#d97706] bg-[#fffdf9] shadow-sm"
+                        : "border border-[#e8e1d7] bg-[#faf8f5] hover:bg-white hover:border-[#b45309]/50 shadow-2xs"
+                    }`}
+                  >
+                    {selectedLanguage === "hi" && (
+                      <div className="w-5 h-5 rounded-full bg-[#d97706] flex items-center justify-center text-white absolute top-4 right-4 shadow-2xs">
+                        <Check className="w-3 h-3 stroke-[3]" />
+                      </div>
+                    )}
+
+                    <div>
+                      <div className="flex items-center gap-2 mb-2.5">
+                        <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-[#f3e8ff] text-[#6b21a8] border border-[#e9d5ff]">
+                          IN
+                        </span>
+                        <span className="font-bold text-base text-[#24201d]">Hindi</span>
+                      </div>
+                      <p className="text-xs text-[#665e55] leading-relaxed">
+                        Recommended for KVIC rural beekeepers. Complete Hindi audio &amp; AI advisory.
+                      </p>
+                    </div>
+
+                    <div className="pt-4 mt-4 border-t border-[#f0e7db] flex items-center justify-between">
+                      <span className="text-[11px] font-semibold text-[#b45309]">
+                        KVIC Honey Mission (Recommended)
+                      </span>
+                      {selectedLanguage === "hi" && (
+                        <span className="text-[#16a34a] font-bold text-[10px] bg-[#f0fdf4] border border-[#bbf7d0] px-2 py-0.5 rounded flex items-center gap-1">
+                          ✓ Active Language
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Option 2: English (Active in Image 3) */}
+                  <div
+                    onClick={() => {
+                      setSelectedLanguage("en");
+                      setEditSuccessMsg("Language switched to English!");
+                      setTimeout(() => setEditSuccessMsg(""), 3000);
+                    }}
+                    className={`rounded-2xl p-5 flex flex-col justify-between transition-all cursor-pointer text-left relative ${
+                      selectedLanguage === "en"
+                        ? "border-2 border-[#d97706] bg-[#fffdf9] shadow-sm"
+                        : "border border-[#e8e1d7] bg-[#faf8f5] hover:bg-white hover:border-[#b45309]/50 shadow-2xs"
+                    }`}
+                  >
+                    {selectedLanguage === "en" && (
+                      <div className="w-5 h-5 rounded-full bg-[#d97706] flex items-center justify-center text-white absolute top-4 right-4 shadow-2xs">
+                        <Check className="w-3 h-3 stroke-[3]" />
+                      </div>
+                    )}
+
+                    <div>
+                      <div className="flex items-center gap-2 mb-2.5">
+                        <Globe className="w-4 h-4 text-[#0284c7]" />
+                        <span className="font-bold text-base text-[#24201d]">English</span>
+                      </div>
+                      <p className="text-xs text-[#665e55] leading-relaxed">
+                        Standard English interface for laboratories, processors and export tracking.
+                      </p>
+                    </div>
+
+                    <div className="pt-4 mt-4 border-t border-[#f0e7db] flex items-center justify-between">
+                      <span className="text-[11px] font-semibold text-[#574f46]">
+                        Supply Chain &amp; Labs
+                      </span>
+                      {selectedLanguage === "en" && (
+                        <span className="text-[#16a34a] font-bold text-[10px] bg-[#f0fdf4] border border-[#bbf7d0] px-2 py-0.5 rounded flex items-center gap-1">
+                          ✓ Active Language
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Voice Advisory & Blockchain Credentials Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Voice Advisory Card */}
+                <div className="bg-white border border-[#e8e1d7] rounded-2xl shadow-xs p-6 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-9 h-9 rounded-xl bg-[#fef3c7] border border-[#fde68a] flex items-center justify-center text-[#d97706]">
+                        <Volume2 className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-sm text-[#24201d]">Voice Advisory Engine</h4>
+                        <p className="text-[11px] text-[#7c7267]">Audio speech alerts &amp; IoT swarm frequency notifications</p>
+                      </div>
+                    </div>
+                    <p className="text-xs text-[#665e55] leading-relaxed mb-4">
+                      AI synthesized verbal guidance for field inspections. Broadcasts spoken instructions in {selectedLanguage === "hi" ? "Hindi (हिंदी)" : "English"} during colony hive opening.
+                    </p>
+                    <div className="space-y-2 text-xs">
+                      <div className="flex justify-between py-1.5 px-3 bg-[#faf8f5] rounded-lg border border-[#e8e1d7]">
+                        <span className="text-[#7c7267]">Acoustic Swarm Siren</span>
+                        <span className="font-semibold text-[#16a34a]">Enabled (228 Hz Threshold)</span>
+                      </div>
+                      <div className="flex justify-between py-1.5 px-3 bg-[#faf8f5] rounded-lg border border-[#e8e1d7]">
+                        <span className="text-[#7c7267]">Playback Speed</span>
+                        <span className="font-semibold text-[#24201d]">1.0x (Natural Cadence)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pt-4 mt-4 border-t border-[#f0e7db] flex justify-between items-center">
+                    <span className="text-[11px] text-[#7c7267]">Status: Active on Handset</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditSuccessMsg("Audio test: Playing sample advisory voice...");
+                        setTimeout(() => setEditSuccessMsg(""), 3500);
+                      }}
+                      className="px-3 py-1.5 text-xs font-semibold text-[#b45309] bg-[#fef3c7] border border-[#fde68a] rounded-lg hover:bg-[#fde68a] transition-all cursor-pointer"
+                    >
+                      Test Voice Alert
+                    </button>
+                  </div>
+                </div>
+
+                {/* Blockchain Credentials Card */}
+                <div className="bg-white border border-[#e8e1d7] rounded-2xl shadow-xs p-6 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-9 h-9 rounded-xl bg-[#f1f5f9] border border-[#cbd5e1] flex items-center justify-center text-[#475569]">
+                        <Link2 className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-sm text-[#24201d]">Blockchain Credentials</h4>
+                        <p className="text-[11px] text-[#7c7267]">KVIC cryptographic provenance &amp; barrel verification</p>
+                      </div>
+                    </div>
+                    <p className="text-xs text-[#665e55] leading-relaxed mb-4">
+                      Digitally sign raw honey harvest batches with your cryptographic apiary key to guarantee unadulterated origin on the public ledger.
+                    </p>
+                    <div className="space-y-2 text-xs font-mono">
+                      <div className="flex justify-between py-1.5 px-3 bg-[#faf8f5] rounded-lg border border-[#e8e1d7]">
+                        <span className="text-[#7c7267] font-sans">KVIC Apiarist ID</span>
+                        <span className="font-semibold text-[#b45309]">KVIC-BEE-UP-2024-8849</span>
+                      </div>
+                      <div className="flex justify-between py-1.5 px-3 bg-[#faf8f5] rounded-lg border border-[#e8e1d7]">
+                        <span className="text-[#7c7267] font-sans">Public Address</span>
+                        <span className="text-[#475569] truncate max-w-[180px]">0x71C824...A679F (Polygon)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pt-4 mt-4 border-t border-[#f0e7db] flex justify-between items-center">
+                    <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#64748b]">
+                      <span className="w-2 h-2 rounded-full bg-[#94a3b8]" />
+                      Bound (Disconnected)
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditSuccessMsg("Connecting to Web3 Hardware Wallet...");
+                        setTimeout(() => setEditSuccessMsg(""), 3500);
+                      }}
+                      className="px-3 py-1.5 text-xs font-semibold text-[#475569] bg-[#f1f5f9] border border-[#cbd5e1] rounded-lg hover:bg-[#e2e8f0] transition-all cursor-pointer"
+                    >
+                      Connect Wallet
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </main>
       </div>
 
@@ -1483,7 +2019,9 @@ export default function BeekeeperPage() {
               ? "Harvest"
               : item.key === "sensors"
               ? "Sensors"
-              : "Advisor";
+              : item.key === "advisor"
+              ? "Advisor"
+              : "Settings";
 
           return (
             <button
