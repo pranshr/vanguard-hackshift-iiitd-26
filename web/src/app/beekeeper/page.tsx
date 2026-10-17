@@ -446,27 +446,6 @@ export default function BeekeeperPage() {
           </div>
         </header>
 
-        {/* Mobile Horizontal Tabs Row (Quick thumb switching on mobile) */}
-        <div className="md:hidden bg-white border-b border-[#e8e1d7] px-3 py-2 sticky top-16 z-20 overflow-x-auto flex gap-1.5 scrollbar-none">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.key;
-            return (
-              <button
-                key={item.key}
-                onClick={() => setActiveTab(item.key)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg shrink-0 transition-all ${
-                  isActive
-                    ? "bg-[#f7efe4] text-[#1c1917] border border-[#e8ded0]"
-                    : "text-[#645d56] bg-white border border-transparent hover:bg-[#faf6f0]"
-                }`}
-              >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-[#b45309]" : "text-[#8b7f73]"}`} />
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
 
         {/* Mobile Drawer (Collapsible sidebar on mobile devices) */}
         {mobileDrawerOpen && (
@@ -557,7 +536,7 @@ export default function BeekeeperPage() {
         )}
 
         {/* Content View Area */}
-        <main className="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-4 sm:p-8 pb-24 md:pb-8 max-w-7xl w-full mx-auto">
           {/* ======================================================== */}
           {/* TAB 1: HOME (OPERATIONAL COMMAND CENTER) */}
           {/* ======================================================== */}
@@ -1595,6 +1574,53 @@ export default function BeekeeperPage() {
           </div>
         </div>
       )}
+
+      {/* ======================================================== */}
+      {/* FIXED MOBILE BOTTOM NAVIGATION BAR (MATCHING USER IMAGE) */}
+      {/* Icon on top, label directly underneath                  */}
+      {/* ======================================================== */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/95 backdrop-blur-md border-t border-[#e8e1d7] py-2 px-1 flex items-center justify-around shadow-lg">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.key;
+          const label =
+            item.key === "home"
+              ? "Home"
+              : item.key === "hives"
+              ? "Hives"
+              : item.key === "harvest"
+              ? "Harvest"
+              : item.key === "sensors"
+              ? "Sensors"
+              : "Advisor";
+
+          return (
+            <button
+              key={item.key}
+              onClick={() => {
+                setActiveTab(item.key);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className={`flex flex-col items-center justify-center flex-1 py-1 transition-all cursor-pointer ${
+                isActive ? "text-[#1c1917]" : "text-[#7c7267] hover:text-[#24201d]"
+              }`}
+            >
+              <Icon
+                className={`w-5 h-5 mb-1 transition-transform ${
+                  isActive ? "text-[#b45309] stroke-[2.4] scale-110" : "text-[#7c7267] stroke-[1.8]"
+                }`}
+              />
+              <span
+                className={`text-[11px] leading-none ${
+                  isActive ? "font-bold text-[#1c1917]" : "font-medium text-[#7c7267]"
+                }`}
+              >
+                {label}
+              </span>
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 }
