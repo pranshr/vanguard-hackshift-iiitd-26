@@ -129,7 +129,7 @@ export default function SensorTelemetryDashboard({
   const [activeMetric, setActiveMetric] = useState<ActiveMetric>("temp");
   const [isLiveStream, setIsLiveStream] = useState(true);
   const [data, setData] = useState<TelemetryPoint[]>(() => generateHistoryData("Today"));
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(30);
   const [showIotModal, setShowIotModal] = useState(false);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -191,12 +191,6 @@ export default function SensorTelemetryDashboard({
     return () => clearInterval(interval);
   }, [isLiveStream, horizon]);
 
-  // Set default hover indicator around index 30 (around 11:13:42 as shown in reference)
-  useEffect(() => {
-    if (data.length > 30) {
-      setHoverIndex(30);
-    }
-  }, []);
 
   // SVG dimensions (responsive aspect ratio 980 x 440)
   const svgWidth = 980;
