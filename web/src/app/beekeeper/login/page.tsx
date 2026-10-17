@@ -297,11 +297,10 @@ function BeekeeperLoginForm() {
                 setMode("login");
                 setErrorMsg(null);
               }}
-              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
-                mode === "login"
+              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${mode === "login"
                   ? "bg-white text-[#1C1A17] shadow-xs"
                   : "text-[#665E55] hover:text-[#1C1A17]"
-              }`}
+                }`}
             >
               Sign In
             </button>
@@ -311,11 +310,10 @@ function BeekeeperLoginForm() {
                 setMode("register");
                 setErrorMsg(null);
               }}
-              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
-                mode === "register"
+              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${mode === "register"
                   ? "bg-white text-[#1C1A17] shadow-xs"
                   : "text-[#665E55] hover:text-[#1C1A17]"
-              }`}
+                }`}
             >
               Register
             </button>
@@ -573,7 +571,7 @@ function BeekeeperLoginForm() {
               }}
               className="px-3 py-1.5 text-xs font-bold bg-[#1C1A17] hover:bg-black text-amber-300 hover:text-white rounded-lg shrink-0 transition-transform active:scale-95 flex items-center gap-1 shadow-2xs"
             >
-              <span>Login</span>
+              <span>Instant Login</span>
               <ArrowRight className="w-3 h-3" />
             </button>
           </div>
