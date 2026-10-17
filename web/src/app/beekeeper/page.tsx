@@ -273,8 +273,8 @@ export default function BeekeeperPage() {
           {/* Top Brand & Portal Info */}
           <div className="pb-5 border-b border-[#e8e1d7] mb-5">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-[#F2A007] rounded-lg flex items-center justify-center text-[#1C1A17] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-                <Hexagon className="w-6 h-6 stroke-[2.2]" />
+              <div className="w-10 h-10 flex items-center justify-center text-[#F2A007] shrink-0 group-hover:scale-105 transition-transform">
+                <Hexagon className="w-7 h-7 stroke-[2.4]" />
               </div>
               <div>
                 <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-[#24201d] group-hover:text-[var(--signature)] transition-colors block leading-tight">
@@ -368,8 +368,8 @@ export default function BeekeeperPage() {
           <div
             onClick={() => setActiveTab("settings")}
             className={`p-3 border rounded-xl flex items-center justify-between cursor-pointer transition-all group ${activeTab === "settings"
-                ? "bg-[#f7efe4] border-[#b45309] shadow-xs"
-                : "bg-[#faf8f5] border-[#e8e1d7] hover:bg-[#f5ede2] hover:border-[#cfc4b5]"
+              ? "bg-[#f7efe4] border-[#b45309] shadow-xs"
+              : "bg-[#faf8f5] border-[#e8e1d7] hover:bg-[#f5ede2] hover:border-[#cfc4b5]"
               }`}
             title="Open Ritesh Kumar Profile & Account Settings"
           >
@@ -425,8 +425,8 @@ export default function BeekeeperPage() {
 
             {/* Mobile Brand Link */}
             <Link href="/" className="flex items-center gap-2 md:hidden group">
-              <div className="w-8 h-8 bg-[#F2A007] rounded-lg flex items-center justify-center text-[#1C1A17] shadow-2xs">
-                <Hexagon className="w-5 h-5" />
+              <div className="w-8 h-8 flex items-center justify-center text-[#F2A007]">
+                <Hexagon className="w-5 h-5 stroke-[2.2]" />
               </div>
               <span className="font-serif font-bold text-lg text-[#24201d] group-hover:text-[var(--signature)] transition-colors">BEE safe</span>
             </Link>
@@ -477,8 +477,8 @@ export default function BeekeeperPage() {
             <button
               onClick={() => setActiveTab("settings")}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${activeTab === "settings"
-                  ? "bg-[#f7efe4] text-[#b45309] border-[#b45309]"
-                  : "text-[#665e55] bg-white border-[#e0d7cb] hover:bg-[#f5ede2] hover:text-[#b45309]"
+                ? "bg-[#f7efe4] text-[#b45309] border-[#b45309]"
+                : "text-[#665e55] bg-white border-[#e0d7cb] hover:bg-[#f5ede2] hover:text-[#b45309]"
                 }`}
               title="Open Ritesh Kumar Profile & Account Settings"
             >
@@ -508,8 +508,8 @@ export default function BeekeeperPage() {
               <div>
                 <div className="flex items-center justify-between pb-3 border-b border-[#e8e1d7] mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-[#F2A007] rounded-lg flex items-center justify-center text-[#1C1A17] shadow-2xs">
-                      <Hexagon className="w-5 h-5" />
+                    <div className="w-8 h-8 flex items-center justify-center text-[#F2A007]">
+                      <Hexagon className="w-5 h-5 stroke-[2.2]" />
                     </div>
                     <span className="font-serif font-bold text-lg text-[#24201d]">BEE safe</span>
                   </div>
@@ -558,10 +558,10 @@ export default function BeekeeperPage() {
                           }`}
                       >
                         <div className="flex items-center gap-3">
-                          <Icon className={`w-4 h-4 ${isActive ? "text-[#1C1A17]" : "text-[#8b7f73]"}`} />
+                          <Icon className={`w-4 h-4 ${isActive ? "text-[#D97706] stroke-[2.2]" : "text-[#8b7f73]"}`} />
                           <span>{item.label}</span>
                         </div>
-                        <ChevronRight className="w-4 h-4 text-[#cfc4b5]" />
+                        <ChevronRight className={`w-4 h-4 ${isActive ? "text-[#D97706]" : "text-[#cfc4b5]"}`} />
                       </button>
                     );
                   })}
@@ -614,7 +614,7 @@ export default function BeekeeperPage() {
               <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#1C1A17] bg-[#F2A007] px-2 py-0.5 rounded shadow-2xs">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#F2A007]  px-2 py-0.5 rounded shadow-2xs">
                       Langstroth 10-Frame Deep
                     </span>
                     <span className="text-xs text-[#7c7267]">Last telemetry packet: 8s ago</span>
@@ -1711,8 +1711,8 @@ export default function BeekeeperPage() {
                       setLanguage("hi");
                     }}
                     className={`rounded-2xl p-5 flex flex-col justify-between transition-all cursor-pointer text-left relative ${selectedLanguage === "hi"
-                        ? "border-2 border-[#d97706] bg-[#fffdf9] shadow-sm"
-                        : "border border-[#e8e1d7] bg-[#faf8f5] hover:bg-white hover:border-[#b45309]/50 shadow-2xs"
+                      ? "border-2 border-[#d97706] bg-[#fffdf9] shadow-sm"
+                      : "border border-[#e8e1d7] bg-[#faf8f5] hover:bg-white hover:border-[#b45309]/50 shadow-2xs"
                       }`}
                   >
                     {selectedLanguage === "hi" && (
@@ -1754,8 +1754,8 @@ export default function BeekeeperPage() {
                       setLanguage("en");
                     }}
                     className={`rounded-2xl p-5 flex flex-col justify-between transition-all cursor-pointer text-left relative ${selectedLanguage === "en"
-                        ? "border-2 border-[#d97706] bg-[#fffdf9] shadow-sm"
-                        : "border border-[#e8e1d7] bg-[#faf8f5] hover:bg-white hover:border-[#b45309]/50 shadow-2xs"
+                      ? "border-2 border-[#d97706] bg-[#fffdf9] shadow-sm"
+                      : "border border-[#e8e1d7] bg-[#faf8f5] hover:bg-white hover:border-[#b45309]/50 shadow-2xs"
                       }`}
                   >
                     {selectedLanguage === "en" && (
@@ -2041,9 +2041,7 @@ export default function BeekeeperPage() {
                   ? "Harvest"
                   : item.key === "sensors"
                     ? "Sensors"
-                    : item.key === "advisor"
-                      ? "Advisor"
-                      : "Settings";
+                    : "Advisor";
 
           return (
             <button
