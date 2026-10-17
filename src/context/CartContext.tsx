@@ -87,7 +87,38 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [items, isHydrated]);
 
-  const addItem = (newItem: Omit<CartItem, "id">) => {
+  const addItem = (
+    newItem: Omit<CartItem, "id">,
+    source?: React.MouseEvent | MouseEvent | { x: number; y: number } | HTMLElement | null
+  ) => {
+    // Determine accurate start coordinates for the flying bee
+    let startX = typeof window !== "undefined" ? window.innerWidth / 2 : 200;
+    let startY = typeof window !== "undefined" ? window.innerHeight / 2 : 200;
+
+    if (source && "clientX" in source) {
+      startX = source.clientX;
+      startY = source.clientY;
+    } else if (source && "x" in source && "y" in source) {
+      startX = source.x;
+      startY = source.y;
+    } else if (source && "getBoundingClientRect" in source) {
+      const rect = (source as HTMLElement).getBoundingClientRect();
+      startX = rect.left + rect.width / 2;
+      startY = rect.top + rect.height / 2;
+    } else if (lastPointerPosition) {
+      startX = lastPointerPosition.x;
+      startY = lastPointerPosition.y;
+    }
+
+    // Dispatch the custom event to launch the tick-to-bee flight
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("bee-flight-start", {
+          detail: { x: startX, y: startY },
+        })
+      );
+    }
+
     const id = `${newItem.productId}-${newItem.size}`;
     setItems((prev) => {
       const existing = prev.find((item) => item.id === id);
@@ -139,6 +170,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }}
     >
       {children}
+      <FlyingBeeOverlay />
     </CartContext.Provider>
   );
 }
