@@ -1,5 +1,5 @@
 export interface ProductSize {
-  size: "250g" | "500g" | "Tasting Trio (3x150g)";
+  size: "250g" | "500g" | "Tasting Trio (3x150g)" | string;
   price: number;
 }
 
@@ -22,6 +22,7 @@ export interface Product {
   image: string;
   inStock: boolean;
   isTastingBox?: boolean;
+  category?: "Honey" | "Accessory" | "Superfood" | "Pantry";
   bestFor?: string;
   bullets?: string[];
 }

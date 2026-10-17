@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { StorefrontHeader } from "@/components/storefront/Header";
 import { StorefrontFooter } from "@/components/storefront/Footer";
+import { CartRecommendations } from "@/components/storefront/CartRecommendations";
 import {
   ShieldCheck,
   ArrowRight,
@@ -363,6 +364,13 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
+
+            {/* Last-Minute impulse add-ons before dispatch */}
+            <CartRecommendations
+              compact
+              title="Add to Carton Before Dispatch"
+              limit={2}
+            />
           </div>
         </div>
       </main>

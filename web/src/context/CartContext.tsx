@@ -22,8 +22,15 @@ interface CartContextType {
     item: Omit<CartItem, "id">,
     source?: React.MouseEvent | MouseEvent | { x: number; y: number } | HTMLElement | null
   ) => void;
-  removeItem: (id: string) => void;
-  updateQuantity: (id: string, delta: number) => void;
+  removeItem: (
+    id: string,
+    source?: React.MouseEvent | MouseEvent | { x: number; y: number } | HTMLElement | null
+  ) => void;
+  updateQuantity: (
+    id: string,
+    delta: number,
+    source?: React.MouseEvent | MouseEvent | { x: number; y: number } | HTMLElement | null
+  ) => void;
   clearCart: () => void;
   totalCount: number;
   subtotal: number;
@@ -131,11 +138,52 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const removeItem = (id: string) => {
+  const triggerSubtractSlam = (
+    source?: React.MouseEvent | MouseEvent | { x: number; y: number } | HTMLElement | null
+  ) => {
+    let startX = typeof window !== "undefined" ? window.innerWidth / 2 : 200;
+    let startY = typeof window !== "undefined" ? window.innerHeight / 2 : 200;
+
+    if (source && "clientX" in source) {
+      startX = source.clientX;
+      startY = source.clientY;
+    } else if (source && "x" in source && "y" in source) {
+      startX = source.x;
+      startY = source.y;
+    } else if (source && "getBoundingClientRect" in source) {
+      const rect = (source as HTMLElement).getBoundingClientRect();
+      startX = rect.left + rect.width / 2;
+      startY = rect.top + rect.height / 2;
+    } else if (lastPointerPosition) {
+      startX = lastPointerPosition.x;
+      startY = lastPointerPosition.y;
+    }
+
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("bee-mosquito-slam", {
+          detail: { x: startX, y: startY },
+        })
+      );
+    }
+  };
+
+  const removeItem = (
+    id: string,
+    source?: React.MouseEvent | MouseEvent | { x: number; y: number } | HTMLElement | null
+  ) => {
+    triggerSubtractSlam(source);
     setItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const updateQuantity = (id: string, delta: number) => {
+  const updateQuantity = (
+    id: string,
+    delta: number,
+    source?: React.MouseEvent | MouseEvent | { x: number; y: number } | HTMLElement | null
+  ) => {
+    if (delta < 0) {
+      triggerSubtractSlam(source);
+    }
     setItems((prev) =>
       prev
         .map((item) => {

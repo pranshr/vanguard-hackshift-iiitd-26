@@ -1,27 +1,257 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #faf8f5;
-  --bg-card: #ffffff;
-  --bg-muted: #f4eee6;
-  --border-subtle: #e8e1d7;
-  --text-main: #24201d;
-  --text-muted: #6e655d;
-  --accent-honey: #b45309;
-  --accent-honey-hover: #92400e;
-  --tab-active-bg: #f7efe4;
+  /* Visual System Tokens */
+  --paper: #F6F1E7;
+  --ink: #1C1A17;
+  --signature: #F2A007;
+  --forest: #3F4A3A;
+  --line: #E3DACB;
+  --verified: #2F6B3A;
+  --honey: #C98A2B;
+  --amber-deep: #8A4B12;
+  --muted-ink: #665E55;
+  --sand: #FAF7F0;
+  --card-tint: #EDE5D6;
+  --tag-bg: #EDE4D4;
+  --tag-border: #DDD3C2;
+  --dark-card: #221B14;
+  --dark-card-subtle: #2C3529;
+  --text-light: #D4C3B2;
+  --text-subtle: #8A7F72;
+
+  /* Legacy aliases for compatibility with out-of-scope routes */
+  --bg-primary: #F6F1E7;
+  --bg-card: #FFFFFF;
+  --bg-muted: #EDE6D8;
+  --border-subtle: #E3DACB;
+  --text-main: #1C1A17;
+  --text-muted: #665E55;
+  --accent-honey: #8A4B12;
+  --accent-honey-hover: #703C0D;
+}
+
+@theme {
+  --color-paper: #F6F1E7;
+  --color-ink: #1C1A17;
+  --color-signature: #F2A007;
+  --color-forest: #3F4A3A;
+  --color-line: #E3DACB;
+  --color-verified: #2F6B3A;
+  --color-honey: #C98A2B;
+  --color-amber-deep: #8A4B12;
+  --color-muted-ink: #665E55;
+  --color-sand: #FAF7F0;
+  --color-card-tint: #EDE5D6;
+  --color-tag-bg: #EDE4D4;
+  --color-tag-border: #DDD3C2;
+  --color-dark-card: #221B14;
+  --color-dark-card-subtle: #2C3529;
+  --color-text-light: #D4C3B2;
+  --color-text-subtle: #8A7F72;
+
+  --font-serif: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-mono), "IBM Plex Mono", Menlo, Consolas, monospace;
 }
 
 body {
-  background-color: var(--bg-primary);
-  color: var(--text-main);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Ensure no pill buttons anywhere */
-button, .btn {
-  border-radius: 8px !important;
+/* Serif font applied explicitly */
+.font-serif {
+  font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
 }
+
+/* Display headlines: High-end luxury editorial serif style */
+.headline-display {
+  font-family: var(--font-playfair), "Playfair Display", Georgia, serif !important;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* Monospace telemetry & identifiers */
+.font-mono, code, kbd {
+  font-family: var(--font-mono), "IBM Plex Mono", Menlo, monospace;
+}
+
+/* Reusable pill buttons */
+.btn-pill-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+  border-radius: 9999px;
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  background-color: var(--signature);
+  color: var(--ink);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-pill-primary:hover {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+}
+
+.btn-pill-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+  border-radius: 9999px;
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  background-color: transparent;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-pill-secondary:hover {
+  background-color: rgba(28, 26, 23, 0.05);
+  transform: translateY(-1px);
+}
+
+/* Continuous Marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Bee & Beehive Cart Animations */
+@keyframes bee-wing-left {
+  0%, 100% {
+    transform: rotate(0deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(-35deg) scaleY(0.4) skewX(8deg);
+  }
+}
+
+@keyframes bee-wing-right {
+  0%, 100% {
+    transform: rotate(0deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(35deg) scaleY(0.4) skewX(-8deg);
+  }
+}
+
+@keyframes bee-body-buzz {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-1px) rotate(-1.5deg);
+  }
+  75% {
+    transform: translateY(1px) rotate(1.5deg);
+  }
+}
+
+@keyframes mosquito-wing {
+  0%, 100% {
+    transform: rotate(0deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(-40deg) scaleY(0.25) skewX(14deg);
+  }
+}
+
+@keyframes beehive-wobble {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  20% {
+    transform: scale(1.24) rotate(-8deg);
+  }
+  40% {
+    transform: scale(0.92) rotate(6deg);
+  }
+  60% {
+    transform: scale(1.12) rotate(-3deg);
+  }
+  80% {
+    transform: scale(0.98) rotate(1deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes honey-splash {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes tick-pop {
+  0% {
+    transform: scale(0.2) rotate(-20deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.25) rotate(4deg);
+    opacity: 1;
+  }
+  85% {
+    transform: scale(0.95) rotate(-2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+

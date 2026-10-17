@@ -40,13 +40,17 @@ export function ProductDetailContent({ product }: Props) {
   const batch = getBatchById(product.activeBatchId) || DEMO_BATCHES["HC-2026-MUS-014"];
 
   // Other single-origin honeys for the "Choose your honey" selector
-  const otherHoneys = PRODUCTS.filter((p) => !p.isTastingBox);
+  const otherHoneys = PRODUCTS.filter(
+    (p) => (!p.category || p.category === "Honey") && !p.isTastingBox
+  );
 
   // Price per 100g calculation
   const getPricePer100g = (sizeStr: string, price: number) => {
     if (sizeStr === "250g") return Math.round((price / 250) * 100);
     if (sizeStr === "500g") return Math.round((price / 500) * 100);
     if (sizeStr.includes("3x150g")) return Math.round((price / 450) * 100);
+    if (sizeStr.includes("100g")) return price;
+    if (sizeStr.includes("120g")) return Math.round((price / 120) * 100);
     return null;
   };
 
@@ -197,10 +201,18 @@ export function ProductDetailContent({ product }: Props) {
 
             {/* RIGHT: BUY PANEL IN EXACT ORDER */}
             <div className="lg:col-span-5 space-y-6">
-              {/* 1. Badge row: "Single origin" + taste badge */}
+              {/* 1. Badge row: Category / Origin + taste badge */}
               <div className="flex items-center gap-2">
                 <span className="px-3 py-1 rounded-full text-xs font-mono font-medium bg-[var(--tag-bg)] text-[var(--forest)] border border-[var(--tag-border)]">
-                  Single origin
+                  {product.category === "Accessory"
+                    ? "Tasting Tool"
+                    : product.category === "Superfood"
+                    ? "Bee Superfood"
+                    : product.category === "Pantry"
+                    ? "Raw Pantry"
+                    : product.isTastingBox
+                    ? "Gift Set"
+                    : "Single origin"}
                 </span>
                 <span className="px-3 py-1 rounded-full text-xs font-mono font-medium bg-white text-[var(--ink)] border border-[var(--line)]">
                   {product.shortTag}
@@ -232,7 +244,7 @@ export function ProductDetailContent({ product }: Props) {
               {/* 4. "Choose your honey": 3 small tiles to switch origin */}
               <div className="space-y-2.5">
                 <span className="text-xs font-mono uppercase tracking-wider text-[var(--ink)] font-semibold block">
-                  Choose your honey
+                  {product.category && product.category !== "Honey" ? "Explore Single-Origin Honeys" : "Choose your honey"}
                 </span>
                 <div className="grid grid-cols-3 gap-2.5">
                   {otherHoneys.map((honey) => {

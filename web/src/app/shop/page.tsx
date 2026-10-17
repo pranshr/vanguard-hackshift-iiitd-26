@@ -11,13 +11,32 @@ import { ShieldCheck, ShoppingBag, Check } from "lucide-react";
 
 export function ShopCatalogPage() {
   const { addItem } = useCart();
-  const [selectedFilter, setSelectedFilter] = useState<"all" | "mild" | "bold" | "gifts">("all");
+  const [selectedFilter, setSelectedFilter] = useState<
+    "all" | "single-origin" | "complements" | "gifts"
+  >("all");
   const [addedSlug, setAddedSlug] = useState<string | null>(null);
 
-  const filteredProducts = PRODUCTS.filter((p) => {
-    if (selectedFilter === "mild") return p.tasteIntensity <= 2 && !p.isTastingBox;
-    if (selectedFilter === "bold") return p.tasteIntensity >= 4 && !p.isTastingBox;
-    if (selectedFilter === "gifts") return p.isTastingBox;
+  // Core rule: The top three single-origin honeys MUST strictly be at the front
+  const TOP_THREE_IDS = ["prod-litchi", "prod-acacia", "prod-mangrove"];
+  const sortedProducts = [...PRODUCTS].sort((a, b) => {
+    const aIdx = TOP_THREE_IDS.indexOf(a.id);
+    const bIdx = TOP_THREE_IDS.indexOf(b.id);
+    if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+    if (aIdx !== -1) return -1;
+    if (bIdx !== -1) return 1;
+    return 0;
+  });
+
+  const filteredProducts = sortedProducts.filter((p) => {
+    if (selectedFilter === "single-origin") {
+      return (!p.category || p.category === "Honey") && !p.isTastingBox;
+    }
+    if (selectedFilter === "complements") {
+      return p.category && p.category !== "Honey";
+    }
+    if (selectedFilter === "gifts") {
+      return p.isTastingBox;
+    }
     return true;
   });
 
@@ -41,6 +60,10 @@ export function ShopCatalogPage() {
     setTimeout(() => setAddedSlug(null), 1800);
   };
 
+  const honeysCount = PRODUCTS.filter((p) => (!p.category || p.category === "Honey") && !p.isTastingBox).length;
+  const complementsCount = PRODUCTS.filter((p) => p.category && p.category !== "Honey").length;
+  const giftsCount = PRODUCTS.filter((p) => p.isTastingBox).length;
+
   return (
     <div className="min-h-screen flex flex-col bg-[var(--paper)] text-[var(--ink)]">
       <StorefrontHeader />
@@ -50,25 +73,25 @@ export function ShopCatalogPage() {
         <div className="max-w-2xl space-y-4">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium text-[var(--forest)] bg-[var(--tag-bg)] border border-[var(--tag-border)]">
             <ShieldCheck className="w-3.5 h-3.5 text-[var(--verified)]" />
-            <span>Single-Origin Indian Apiculture</span>
+            <span>Single-Origin Indian Apiculture & Essentials</span>
           </div>
 
           <h1 className="headline-display text-4xl sm:text-5xl text-[var(--ink)]">
-            Raw Honeys by Origin.
+            Raw Honeys & Complements.
           </h1>
 
           <p className="text-base text-[var(--muted-ink)] leading-relaxed">
-            Unpasteurized, coarse-filtered, and never blended with bulk commercial syrup. Every harvest is tied to the smart hive telemetry and independent laboratory test summary of its batch.
+            Unpasteurized raw harvests, hand-turned rosewood tasting dippers, virgin honeycomb, and pure hive superfoods. Every harvest is tied to real smart-hive IoT telemetry and cryptographic batch verification.
           </p>
         </div>
 
         {/* Filter Navigation */}
         <div className="flex flex-wrap items-center gap-2 pt-2 border-b border-[var(--line)] pb-4">
           {[
-            { id: "all", label: `All Harvests (${PRODUCTS.length})` },
-            { id: "mild", label: "Mild & Floral Terroirs" },
-            { id: "bold", label: "Bold & Earthy Terroirs" },
-            { id: "gifts", label: "Tasting Gift Sets" },
+            { id: "all", label: `All Offerings (${PRODUCTS.length})` },
+            { id: "single-origin", label: `Single-Origin Honeys (${honeysCount})` },
+            { id: "complements", label: `Tasting Tools & Superfoods (${complementsCount})` },
+            { id: "gifts", label: `Gift Sets (${giftsCount})` },
           ].map((tab) => {
             const isSelected = selectedFilter === tab.id;
             return (
@@ -100,9 +123,16 @@ export function ShopCatalogPage() {
               <div className="space-y-4">
                 {/* Visual Header */}
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="px-3 py-1 rounded-full bg-white/80 text-[var(--ink)] shadow-2xs">
-                    {prod.shortTag}
-                  </span>
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    {prod.category && prod.category !== "Honey" && (
+                      <span className="px-2.5 py-0.5 rounded-full bg-[var(--forest)] text-white text-[10px] font-semibold uppercase tracking-wider">
+                        {prod.category}
+                      </span>
+                    )}
+                    <span className="px-3 py-1 rounded-full bg-white/80 text-[var(--ink)] shadow-2xs">
+                      {prod.shortTag}
+                    </span>
+                  </div>
                   <Link
                     href="/beekeeper"
                     className="text-[11px] font-mono text-[var(--muted-ink)] underline hover:text-[var(--ink)]"
