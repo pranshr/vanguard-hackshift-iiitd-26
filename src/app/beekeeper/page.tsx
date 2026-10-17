@@ -33,6 +33,8 @@ import {
   Download,
   Send,
   Check,
+  ExternalLink,
+  Printer,
 } from "lucide-react";
 
 type TabKey = "home" | "hives" | "harvest" | "sensors" | "advisor";
@@ -147,15 +149,86 @@ export default function BeekeeperPage() {
 
   const handleRecordHarvest = (e: React.FormEvent) => {
     e.preventDefault();
-    const batchId = `BATCH-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
-    setCreatedBatch({
+    const batchId = `HC-2026-EXT-${Math.floor(100 + Math.random() * 900)}`;
+    const dateStr = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    const newRecord = {
       id: batchId,
-      date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+      date: dateStr,
       hive: harvestHive,
       weight: harvestWeight,
       moisture: harvestMoisture,
       floral: harvestFloral,
-    });
+    };
+    setCreatedBatch(newRecord);
+
+    if (typeof window !== "undefined") {
+      try {
+        const fullBatchRecord = {
+          id: batchId,
+          productId: "muzaffarpur-litchi",
+          productName: `${harvestFloral} Raw Honey`,
+          flora: harvestFloral,
+          region: harvestHive.includes("Orchard") ? "Orchard Apiary Yard, Bihar" : "Meadow Yard, Kashmir",
+          district: "Muzaffarpur District",
+          harvestDate: dateStr,
+          packDate: dateStr,
+          hiveId: harvestHive,
+          hiveLocation: "Latitude 26.12° N, 85.39° E",
+          beekeeper: {
+            name: "Ritesh Kumar",
+            region: "North Bihar Apiary Cluster",
+            experienceYears: 14,
+            quote: `Harvested ${harvestWeight}kg from capped combs. Sensor telemetry confirmed ${harvestMoisture}% moisture balance.`,
+          },
+          acousticStatus: {
+            health: "Optimal Worker Foraging Buzz",
+            confidencePercent: 99.4,
+            model: "HoneyChain Edge MEMS FFT v2",
+          },
+          telemetry: Array.from({ length: 40 }, (_, idx) => ({
+            day: idx + 1,
+            date: `Day ${idx + 1}`,
+            weightKg: Number((24 + idx * 0.45 - (idx >= 35 ? Number(harvestWeight) : 0)).toFixed(1)),
+            tempC: 34.6,
+            humidityPercent: Number(harvestMoisture) * 3,
+            isHarvestDay: idx === 35,
+          })),
+          events: [
+            { step: "hive", title: "Smart Hive Scale Installed", date: "40 days ago", location: harvestHive, actor: "Apiary Tech Team", status: "verified", details: "Sensors calibrated.", hash: "0xabc1234567890def" },
+            { step: "harvest", title: "Honey Super Extracted", date: dateStr, location: harvestHive, actor: "Ritesh Kumar", status: "verified", details: `${harvestWeight}kg harvested at ${harvestMoisture}% moisture.`, hash: "0xdef9876543210abc" },
+            { step: "lab", title: "Refractometer & NMR Assayed", date: dateStr, location: "Apiary Quality Lab", actor: "Quality Assayer", status: "verified", details: `Refractive moisture verified at ${harvestMoisture}%. Passed NMR purity threshold.`, hash: "0x123456789abcdef0" },
+            { step: "chain", title: "HoneyChain Block Anchored", date: dateStr, location: "Ethereum Sepolia", actor: "Automated Relayer", status: "verified", details: "Merkle root sealed to smart contract.", hash: "0x567890abcdef1234" },
+          ],
+          labReport: {
+            testType: "NMR Spectroscopy & Refractive Index",
+            labName: "Bruker NMR Honey Profiling Hub",
+            accreditation: "ISO/IEC 17025 Accredited",
+            date: dateStr,
+            status: "Passed - NMR Pure",
+            moisturePercent: Number(harvestMoisture),
+            c4SugarsPercent: 0.9,
+            fructoseGlucoseRatio: 1.26,
+            pollenCountPer10g: 45000,
+            ipfsCid: "Qm" + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2),
+            reportUrl: "#",
+          },
+          blockchain: {
+            network: "Ethereum Sepolia Testnet",
+            contractAddress: "0x892a0149C3048921820bFa849182301824018261",
+            txHash: "0x" + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join(""),
+            blockNumber: 5509200,
+            merkleRoot: "0x" + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join(""),
+            timestamp: new Date().toISOString(),
+            etherscanUrl: "https://sepolia.etherscan.io",
+            tamperEvidentNote: "This record cannot be edited or rolled back once confirmed on Ethereum Sepolia.",
+          },
+          isDemo: false,
+        };
+        localStorage.setItem(`honeychain_batch_${batchId}`, JSON.stringify(fullBatchRecord));
+      } catch (err) {
+        console.warn("Failed to save custom batch:", err);
+      }
+    }
   };
 
   return (
@@ -1086,52 +1159,122 @@ export default function BeekeeperPage() {
 
               {/* Generated Batch Traceability Card */}
               {createdBatch && (
-                <div className="bg-white border-2 border-[#b45309] rounded-lg p-5 sm:p-6 shadow-md space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#e8e1d7] gap-2">
+                <div className="bg-white border-2 border-[#b45309] rounded-xl p-5 sm:p-7 shadow-lg space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#e8e1d7] gap-3">
                     <div>
                       <div className="text-[11px] font-bold text-[#b45309] uppercase tracking-wider">
-                        Traceable Apiary Certification
+                        HoneyChain Proof Anchored
                       </div>
-                      <h3 className="font-extrabold text-lg text-[#24201d]">
+                      <h3 className="font-extrabold text-xl text-[#24201d]">
                         Batch #{createdBatch.id}
                       </h3>
                     </div>
-                    <span className="text-xs font-bold text-[#16a34a] bg-[#f7efe4] px-3 py-1 rounded-md">
-                      ✓ Certified Organic & Lab Checked
+                    <span className="text-xs font-bold text-[#16a34a] bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-md self-start sm:self-auto">
+                      ✓ Ready for Jar Packaging & Sepolia Verification
                     </span>
                   </div>
 
+                  {/* Batch Details Grid */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                    <div className="p-3 bg-[#faf8f5] rounded-md">
+                    <div className="p-3 bg-[#faf8f5] border border-[#e8e1d7] rounded-lg">
                       <span className="text-[#7c7267] block">Source Hive</span>
                       <strong className="text-[#24201d]">{createdBatch.hive}</strong>
                     </div>
-                    <div className="p-3 bg-[#faf8f5] rounded-md">
+                    <div className="p-3 bg-[#faf8f5] border border-[#e8e1d7] rounded-lg">
                       <span className="text-[#7c7267] block">Total Harvest</span>
                       <strong className="text-[#b45309]">{createdBatch.weight} kg</strong>
                     </div>
-                    <div className="p-3 bg-[#faf8f5] rounded-md">
+                    <div className="p-3 bg-[#faf8f5] border border-[#e8e1d7] rounded-lg">
                       <span className="text-[#7c7267] block">Moisture Ratio</span>
-                      <strong className="text-[#16a34a]">{createdBatch.moisture}%</strong>
+                      <strong className="text-[#16a34a]">{createdBatch.moisture}% (NMR Pure)</strong>
                     </div>
-                    <div className="p-3 bg-[#faf8f5] rounded-md">
+                    <div className="p-3 bg-[#faf8f5] border border-[#e8e1d7] rounded-lg">
                       <span className="text-[#7c7267] block">Nectar Type</span>
                       <strong className="text-[#24201d]">{createdBatch.floral}</strong>
                     </div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-[#e8e1d7] text-xs text-[#7c7267]">
-                    <div className="flex items-center gap-2">
-                      <QrCode className="w-5 h-5 text-[#b45309]" />
-                      <span>Consumer Traceability QR Code Ready for Packaging</span>
+                  {/* Jar Lid Sticker Graphic Preview */}
+                  <div className="bg-[#FAF6EF] border border-[#E3DACB] rounded-xl p-5 flex flex-col sm:flex-row items-center gap-6">
+                    {/* SVG Circular Sticker Stamp */}
+                    <div className="w-36 h-36 sm:w-40 sm:h-40 rounded-full border-4 border-dashed border-[#8A4B12] bg-white flex flex-col items-center justify-center p-3 text-center shadow-xs shrink-0 relative">
+                      <div className="text-[9px] font-mono uppercase tracking-widest text-[#8A4B12] font-bold">
+                        MADHUVAN
+                      </div>
+                      <div className="my-1">
+                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
+                          <rect width="100" height="100" fill="white" />
+                          {/* Corner Finder Patterns */}
+                          <rect x="10" y="10" width="24" height="24" fill="#1C1A17" />
+                          <rect x="14" y="14" width="16" height="16" fill="white" />
+                          <rect x="18" y="18" width="8" height="8" fill="#1C1A17" />
+                          <rect x="66" y="10" width="24" height="24" fill="#1C1A17" />
+                          <rect x="70" y="14" width="16" height="16" fill="white" />
+                          <rect x="74" y="18" width="8" height="8" fill="#1C1A17" />
+                          <rect x="10" y="66" width="24" height="24" fill="#1C1A17" />
+                          <rect x="14" y="70" width="16" height="16" fill="white" />
+                          <rect x="18" y="74" width="8" height="8" fill="#1C1A17" />
+                          {/* Data Matrix Dots */}
+                          <rect x="42" y="12" width="6" height="6" fill="#8A4B12" />
+                          <rect x="52" y="12" width="6" height="6" fill="#1C1A17" />
+                          <rect x="42" y="24" width="6" height="6" fill="#1C1A17" />
+                          <rect x="52" y="24" width="6" height="6" fill="#8A4B12" />
+                          <rect x="12" y="42" width="6" height="6" fill="#1C1A17" />
+                          <rect x="24" y="42" width="6" height="6" fill="#8A4B12" />
+                          <rect x="36" y="42" width="28" height="16" rx="4" fill="#FAF6EF" stroke="#8A4B12" strokeWidth="2" />
+                          <text x="50" y="53" textAnchor="middle" fill="#8A4B12" fontSize="9" fontWeight="bold">HONEY</text>
+                          <rect x="72" y="42" width="6" height="6" fill="#1C1A17" />
+                          <rect x="84" y="42" width="6" height="6" fill="#8A4B12" />
+                          <rect x="42" y="66" width="6" height="6" fill="#8A4B12" />
+                          <rect x="52" y="66" width="6" height="6" fill="#1C1A17" />
+                          <rect x="42" y="78" width="6" height="6" fill="#1C1A17" />
+                          <rect x="52" y="78" width="6" height="6" fill="#8A4B12" />
+                          <rect x="72" y="72" width="16" height="6" fill="#1C1A17" />
+                        </svg>
+                      </div>
+                      <div className="text-[8px] font-mono font-bold text-[#1C1A17]">
+                        {createdBatch.id}
+                      </div>
+                      <div className="text-[7px] font-mono text-[#2F6B3A]">
+                        NMR PURE · {createdBatch.moisture}%
+                      </div>
                     </div>
-                    <button
-                      onClick={() => alert(`Batch ${createdBatch.id} metadata exported to CSV/Label printer.`)}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#f7efe4] text-[#b45309] font-bold rounded-lg hover:bg-[#ede3d5]"
-                    >
-                      <Download className="w-4 h-4" />
-                      Download Label & QR
-                    </button>
+
+                    {/* Explainer & Actions */}
+                    <div className="flex-1 space-y-3">
+                      <div>
+                        <h4 className="font-serif text-base font-bold text-[#1C1A17]">
+                          Jar Lid Verification Sticker Generated
+                        </h4>
+                        <p className="text-xs text-[#665E55] leading-relaxed mt-1">
+                          This batch QR code is now linked to the HoneyChain ledger. When consumers scan this seal on their jar lid, they will view this exact harvest&apos;s hive weight graph, beekeeper identity, and NMR spectrometer report.
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2.5 pt-1">
+                        <Link
+                          href={`/verify/${createdBatch.id}`}
+                          target="_blank"
+                          className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#8A4B12] hover:bg-[#703C0D] text-white text-xs font-semibold rounded-lg transition-colors shadow-xs"
+                        >
+                          <span>Open Customer Verification Portal</span>
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </Link>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (typeof window !== "undefined") {
+                              window.print();
+                            }
+                          }}
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white border border-[#E3DACB] hover:bg-[#FAF6EF] text-[#1C1A17] text-xs font-semibold rounded-lg transition-colors"
+                        >
+                          <Printer className="w-3.5 h-3.5 text-[#8A4B12]" />
+                          <span>Print Lid Label</span>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}

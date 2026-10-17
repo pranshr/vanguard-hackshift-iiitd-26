@@ -397,7 +397,20 @@ export const DEMO_BATCHES: Record<string, BatchRecord> = {
 export function getBatchById(id: string): BatchRecord | undefined {
   if (!id) return undefined;
   const cleanId = id.trim().toUpperCase();
-  return DEMO_BATCHES[cleanId];
+  if (DEMO_BATCHES[cleanId]) return DEMO_BATCHES[cleanId];
+
+  if (typeof window !== "undefined") {
+    try {
+      const stored = localStorage.getItem(`honeychain_batch_${cleanId}`);
+      if (stored) {
+        return JSON.parse(stored) as BatchRecord;
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  return undefined;
 }
 
 export function getAllBatches(): BatchRecord[] {

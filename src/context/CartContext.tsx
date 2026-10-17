@@ -8,7 +8,7 @@ export interface CartItem {
   slug: string;
   name: string;
   origin: string;
-  size: "250g" | "500g" | "Tasting Trio (3x150g)";
+  size: string;
   price: number;
   quantity: number;
   batchId: string;

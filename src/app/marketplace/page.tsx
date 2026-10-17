@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
+import { useCart } from "@/context/CartContext";
 import {
   Hexagon,
   ShoppingBag,
@@ -249,6 +250,9 @@ export default function MarketplacePage() {
   const [telemetryOnly, setTelemetryOnly] = useState(false);
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc" | "rating">("featured");
   
+  // Global cart sync
+  const { addItem: addGlobalItem, totalCount: globalCartCount } = useCart();
+
   // Modals & Drawers
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -280,6 +284,19 @@ export default function MarketplacePage() {
 
   // Cart operations
   const addToCart = (product: Product, qty: number = 1) => {
+    // Sync into global cart
+    addGlobalItem({
+      productId: product.id,
+      slug: product.id,
+      name: product.name,
+      origin: product.specs.originApiary,
+      size: product.category === "hardware" ? "1 Unit" : product.category === "beeswax" ? "500g Block" : "Standard",
+      price: product.price,
+      quantity: qty,
+      batchId: product.specs.hiveId || "MKT-EQUIP",
+      colorSwatch: product.category === "honey" ? "#C98A2B" : "#B45309",
+    });
+
     setCart((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
       if (existing) {
@@ -406,9 +423,9 @@ export default function MarketplacePage() {
             >
               <ShoppingBag className="w-4 h-4" />
               <span className="hidden sm:inline">Cart</span>
-              {cartItemCount > 0 && (
+              {(globalCartCount > 0 || cartItemCount > 0) && (
                 <span className="ml-1 bg-white text-[#b45309] font-bold text-xs px-1.5 py-0.2 rounded-full">
-                  {cartItemCount}
+                  {Math.max(globalCartCount, cartItemCount)}
                 </span>
               )}
             </button>
@@ -954,13 +971,22 @@ export default function MarketplacePage() {
                     Order dispatched to apiary dispatch center!
                   </div>
                 ) : (
-                  <button
-                    onClick={handleCheckout}
-                    className="w-full py-3 text-sm font-bold text-white bg-[#b45309] border border-[#92400e] rounded-lg hover:bg-[#92400e] transition-all shadow-xs flex items-center justify-center gap-2"
-                  >
-                    <span>Proceed to Apiary Checkout</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
+                  <div className="space-y-2">
+                    <Link
+                      href="/checkout"
+                      onClick={() => setIsCartOpen(false)}
+                      className="w-full py-3 text-sm font-bold text-white bg-[#b45309] border border-[#92400e] rounded-lg hover:bg-[#92400e] transition-all shadow-xs flex items-center justify-center gap-2"
+                    >
+                      <span>Proceed to Full Checkout</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <button
+                      onClick={handleCheckout}
+                      className="w-full py-2.5 text-xs font-semibold text-[#574f46] bg-[#f7efe4] border border-[#e8ded0] rounded-lg hover:bg-[#ede3d5] transition-all flex items-center justify-center gap-1.5"
+                    >
+                      <span>Instant Apiary Test Dispatch</span>
+                    </button>
+                  </div>
                 )}
               </div>
             )}
