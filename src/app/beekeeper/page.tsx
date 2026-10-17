@@ -43,6 +43,8 @@ import {
 
 type TabKey = "home" | "hives" | "harvest" | "sensors" | "advisor";
 
+import SensorTelemetryDashboard from "@/components/SensorTelemetryDashboard";
+
 export default function BeekeeperPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("home");
   const [selectedHive, setSelectedHive] = useState("Hive #01 - Orchard Yard");
@@ -1138,205 +1140,50 @@ export default function BeekeeperPage() {
           {/* ======================================================== */}
           {activeTab === "sensors" && (
             <div className="space-y-6">
-              <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
-                <div>
-                  <h1 className="text-2xl font-bold text-[#24201d]">
-                    Multi-Channel Sensor Telemetry
-                  </h1>
-                  <p className="text-sm text-[#665e55] mt-1">
-                    Continuous streaming data: Temperature probes, SHT40 Humidity, Strain-Gauge Load Cells, and MEMS Acoustic Spectrum.
+              {/* Full Interactive Sensor Graphs (Temp, Humidity, Hive Weight) */}
+              <SensorTelemetryDashboard initialHiveId={selectedHive} />
+
+              {/* Companion: Bee Acoustic Sound Monitoring */}
+              <div className="bg-white border border-[#e8e1d7] rounded-xl p-5 sm:p-6 shadow-2xs space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-[#f0eae1]">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-lg bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
+                      <Activity className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-base text-[#24201d]">
+                        Bee Acoustic Sound FFT Analyzer
+                      </h3>
+                      <span className="text-xs text-[#7c7267]">I2S In-Hive MEMS Microphone Real-time Frequency Spectrum</span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-extrabold text-[#16a34a] bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-md">
+                    228 Hz Normal Buzz
+                  </span>
+                </div>
+
+                <div className="bg-[#faf8f5] border border-[#e8e1d7] rounded-lg p-4 space-y-3">
+                  <div className="flex justify-between text-xs text-[#7c7267]">
+                    <span>Peak Harmonic: <strong>228 Hz</strong></span>
+                    <span>Sound Intensity: <strong>41.2 dB</strong></span>
+                    <span>Swarm Risk Band: <strong className="text-emerald-700">0.8% (Negligible)</strong></span>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between text-[11px] font-medium text-[#574f46]">
+                      <span>Harmonic Spectrum Profile</span>
+                      <span className="font-bold text-[#16a34a]">Calm Colony Worker Buzz (Optimal)</span>
+                    </div>
+                    <div className="w-full bg-[#e8e1d7] h-3.5 rounded-sm overflow-hidden flex">
+                      <div className="bg-[#b45309] h-full" style={{ width: "42%" }} title="Worker Hum (150-250Hz)" />
+                      <div className="bg-[#d97706] h-full" style={{ width: "12%" }} title="Queen Tone (300-400Hz)" />
+                      <div className="bg-[#e8ded0] h-full flex-1" title="High Freq Roar (450-600Hz)" />
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-[#665e55]">
+                    No pre-swarming high frequency spikes (350–500 Hz) or queen piping vibrations detected. Colony status is stable and focused on nectar curing.
                   </p>
-                </div>
-
-                {/* Time Range Selector */}
-                <div className="flex items-center gap-1.5 bg-[#faf8f5] border border-[#e0d7cb] p-1 rounded-lg">
-                  {(["24h", "7d", "30d"] as const).map((range) => (
-                    <button
-                      key={range}
-                      onClick={() => setSensorTimeRange(range)}
-                      className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
-                        sensorTimeRange === range
-                          ? "bg-[#b45309] text-white"
-                          : "text-[#665e55] hover:bg-[#ede3d5]"
-                      }`}
-                    >
-                      {range.toUpperCase()}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 4 Sensor Channels Comprehensive Deep Dive */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* 1. Temperature Telemetry */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
-                        <Thermometer className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm text-[#24201d]">
-                          Brood & Ambient Temperature (DS18B20)
-                        </h3>
-                        <span className="text-[11px] text-[#7c7267]">Center comb probe #1</span>
-                      </div>
-                    </div>
-                    <span className="text-xs font-extrabold text-[#16a34a] bg-[#f7efe4] px-2.5 py-1 rounded-md">
-                      34.8 °C
-                    </span>
-                  </div>
-
-                  {/* Temperature Curve Chart Mock */}
-                  <div className="bg-[#faf8f5] border border-[#e8e1d7] rounded-md p-3 space-y-3">
-                    <div className="flex justify-between text-xs text-[#7c7267]">
-                      <span>Brood Core: 34.8°C</span>
-                      <span>Outer Frame: 29.2°C</span>
-                      <span>Outside Air: 26.4°C</span>
-                    </div>
-
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] font-medium text-[#574f46]">
-                        <span>Brood Thermoregulation Target (33°C – 36°C)</span>
-                        <span className="font-bold text-[#16a34a]">98.2% Optimal</span>
-                      </div>
-                      <div className="w-full bg-[#e8e1d7] h-3 rounded-xs overflow-hidden">
-                        <div className="bg-[#b45309] h-full" style={{ width: "96%" }} />
-                      </div>
-                    </div>
-
-                    <p className="text-[11px] text-[#665e55]">
-                      Thermocouple indicates consistent metabolic cluster warmth. No chilling or overheating events detected.
-                    </p>
-                  </div>
-                </div>
-
-                {/* 2. Humidity Telemetry */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
-                        <Droplets className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm text-[#24201d]">
-                          In-Hive Relative Humidity (SHT40)
-                        </h3>
-                        <span className="text-[11px] text-[#7c7267]">Sintered PTFE breathing cap</span>
-                      </div>
-                    </div>
-                    <span className="text-xs font-extrabold text-[#16a34a] bg-[#f7efe4] px-2.5 py-1 rounded-md">
-                      58.4 %
-                    </span>
-                  </div>
-
-                  <div className="bg-[#faf8f5] border border-[#e8e1d7] rounded-md p-3 space-y-3">
-                    <div className="flex justify-between text-xs text-[#7c7267]">
-                      <span>Internal RH: 58.4%</span>
-                      <span>Ambient RH: 64.2%</span>
-                      <span>Dew Point: 18.2°C</span>
-                    </div>
-
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] font-medium text-[#574f46]">
-                        <span>Chalkbrood/Fungal Mold Prevention Margin</span>
-                        <span className="font-bold text-[#16a34a]">Safe</span>
-                      </div>
-                      <div className="w-full bg-[#e8e1d7] h-3 rounded-xs overflow-hidden">
-                        <div className="bg-[#b45309] h-full" style={{ width: "70%" }} />
-                      </div>
-                    </div>
-
-                    <p className="text-[11px] text-[#665e55]">
-                      Worker fanning ventilation is maintaining ideal humidity for larval development and honey curing.
-                    </p>
-                  </div>
-                </div>
-
-                {/* 3. Hive Weight Telemetry */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
-                        <Scale className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm text-[#24201d]">
-                          Load Cell Hive Scale (4x Strain Gauge)
-                        </h3>
-                        <span className="text-[11px] text-[#7c7267]">Temperature-compensated base</span>
-                      </div>
-                    </div>
-                    <span className="text-xs font-extrabold text-[#b45309] bg-[#f7efe4] px-2.5 py-1 rounded-md">
-                      42.6 kg
-                    </span>
-                  </div>
-
-                  <div className="bg-[#faf8f5] border border-[#e8e1d7] rounded-md p-3 space-y-3">
-                    <div className="flex justify-between text-xs text-[#7c7267]">
-                      <span>Starting Weight: 41.3 kg</span>
-                      <span>Daytime Influx: +1.6 kg</span>
-                      <span>Night Curing Evap: -0.3 kg</span>
-                    </div>
-
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] font-medium text-[#574f46]">
-                        <span>Honey Super Capacity (Target 55 kg)</span>
-                        <span className="font-bold text-[#b45309]">77% Full</span>
-                      </div>
-                      <div className="w-full bg-[#e8e1d7] h-3 rounded-xs overflow-hidden">
-                        <div className="bg-[#b45309] h-full" style={{ width: "77%" }} />
-                      </div>
-                    </div>
-
-                    <p className="text-[11px] text-[#665e55]">
-                      Net gain of +1.3 kg / 24h reflects abundant acacia blossom nectar intake.
-                    </p>
-                  </div>
-                </div>
-
-                {/* 4. Bee Acoustic Sound Monitoring */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309]">
-                        <Activity className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-sm text-[#24201d]">
-                          Bee Acoustic Sound FFT Analyzer
-                        </h3>
-                        <span className="text-[11px] text-[#7c7267]">I2S In-Hive MEMS Microphone</span>
-                      </div>
-                    </div>
-                    <span className="text-xs font-extrabold text-[#16a34a] bg-[#f7efe4] px-2.5 py-1 rounded-md">
-                      228 Hz Normal
-                    </span>
-                  </div>
-
-                  <div className="bg-[#faf8f5] border border-[#e8e1d7] rounded-md p-3 space-y-3">
-                    <div className="flex justify-between text-xs text-[#7c7267]">
-                      <span>Peak Vibration: 228 Hz</span>
-                      <span>Volume: 41.2 dB</span>
-                      <span>Swarm Band: 0.8%</span>
-                    </div>
-
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] font-medium text-[#574f46]">
-                        <span>Harmonic Profile</span>
-                        <span className="font-bold text-[#16a34a]">Calm Colony Worker Buzz</span>
-                      </div>
-                      <div className="w-full bg-[#e8e1d7] h-3 rounded-xs overflow-hidden flex">
-                        <div className="bg-[#b45309] h-full" style={{ width: "40%" }} title="Worker Hum (150-250Hz)" />
-                        <div className="bg-[#d97706] h-full" style={{ width: "10%" }} title="Queen Tone (300-400Hz)" />
-                        <div className="bg-[#e8ded0] h-full flex-1" title="High Freq Roar (450-600Hz)" />
-                      </div>
-                    </div>
-
-                    <p className="text-[11px] text-[#665e55]">
-                      No pre-swarming frequency spikes or queen piping vibrations detected. Colony is content.
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>

@@ -44,6 +44,15 @@ export default function LandingPage() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-3">
+            {/* Live Sensor Telemetry */}
+            <Link
+              href="/sensors"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-semibold text-[#b45309] bg-[#f7efe4] border border-[#e8ded0] rounded-lg hover:bg-[#ede3d5] transition-all"
+            >
+              <Activity className="w-4 h-4 text-[#b45309]" />
+              Sensor Telemetry
+            </Link>
+
             {/* Marketplace Button */}
             <button
               onClick={() => setShowMarketModal(true)}
@@ -115,6 +124,14 @@ export default function LandingPage() {
               Register
             </button>
             <Link
+              href="/sensors"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full flex items-center gap-2.5 px-3 py-2 text-sm font-semibold text-[#b45309] bg-[#f7efe4] border border-[#e8ded0] rounded-lg hover:bg-[#ede3d5]"
+            >
+              <Activity className="w-4 h-4 text-[#b45309]" />
+              Live Sensor Telemetry
+            </Link>
+            <Link
               href="/beekeeper"
               onClick={() => setMobileMenuOpen(false)}
               className="w-full flex items-center justify-center gap-2 px-3 py-2 text-sm font-semibold text-white bg-[#b45309] rounded-lg hover:bg-[#92400e]"
@@ -171,56 +188,88 @@ export default function LandingPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
               {/* Temperature */}
-              <div className="p-4 sm:p-5 bg-white border border-[#e8e1d7] rounded-lg shadow-xs hover:border-[#b45309]/50 transition-all">
-                <div className="w-10 h-10 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309] mb-3 sm:mb-4">
-                  <Thermometer className="w-5 h-5" />
+              <Link
+                href="/sensors"
+                className="group p-4 sm:p-5 bg-white border border-[#e8e1d7] rounded-lg shadow-xs hover:border-[#b45309] hover:shadow-sm transition-all block"
+              >
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="w-10 h-10 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309] group-hover:scale-105 transition-transform">
+                    <Thermometer className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-bold text-[#b45309] opacity-0 group-hover:opacity-100 transition-opacity">
+                    View Live Graph →
+                  </span>
                 </div>
-                <h3 className="font-semibold text-base text-[#24201d] mb-1">
+                <h3 className="font-semibold text-base text-[#24201d] mb-1 group-hover:text-[#b45309] transition-colors">
                   Temperature
                 </h3>
                 <p className="text-xs sm:text-sm text-[#665e55] leading-normal">
                   Real-time brood core vs ambient monitoring to ensure steady 34°C–36°C larval incubation.
                 </p>
-              </div>
+              </Link>
 
               {/* Humidity */}
-              <div className="p-4 sm:p-5 bg-white border border-[#e8e1d7] rounded-lg shadow-xs hover:border-[#b45309]/50 transition-all">
-                <div className="w-10 h-10 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309] mb-3 sm:mb-4">
-                  <Droplets className="w-5 h-5" />
+              <Link
+                href="/sensors"
+                className="group p-4 sm:p-5 bg-white border border-[#e8e1d7] rounded-lg shadow-xs hover:border-[#b45309] hover:shadow-sm transition-all block"
+              >
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="w-10 h-10 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309] group-hover:scale-105 transition-transform">
+                    <Droplets className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-bold text-[#b45309] opacity-0 group-hover:opacity-100 transition-opacity">
+                    View Live Graph →
+                  </span>
                 </div>
-                <h3 className="font-semibold text-base text-[#24201d] mb-1">
+                <h3 className="font-semibold text-base text-[#24201d] mb-1 group-hover:text-[#b45309] transition-colors">
                   Humidity
                 </h3>
                 <p className="text-xs sm:text-sm text-[#665e55] leading-normal">
                   In-hive relative humidity tracking to prevent chalkbrood fungal outbreaks and moisture buildup.
                 </p>
-              </div>
+              </Link>
 
               {/* Hive Weight */}
-              <div className="p-4 sm:p-5 bg-white border border-[#e8e1d7] rounded-lg shadow-xs hover:border-[#b45309]/50 transition-all">
-                <div className="w-10 h-10 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309] mb-3 sm:mb-4">
-                  <Scale className="w-5 h-5" />
+              <Link
+                href="/sensors"
+                className="group p-4 sm:p-5 bg-white border border-[#e8e1d7] rounded-lg shadow-xs hover:border-[#b45309] hover:shadow-sm transition-all block"
+              >
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="w-10 h-10 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309] group-hover:scale-105 transition-transform">
+                    <Scale className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-bold text-[#b45309] opacity-0 group-hover:opacity-100 transition-opacity">
+                    View Live Graph →
+                  </span>
                 </div>
-                <h3 className="font-semibold text-base text-[#24201d] mb-1">
+                <h3 className="font-semibold text-base text-[#24201d] mb-1 group-hover:text-[#b45309] transition-colors">
                   Hive Weight
                 </h3>
                 <p className="text-xs sm:text-sm text-[#665e55] leading-normal">
                   Continuous strain-gauge load cell monitoring to track nectar flow influx and honey super readiness.
                 </p>
-              </div>
+              </Link>
 
               {/* Bee Acoustic Monitoring */}
-              <div className="p-4 sm:p-5 bg-white border border-[#e8e1d7] rounded-lg shadow-xs hover:border-[#b45309]/50 transition-all">
-                <div className="w-10 h-10 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309] mb-3 sm:mb-4">
-                  <Activity className="w-5 h-5" />
+              <Link
+                href="/sensors"
+                className="group p-4 sm:p-5 bg-white border border-[#e8e1d7] rounded-lg shadow-xs hover:border-[#b45309] hover:shadow-sm transition-all block"
+              >
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="w-10 h-10 rounded-md bg-[#f7efe4] border border-[#e8ded0] flex items-center justify-center text-[#b45309] group-hover:scale-105 transition-transform">
+                    <Activity className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-bold text-[#b45309] opacity-0 group-hover:opacity-100 transition-opacity">
+                    View Live Graph →
+                  </span>
                 </div>
-                <h3 className="font-semibold text-base text-[#24201d] mb-1">
+                <h3 className="font-semibold text-base text-[#24201d] mb-1 group-hover:text-[#b45309] transition-colors">
                   Bee Acoustic Monitoring
                 </h3>
                 <p className="text-xs sm:text-sm text-[#665e55] leading-normal">
-                  Sound frequency spectrum analysis to detect queen piping, colony distress, and pre-swarming spikes.
+                  Real-time microphone frequency FFT analyzer (100–600Hz) to detect swarming noise 5-7 days in advance.
                 </p>
-              </div>
+              </Link>
             </div>
           </div>
         </section>
