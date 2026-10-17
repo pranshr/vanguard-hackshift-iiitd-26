@@ -58,6 +58,8 @@ export default function BeekeeperPage() {
     email: string;
     apiary: string;
     role: string;
+    phone?: string;
+    language?: string;
   } | null>(() => {
     if (typeof window === "undefined") return null;
     try {
@@ -92,18 +94,19 @@ export default function BeekeeperPage() {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   // User profile & account details state (matching Image 1 & Image 2)
-  const [userName, setUserName] = useState("Ritesh Kumar");
-  const [userRole, setUserRole] = useState("Master Apiarist");
-  const [userEmail, setUserEmail] = useState("kumarritesh2006912@gmail.com");
-  const [userPhone, setUserPhone] = useState("+91  97192  13552");
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("en");
+  const [userName, setUserName] = useState(() => currentUser?.name || "Ritesh Kumar");
+  const [userRole, setUserRole] = useState(() => currentUser?.role || "Master Apiarist");
+  const [userEmail, setUserEmail] = useState(() => currentUser?.email || "kumarritesh2006912@gmail.com");
+  const [userPhone, setUserPhone] = useState(() => currentUser?.phone || "+91  97192  13552");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>(() => {
+    if (typeof window === "undefined") return "en";
+    return currentUser?.language || getCurrentLanguage();
+  });
   const [isEditingAccount, setIsEditingAccount] = useState(false);
   const [editSuccessMsg, setEditSuccessMsg] = useState("");
 
-  // Sync profile data and active language
+  // Listen to language changes
   useEffect(() => {
-    setSelectedLanguage(getCurrentLanguage());
-
     const handleLangChange = (e: Event) => {
       const customEvent = e as CustomEvent<string>;
       if (customEvent.detail) {
@@ -111,20 +114,6 @@ export default function BeekeeperPage() {
       }
     };
     window.addEventListener("languageChange", handleLangChange);
-
-    try {
-      const auth = localStorage.getItem("beekeeper_auth");
-      if (auth) {
-        const parsed = JSON.parse(auth);
-        if (parsed.name) setUserName(parsed.name);
-        if (parsed.email) setUserEmail(parsed.email);
-        if (parsed.role) setUserRole(parsed.role);
-        if (parsed.phone) setUserPhone(parsed.phone);
-        if (parsed.language) setSelectedLanguage(parsed.language);
-      }
-    } catch {
-      // ignore SSR or storage exceptions
-    }
 
     return () => {
       window.removeEventListener("languageChange", handleLangChange);

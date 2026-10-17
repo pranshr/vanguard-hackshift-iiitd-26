@@ -19,15 +19,16 @@ export function LanguageSelector({
   className = "",
 }: LanguageSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentLangCode, setCurrentLangCode] = useState<string>("en");
+  const [currentLangCode, setCurrentLangCode] = useState<string>(() => {
+    if (typeof window === "undefined") return "en";
+    return getCurrentLanguage();
+  });
   const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Initialize current language & listen for changes
+  // Listen for language changes across tabs or other components
   useEffect(() => {
-    setCurrentLangCode(getCurrentLanguage());
-
     const handleLangChange = (e: Event) => {
       const customEvent = e as CustomEvent<string>;
       if (customEvent.detail) {
