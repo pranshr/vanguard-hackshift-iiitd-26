@@ -255,3 +255,42 @@ body {
   }
 }
 
+/* ==========================================================================
+   Google Translate Clean Native Styling & Banner Suppress
+   ========================================================================== */
+.goog-te-banner-frame,
+.skiptranslate:not(.allow-translate),
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+body {
+  top: 0px !important;
+  position: static !important;
+}
+
+/* Prevent highlight background colors on translated text nodes */
+font {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Custom scrollbar for language dropdown */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--honey);
+}
+

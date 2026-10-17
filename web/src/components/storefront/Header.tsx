@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { BeehiveCartIcon } from "@/components/storefront/BeehiveCartIcon";
+import { LanguageSelector } from "@/components/storefront/LanguageSelector";
 import {
   ChevronDown,
   Menu,
@@ -255,14 +256,17 @@ export function StorefrontHeader() {
           </div>
         </nav>
 
-        {/* Right side: Pill CTA + Cart Icon */}
-        <div className="flex items-center gap-3 shrink-0">
+        {/* Right side: Pill CTA + Language Selector + Cart Icon */}
+        <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
           <Link
             href="/beekeeper/login"
             className="hidden sm:inline-flex items-center justify-center h-10 px-5 rounded-full font-sans font-medium text-xs bg-[var(--signature)] text-[var(--ink)] hover:brightness-95 transition-all shadow-2xs whitespace-nowrap"
           >
             Beekeepers Dashboard
           </Link>
+
+          {/* Language Selector */}
+          <LanguageSelector variant="header" />
 
           {/* Cart Icon: Beehive Cart Icon */}
           <Link
@@ -403,6 +407,11 @@ export function StorefrontHeader() {
             >
               Learn & FAQ
             </Link>
+          </div>
+
+          {/* Mobile Language Selector */}
+          <div className="pt-3 border-t border-[var(--line)]">
+            <LanguageSelector variant="mobile" />
           </div>
         </div>
       )}

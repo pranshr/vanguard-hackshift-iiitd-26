@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
+import { GoogleTranslateScript } from "@/components/GoogleTranslateScript";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -41,6 +42,7 @@ export default function RootLayout({
         <CartProvider>
           {children}
         </CartProvider>
+        <GoogleTranslateScript />
       </body>
     </html>
   );

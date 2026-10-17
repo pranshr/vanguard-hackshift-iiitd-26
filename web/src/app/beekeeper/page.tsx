@@ -44,6 +44,9 @@ import {
   Languages,
 } from "lucide-react";
 
+import { LanguageSelector } from "@/components/storefront/LanguageSelector";
+import { setLanguage, getCurrentLanguage } from "@/utils/language";
+
 type TabKey = "home" | "hives" | "harvest" | "sensors" | "advisor" | "settings";
 
 import SensorTelemetryDashboard from "@/components/SensorTelemetryDashboard";
@@ -93,12 +96,22 @@ export default function BeekeeperPage() {
   const [userRole, setUserRole] = useState("Master Apiarist");
   const [userEmail, setUserEmail] = useState("kumarritesh2006912@gmail.com");
   const [userPhone, setUserPhone] = useState("+91  97192  13552");
-  const [selectedLanguage, setSelectedLanguage] = useState<"en" | "hi">("en");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("en");
   const [isEditingAccount, setIsEditingAccount] = useState(false);
   const [editSuccessMsg, setEditSuccessMsg] = useState("");
 
-  // Sync profile data from localStorage if exists
+  // Sync profile data and active language
   useEffect(() => {
+    setSelectedLanguage(getCurrentLanguage());
+
+    const handleLangChange = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      if (customEvent.detail) {
+        setSelectedLanguage(customEvent.detail);
+      }
+    };
+    window.addEventListener("languageChange", handleLangChange);
+
     try {
       const auth = localStorage.getItem("beekeeper_auth");
       if (auth) {
@@ -112,6 +125,10 @@ export default function BeekeeperPage() {
     } catch {
       // ignore SSR or storage exceptions
     }
+
+    return () => {
+      window.removeEventListener("languageChange", handleLangChange);
+    };
   }, []);
 
   const handleSaveAccountDetails = (e?: React.FormEvent) => {
@@ -468,6 +485,9 @@ export default function BeekeeperPage() {
               <Settings className="w-3.5 h-3.5 text-[#b45309]" />
               <span className="hidden sm:inline">Settings</span>
             </button>
+
+            {/* Language Selector */}
+            <LanguageSelector variant="header" />
 
             {/* Header Logout Button */}
             <Link
@@ -1688,6 +1708,7 @@ export default function BeekeeperPage() {
                       setSelectedLanguage("hi");
                       setEditSuccessMsg("Language switched to Hindi!");
                       setTimeout(() => setEditSuccessMsg(""), 3000);
+                      setLanguage("hi");
                     }}
                     className={`rounded-2xl p-5 flex flex-col justify-between transition-all cursor-pointer text-left relative ${selectedLanguage === "hi"
                         ? "border-2 border-[#d97706] bg-[#fffdf9] shadow-sm"
@@ -1705,10 +1726,10 @@ export default function BeekeeperPage() {
                         <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-[#f3e8ff] text-[#6b21a8] border border-[#e9d5ff]">
                           IN
                         </span>
-                        <span className="font-bold text-base text-[#24201d]">Hindi</span>
+                        <span className="font-bold text-base text-[#24201d]">Hindi (हिन्दी)</span>
                       </div>
                       <p className="text-xs text-[#665e55] leading-relaxed">
-                        Recommended for KVIC rural beekeepers. Complete Hindi audio &amp; AI advisory.
+                        Recommended for KVIC rural beekeepers. Complete Hindi audio &amp; AI advisory across the portal.
                       </p>
                     </div>
 
@@ -1730,6 +1751,7 @@ export default function BeekeeperPage() {
                       setSelectedLanguage("en");
                       setEditSuccessMsg("Language switched to English!");
                       setTimeout(() => setEditSuccessMsg(""), 3000);
+                      setLanguage("en");
                     }}
                     className={`rounded-2xl p-5 flex flex-col justify-between transition-all cursor-pointer text-left relative ${selectedLanguage === "en"
                         ? "border-2 border-[#d97706] bg-[#fffdf9] shadow-sm"
@@ -1762,6 +1784,21 @@ export default function BeekeeperPage() {
                         </span>
                       )}
                     </div>
+                  </div>
+                </div>
+
+                {/* Extended Multilingual Selector Card */}
+                <div className="mt-4 p-4 rounded-2xl bg-[#faf8f5] border border-[#e8e1d7] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div>
+                    <span className="text-xs font-bold text-[#24201d] block">
+                      More Regional &amp; Global Languages / अन्य भाषाएं
+                    </span>
+                    <span className="text-[11px] text-[#7c7267] block">
+                      Instantly translate the portal into Punjabi, Bengali, Marathi, Tamil, Telugu, Spanish, French, German, and 100+ languages.
+                    </span>
+                  </div>
+                  <div className="shrink-0">
+                    <LanguageSelector variant="header" />
                   </div>
                 </div>
               </div>
