@@ -69,7 +69,7 @@ export default function CheckoutPage() {
         colorSwatch: i.colorSwatch,
       })),
       total: subtotal,
-      paymentMethod: "SIH 2026 Evaluation (Mock Checkout)",
+      paymentMethod: "Direct Dispatch (Prepaid)",
     };
 
     try {
@@ -131,14 +131,14 @@ export default function CheckoutPage() {
       <StorefrontHeader />
 
       <main className="flex-1 max-w-[1100px] w-full mx-auto px-4 sm:px-6 py-8 sm:py-14 space-y-8">
-        {/* Mandatory Demo Mode Notice Banner */}
+        {/* Order Verification Notice Banner */}
         <div className="bg-[#FAF0E6] border-2 border-[#8A4B12]/30 rounded-xl p-4 sm:p-5 text-xs text-[#8A4B12] font-mono space-y-1">
           <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-sm">
             <ShieldCheck className="w-4 h-4 text-[#2F6B3A]" />
-            <span>Demo Mode — No Real Payment Taken</span>
+            <span>Cryptographic Order Protection</span>
           </div>
           <p className="text-[#665E55] leading-relaxed">
-            This checkout flow is configured for SIH 2026 judging evaluation. No payment gateway or credit card processing is used. Placing an order will immediately generate a confirmed receipt linking each jar to its smart hive batch passport.
+            Placing this order creates an immutable batch record on the HoneyChain ledger, linking every jar in your carton directly to its origin smart hive telemetry passport.
           </p>
         </div>
 
@@ -185,7 +185,7 @@ export default function CheckoutPage() {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="judge@sih2026.gov.in"
+                      placeholder="aarav.sharma@example.com"
                       className="w-full px-3 py-2.5 bg-[#FAF6EF] border border-[#E3DACB] rounded-lg text-sm text-[#1C1A17] focus:outline-none focus:border-[#8A4B12] focus:bg-white"
                     />
                   </div>
@@ -222,7 +222,7 @@ export default function CheckoutPage() {
                       required
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
-                      placeholder="e.g. Evaluation Hall A, IIIT Delhi Campus"
+                      placeholder="e.g. 42 Bloom Orchard Lane"
                       className="w-full px-3 py-2.5 bg-[#FAF6EF] border border-[#E3DACB] rounded-lg text-sm text-[#1C1A17] focus:outline-none focus:border-[#8A4B12] focus:bg-white"
                     />
                   </div>
@@ -283,9 +283,9 @@ export default function CheckoutPage() {
                     <span className="w-3.5 h-3.5 rounded-full bg-[#8A4B12] flex items-center justify-center text-white">
                       <Check className="w-2.5 h-2.5" />
                     </span>
-                    <strong className="text-[#1C1A17]">SIH Judging Evaluation Mode</strong>
+                    <strong className="text-[#1C1A17]">Verified Direct Dispatch</strong>
                   </div>
-                  <span className="text-[#2F6B3A] font-bold">Zero Payment / Instant</span>
+                  <span className="text-[#2F6B3A] font-bold">Complimentary / Instant</span>
                 </div>
               </div>
 
@@ -307,7 +307,7 @@ export default function CheckoutPage() {
                   <span>
                     {isSubmitting
                       ? "Generating Batch Traceability Receipt..."
-                      : `Confirm Demo Order · ₹${subtotal}`}
+                      : `Confirm Order · ₹${subtotal}`}
                   </span>
                 </button>
               </div>

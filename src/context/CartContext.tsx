@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { FlyingBeeOverlay } from "@/components/storefront/FlyingBeeOverlay";
 
 export interface CartItem {
   id: string; // unique combo of productId + size
@@ -17,7 +18,10 @@ export interface CartItem {
 
 interface CartContextType {
   items: CartItem[];
-  addItem: (item: Omit<CartItem, "id">) => void;
+  addItem: (
+    item: Omit<CartItem, "id">,
+    source?: React.MouseEvent | MouseEvent | { x: number; y: number } | HTMLElement | null
+  ) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, delta: number) => void;
   clearCart: () => void;
@@ -29,6 +33,18 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const STORAGE_KEY = "honeychain_storefront_cart_v1";
+
+// Global pointer position cache for instant accurate click origins
+let lastPointerPosition: { x: number; y: number } | null = null;
+if (typeof window !== "undefined") {
+  window.addEventListener(
+    "pointerdown",
+    (e) => {
+      lastPointerPosition = { x: e.clientX, y: e.clientY };
+    },
+    true
+  );
+}
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);

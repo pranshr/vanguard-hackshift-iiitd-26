@@ -72,13 +72,13 @@ export function OrderConfirmationContent({ orderId }: { orderId: string }) {
 
           <div className="space-y-1">
             <span className="text-xs font-mono uppercase tracking-wider text-[#2F6B3A] font-bold">
-              Demo Order Confirmed · SIH 2026 Evaluation
+              Order Confirmed · Batch Passport Linked
             </span>
             <h1 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-[#1C1A17]">
               Thank You for Your Order
             </h1>
             <p className="text-sm text-[#665E55] max-w-lg mx-auto">
-              Your mock order has been logged into the system. Each jar is assigned its serialized lid QR code linking to its smart hive record.
+              Your order has been recorded. Each jar is assigned its verified batch passport linking directly to its smart hive telemetry record.
             </p>
           </div>
 
@@ -140,11 +140,11 @@ export function OrderConfirmationContent({ orderId }: { orderId: string }) {
                   </div>
 
                   <Link
-                    href={`/verify/${it.batchId}`}
+                    href="/beekeeper"
                     className="px-5 py-3 bg-[#8A4B12] hover:bg-[#703C0D] text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors shrink-0 shadow-xs"
                   >
                     <ShieldCheck className="w-4 h-4" />
-                    <span>Inspect Batch Passport</span>
+                    <span>Open Beekeepers Dashboard</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
@@ -161,11 +161,11 @@ export function OrderConfirmationContent({ orderId }: { orderId: string }) {
                   </span>
                 </div>
                 <Link
-                  href="/verify/HC-2026-MUS-014"
+                  href="/beekeeper"
                   className="px-4 py-2.5 bg-[#8A4B12] text-white text-xs font-semibold rounded-lg flex items-center gap-2"
                 >
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Inspect Batch Passport</span>
+                  <span>Open Beekeepers Dashboard</span>
                 </Link>
               </div>
             )}

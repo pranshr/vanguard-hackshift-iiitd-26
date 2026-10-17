@@ -102,12 +102,12 @@ export default function CartPage() {
                       {/* Batch Provenance Link */}
                       <div className="pt-1">
                         <Link
-                          href={`/verify/${item.batchId}`}
+                          href="/beekeeper"
                           className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[#2F6B3A] hover:underline bg-[#EBF2EB] border border-[#CDE0CD] px-2 py-0.5 rounded"
-                          title="Inspect hive telemetry & NMR lab report"
+                          title="Inspect hive telemetry on Beekeepers Dashboard"
                         >
                           <ShieldCheck className="w-3 h-3" />
-                          <span>Verified Batch #{item.batchId} →</span>
+                          <span>Batch #{item.batchId} · Beekeepers Dashboard →</span>
                         </Link>
                       </div>
                     </div>

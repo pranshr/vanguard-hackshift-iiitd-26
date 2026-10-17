@@ -597,10 +597,10 @@ export default function MarketplacePage() {
                   Dismiss
                 </button>
                 <Link
-                  href={`/verify/${verifiedBatchId}`}
+                  href="/beekeeper"
                   className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold text-[#FFFFFF] bg-[#8A4B12] hover:bg-[#703C0D] rounded-lg transition-colors"
                 >
-                  <span>Open Full Passport</span>
+                  <span>Open Beekeepers Dashboard</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </Link>
               </div>

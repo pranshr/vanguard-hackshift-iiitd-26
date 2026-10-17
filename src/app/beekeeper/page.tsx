@@ -1253,11 +1253,10 @@ export default function BeekeeperPage() {
 
                       <div className="flex flex-wrap gap-2.5 pt-1">
                         <Link
-                          href={`/verify/${createdBatch.id}`}
-                          target="_blank"
+                          href="/sensors"
                           className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#8A4B12] hover:bg-[#703C0D] text-white text-xs font-semibold rounded-lg transition-colors shadow-xs"
                         >
-                          <span>Open Customer Verification Portal</span>
+                          <span>Open Live Sensors Network</span>
                           <ExternalLink className="w-3.5 h-3.5" />
                         </Link>
 
