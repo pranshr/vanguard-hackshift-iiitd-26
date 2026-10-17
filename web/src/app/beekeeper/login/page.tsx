@@ -169,8 +169,8 @@ function BeekeeperLoginForm() {
               B
             </div>
             <div className="flex flex-col">
-              <span className="font-serif font-bold text-lg leading-tight tracking-tight text-white">
-                BEE-Safe
+              <span className="font-serif font-bold text-xl leading-tight tracking-tight text-white group-hover:text-amber-300 transition-colors">
+                BEE safe
               </span>
               <span className="text-[10px] font-mono tracking-wider uppercase text-amber-300/90 font-semibold">
                 HoneyChain™ Apiary Station
@@ -581,7 +581,7 @@ function BeekeeperLoginForm() {
 
         {/* Bottom Minimal Footer */}
         <div className="pt-4 border-t border-[#E3DACB]/60 text-center text-[11px] text-[#8A7F72]">
-          BEE-Safe Vanguard · Smart Apiary IoT & Transparent Honeychain
+          BEE safe Vanguard · Smart Apiary IoT & Transparent Honeychain
         </div>
       </div>
     </div>

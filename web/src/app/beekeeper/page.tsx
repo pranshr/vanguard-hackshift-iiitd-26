@@ -200,13 +200,13 @@ export default function BeekeeperPage() {
         <div>
           {/* Top Brand & Portal Info */}
           <div className="pb-5 border-b border-[#e8e1d7] mb-5">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#f7efe4] border border-[#e8e1d7] rounded-lg flex items-center justify-center text-[#b45309] shrink-0 shadow-2xs">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 bg-[#f7efe4] border border-[#e8e1d7] rounded-lg flex items-center justify-center text-[#b45309] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
                 <Hexagon className="w-6 h-6 stroke-[2.2]" />
               </div>
               <div>
-                <span className="text-xl font-bold tracking-tight text-[#24201d] block">
-                  BEE-Safe
+                <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-[#24201d] group-hover:text-[var(--signature)] transition-colors block leading-tight">
+                  BEE safe
                 </span>
                 <span className="text-[11px] block text-[#7c7267] font-semibold tracking-wide uppercase">
                   Apiary Management
@@ -348,11 +348,11 @@ export default function BeekeeperPage() {
             </button>
 
             {/* Mobile Brand Link */}
-            <Link href="/" className="flex items-center gap-2 md:hidden">
+            <Link href="/" className="flex items-center gap-2 md:hidden group">
               <div className="w-8 h-8 bg-[#f7efe4] border border-[#e8e1d7] rounded-lg flex items-center justify-center text-[#b45309]">
                 <Hexagon className="w-5 h-5" />
               </div>
-              <span className="font-bold text-base text-[#24201d]">BEE-Safe</span>
+              <span className="font-serif font-bold text-lg text-[#24201d] group-hover:text-[var(--signature)] transition-colors">BEE safe</span>
             </Link>
 
             {/* Desktop Breadcrumbs & Context */}
@@ -417,7 +417,7 @@ export default function BeekeeperPage() {
                     <div className="w-8 h-8 bg-[#f7efe4] rounded-lg flex items-center justify-center text-[#b45309]">
                       <Hexagon className="w-5 h-5" />
                     </div>
-                    <span className="font-bold text-base text-[#24201d]">BEE-Safe Portal</span>
+                    <span className="font-serif font-bold text-lg text-[#24201d]">BEE safe</span>
                   </div>
                   <button
                     onClick={() => setMobileDrawerOpen(false)}
@@ -1285,7 +1285,7 @@ export default function BeekeeperPage() {
                       >
                         <div className="flex items-center justify-between gap-4 mb-1">
                           <span className={`font-bold text-[10px] uppercase ${msg.sender === "user" ? "text-white/80" : "text-[#b45309]"}`}>
-                            {msg.sender === "user" ? "Ritesh Kumar" : "BEE-Safe AI"}
+                            {msg.sender === "user" ? "Ritesh Kumar" : "BEE safe AI"}
                           </span>
                           <span className={`text-[10px] ${msg.sender === "user" ? "text-white/70" : "text-[#7c7267]"}`}>
                             {msg.time}

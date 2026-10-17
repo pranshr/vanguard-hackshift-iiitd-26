@@ -82,7 +82,7 @@ const PRODUCTS: MarketplaceProduct[] = [
   },
   {
     id: "prod-2",
-    name: "BEE-Safe Telemetry Node v2",
+    name: "BEE safe Telemetry Node v2",
     category: "hardware",
     price: 3200,
     rating: 4.95,
@@ -201,7 +201,7 @@ const PRODUCTS: MarketplaceProduct[] = [
     stockCount: 34,
     telemetryCertified: false,
     specs: {
-      originApiary: "BEE-Safe Equipment Div",
+      originApiary: "BEE safe Equipment Div",
       dimensions: "Unisex S, M, L, XL, XXL",
       purityGrade: "3-Layer Sting Defense"
     }
@@ -243,7 +243,7 @@ const PRODUCTS: MarketplaceProduct[] = [
     stockCount: 50,
     telemetryCertified: false,
     specs: {
-      originApiary: "BEE-Safe Equipment Div",
+      originApiary: "BEE safe Equipment Div",
       dimensions: "Standard 11-inch barrel",
       purityGrade: "Food-grade SS304"
     }
@@ -329,7 +329,7 @@ function ProductIllustration({ category, name }: { category: string; name: strin
       <path d="M50 36 L110 36 L118 52 L118 132 C118 136 114 140 110 140 L50 140 C46 140 42 136 42 132 L42 52 Z" strokeWidth="2.5" fill="#FFFFFF" />
       <rect x="47" y="58" width="66" height="70" rx="3" fill="#F4DE9C" fillOpacity="0.45" />
       <rect x="52" y="68" width="56" height="42" rx="2" fill="#FFFFFF" strokeWidth="1" stroke="#E3DACB" />
-      <text x="58" y="82" fill="#1C1A17" fontSize="8" fontFamily="serif" fontWeight="bold">BEE-Safe</text>
+      <text x="58" y="82" fill="#1C1A17" fontSize="8" fontFamily="serif" fontWeight="bold">BEE safe</text>
       <text x="58" y="93" fill="#8A4B12" fontSize="6" fontFamily="monospace">RAW RAW</text>
       <line x1="58" y1="99" x2="98" y2="99" stroke="#2F6B3A" strokeWidth="1.5" />
     </svg>
@@ -462,7 +462,7 @@ export default function MarketplacePage() {
         <div className="flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-[#2F6B3A] shrink-0" />
           <span>
-            <strong>BEE-Safe Direct Apiary Trade</strong> • Every lot cryptographically referenced on Ethereum Sepolia Testnet.
+            <strong>BEE safe Direct Apiary Trade</strong> • Every lot cryptographically referenced on Ethereum Sepolia Testnet.
           </span>
         </div>
         <Link
@@ -901,10 +901,10 @@ export default function MarketplacePage() {
               PROVENANCE COMPARISON
             </p>
             <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1A17]">
-              Why BEE-Safe Telemetry is Different
+              Why BEE safe Telemetry is Different
             </h3>
             <p className="text-xs sm:text-sm text-[#665E55] mt-2">
-              Unlike static laboratory certificates that are easy to copy, BEE-Safe pairs chemical testing with continuous live hive sensor telemetry.
+              Unlike static laboratory certificates that are easy to copy, BEE safe pairs chemical testing with continuous live hive sensor telemetry.
             </p>
           </div>
 
@@ -913,8 +913,8 @@ export default function MarketplacePage() {
               <thead>
                 <tr className="border-b border-[#E3DACB]">
                   <th className="py-3 px-4 font-serif text-sm font-bold text-[#1C1A17]">Verification Metric</th>
-                  <th className="py-3 px-4 text-[#8A4B12] font-bold bg-[#EDE4D4]/40 rounded-t-lg">
-                    BEE-Safe Direct
+                  <th className="py-3 px-4 text-[#8A4B12] font-serif font-bold text-sm bg-[#EDE4D4]/40 rounded-t-lg">
+                    BEE safe Direct
                   </th>
                   <th className="py-3 px-4 text-[#665E55]">Supermarket Honey</th>
                   <th className="py-3 px-4 text-[#665E55]">Unverified Raw Honey</th>

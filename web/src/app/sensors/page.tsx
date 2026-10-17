@@ -27,13 +27,13 @@ export default function SensorsPage() {
               <ArrowLeft className="w-4 h-4" />
             </Link>
 
-            <Link href="/" className="flex items-center gap-2.5 sm:gap-3">
-              <div className="w-9 h-9 bg-[#f7efe4] border border-[#e8ded0] rounded-lg flex items-center justify-center text-[#b45309] shrink-0">
+            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
+              <div className="w-9 h-9 bg-[#f7efe4] border border-[#e8ded0] rounded-lg flex items-center justify-center text-[#b45309] shrink-0 group-hover:scale-105 transition-transform">
                 <Hexagon className="w-5 h-5 stroke-[2.2]" />
               </div>
               <div>
-                <span className="text-base sm:text-lg font-bold tracking-tight text-[#24201d]">
-                  BEE-Safe
+                <span className="font-serif text-lg sm:text-xl font-bold tracking-tight text-[#24201d] group-hover:text-[var(--signature)] transition-colors block leading-tight">
+                  BEE safe
                 </span>
                 <span className="text-[10px] block text-[#7c7267] font-medium tracking-wide uppercase">
                   Telemetry Monitoring Center
@@ -61,7 +61,7 @@ export default function SensorsPage() {
 
       {/* Footer */}
       <footer className="hidden md:block border-t border-[#e8e1d7] bg-white/50 py-4 px-4 sm:px-6 text-center text-xs text-[#8a7f72]">
-        BEE-Safe Precision Apiculture &copy; 2026 • IoT Telemetry Node Interface v2.4
+        BEE safe Precision Apiculture &copy; 2026 • IoT Telemetry Node Interface v2.4
       </footer>
 
       {/* ======================================================== */}
