@@ -258,7 +258,7 @@ export function StorefrontHeader() {
         {/* Right side: Pill CTA + Cart Icon */}
         <div className="flex items-center gap-3 shrink-0">
           <Link
-            href="/beekeeper"
+            href="/beekeeper/login"
             className="hidden sm:inline-flex items-center justify-center h-10 px-5 rounded-full font-sans font-medium text-xs bg-[var(--signature)] text-[var(--ink)] hover:brightness-95 transition-all shadow-2xs whitespace-nowrap"
           >
             Beekeepers Dashboard
@@ -379,7 +379,7 @@ export function StorefrontHeader() {
               Our Story
             </Link>
             <Link
-              href="/beekeeper"
+              href="/beekeeper/login"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center justify-between px-3 py-2.5 text-xs font-mono font-medium text-[#8A4B12] bg-[#FAF0E6] rounded-xl border border-[#F0D5C0]"
             >

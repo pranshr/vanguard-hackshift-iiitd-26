@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   Home,
   Hexagon,
@@ -40,6 +41,41 @@ type TabKey = "home" | "hives" | "harvest" | "sensors" | "advisor";
 import SensorTelemetryDashboard from "@/components/SensorTelemetryDashboard";
 
 export default function BeekeeperPage() {
+  const router = useRouter();
+  const [currentUser] = useState<{
+    name: string;
+    email: string;
+    apiary: string;
+    role: string;
+  } | null>(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const auth = localStorage.getItem("beekeeper_auth");
+      return auth ? JSON.parse(auth) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  // Authentication check - redirect to login if no auth found
+  useEffect(() => {
+    try {
+      const auth = localStorage.getItem("beekeeper_auth");
+      if (!auth) {
+        router.replace("/beekeeper/login");
+      }
+    } catch {
+      // ignore SSR or storage exceptions
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem("beekeeper_auth");
+    } catch {}
+    router.push("/beekeeper/login");
+  };
+
   const [activeTab, setActiveTab] = useState<TabKey>("home");
   const [selectedHive, setSelectedHive] = useState("Hive #01 - Orchard Yard");
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -263,25 +299,34 @@ export default function BeekeeperPage() {
           <div className="p-3 bg-[#faf8f5] border border-[#e8e1d7] rounded-lg flex items-center justify-between">
             <div className="flex items-center gap-2.5 min-w-0">
               <div className="w-9 h-9 rounded-lg bg-[#f7efe4] border border-[#e2d8cb] flex items-center justify-center text-[#b45309] font-bold text-xs shrink-0">
-                RK
+                {currentUser?.name
+                  ? currentUser.name
+                      .split(" ")
+                      .filter(Boolean)
+                      .map((n) => n[0])
+                      .join("")
+                      .slice(0, 2)
+                      .toUpperCase()
+                  : "RK"}
               </div>
               <div className="min-w-0">
                 <div className="text-xs font-bold text-[#24201d] truncate">
-                  Ritesh Kumar
+                  {currentUser?.name || "Ritesh Kumar"}
                 </div>
                 <div className="text-[10px] text-[#7c7267] font-medium truncate">
-                  Master Apiarist
+                  {currentUser?.role || "Master Apiarist"}
                 </div>
               </div>
             </div>
 
-            <Link
-              href="/"
-              className="p-1.5 text-[#7c7267] hover:text-[#b45309] hover:bg-white rounded-md border border-transparent hover:border-[#e0d7cb] transition-all"
-              title="Log Out to Home"
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="p-1.5 text-[#7c7267] hover:text-[#b45309] hover:bg-white rounded-md border border-transparent hover:border-[#e0d7cb] transition-all cursor-pointer"
+              title="Log Out of Apiary"
             >
               <LogOut className="w-4 h-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </aside>
