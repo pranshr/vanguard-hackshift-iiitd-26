@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { StorefrontHeader } from "@/components/storefront/Header";
 import { StorefrontFooter } from "@/components/storefront/Footer";
+import { BeehiveCartIcon } from "@/components/storefront/BeehiveCartIcon";
 import {
   ShoppingBag,
   Trash2,
@@ -48,7 +49,7 @@ export default function CartPage() {
         {items.length === 0 ? (
           <div className="bg-white border border-[#E3DACB] rounded-xl p-10 sm:p-14 text-center space-y-4 shadow-xs">
             <div className="w-12 h-12 rounded-full bg-[#FAF6EF] border border-[#E3DACB] flex items-center justify-center text-[#8A4B12] mx-auto">
-              <ShoppingBag className="w-5 h-5" />
+              <BeehiveCartIcon count={0} className="scale-125 text-[#8A4B12]" />
             </div>
             <h2 className="font-serif text-2xl font-bold text-[#1C1A17]">
               Your cart is empty

@@ -20,19 +20,22 @@ export function TasteCarousel() {
 
   const [activeIndex, setActiveIndex] = useState(1); // 1 = Litchi (center card)
 
-  const handleAdd = (product: (typeof PRODUCTS)[0]) => {
+  const handleAdd = (product: (typeof PRODUCTS)[0], e?: React.MouseEvent) => {
     const size = product.sizes[0];
-    addItem({
-      productId: product.id,
-      slug: product.slug,
-      name: product.name,
-      origin: product.region,
-      size: size.size,
-      price: size.price,
-      quantity: 1,
-      batchId: product.activeBatchId,
-      colorSwatch: product.colorHex,
-    });
+    addItem(
+      {
+        productId: product.id,
+        slug: product.slug,
+        name: product.name,
+        origin: product.region,
+        size: size.size,
+        price: size.price,
+        quantity: 1,
+        batchId: product.activeBatchId,
+        colorSwatch: product.colorHex,
+      },
+      e
+    );
     setAddedSlug(product.slug);
     setTimeout(() => setAddedSlug(null), 1800);
   };
@@ -148,7 +151,7 @@ export function TasteCarousel() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleAdd(honey);
+                          handleAdd(honey, e);
                         }}
                         className={`w-full mt-3 h-10 rounded-full font-sans text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                           isSelected

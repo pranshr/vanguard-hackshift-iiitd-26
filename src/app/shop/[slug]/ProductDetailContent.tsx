@@ -50,18 +50,21 @@ export function ProductDetailContent({ product }: Props) {
     return null;
   };
 
-  const handleAddToCart = () => {
-    addItem({
-      productId: product.id,
-      slug: product.slug,
-      name: product.name,
-      origin: product.region,
-      size: selectedSize.size,
-      price: selectedSize.price,
-      quantity: 1,
-      batchId: product.activeBatchId,
-      colorSwatch: product.colorHex,
-    });
+  const handleAddToCart = (e?: React.MouseEvent) => {
+    addItem(
+      {
+        productId: product.id,
+        slug: product.slug,
+        name: product.name,
+        origin: product.region,
+        size: selectedSize.size,
+        price: selectedSize.price,
+        quantity: 1,
+        batchId: product.activeBatchId,
+        colorSwatch: product.colorHex,
+      },
+      e
+    );
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };

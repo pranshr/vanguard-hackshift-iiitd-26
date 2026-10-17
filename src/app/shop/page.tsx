@@ -21,19 +21,22 @@ export function ShopCatalogPage() {
     return true;
   });
 
-  const handleQuickAdd = (product: (typeof PRODUCTS)[0]) => {
+  const handleQuickAdd = (product: (typeof PRODUCTS)[0], e?: React.MouseEvent) => {
     const defaultSize = product.sizes[0];
-    addItem({
-      productId: product.id,
-      slug: product.slug,
-      name: product.name,
-      origin: product.region,
-      size: defaultSize.size,
-      price: defaultSize.price,
-      quantity: 1,
-      batchId: product.activeBatchId,
-      colorSwatch: product.colorHex,
-    });
+    addItem(
+      {
+        productId: product.id,
+        slug: product.slug,
+        name: product.name,
+        origin: product.region,
+        size: defaultSize.size,
+        price: defaultSize.price,
+        quantity: 1,
+        batchId: product.activeBatchId,
+        colorSwatch: product.colorHex,
+      },
+      e
+    );
     setAddedSlug(product.slug);
     setTimeout(() => setAddedSlug(null), 1800);
   };
@@ -159,7 +162,7 @@ export function ShopCatalogPage() {
                   </Link>
 
                   <button
-                    onClick={() => handleQuickAdd(prod)}
+                    onClick={(e) => handleQuickAdd(prod, e)}
                     className="h-10 px-4 rounded-full bg-[var(--signature)] text-[var(--ink)] text-xs font-sans font-semibold hover:brightness-95 transition-all flex items-center gap-1.5 shadow-2xs cursor-pointer"
                     aria-label={`Add ${prod.name} to cart`}
                   >

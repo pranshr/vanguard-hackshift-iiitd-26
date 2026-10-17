@@ -11,19 +11,22 @@ export function StarterKitModule() {
   const [isAdded, setIsAdded] = useState(false);
   const trio = PRODUCTS.find((p) => p.isTastingBox) || PRODUCTS[3];
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e?: React.MouseEvent<HTMLButtonElement>) => {
     const size = trio.sizes[0];
-    addItem({
-      productId: trio.id,
-      slug: trio.slug,
-      name: trio.name,
-      origin: trio.region,
-      size: size.size,
-      price: size.price,
-      quantity: 1,
-      batchId: trio.activeBatchId,
-      colorSwatch: trio.colorHex,
-    });
+    addItem(
+      {
+        productId: trio.id,
+        slug: trio.slug,
+        name: trio.name,
+        origin: trio.region,
+        size: size.size,
+        price: size.price,
+        quantity: 1,
+        batchId: trio.activeBatchId,
+        colorSwatch: trio.colorHex,
+      },
+      e
+    );
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };

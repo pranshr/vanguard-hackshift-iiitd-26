@@ -81,18 +81,21 @@ export function OriginCardsSection() {
   const { addItem } = useCart();
   const [addedSlug, setAddedSlug] = useState<string | null>(null);
 
-  const handleQuickAdd = (card: RitualItem) => {
-    addItem({
-      productId: card.id,
-      slug: card.slug,
-      name: card.subName,
-      origin: card.origin,
-      size: "250g",
-      price: card.rawPrice,
-      quantity: 1,
-      batchId: card.batchId,
-      colorSwatch: card.colorHex,
-    });
+  const handleQuickAdd = (card: RitualItem, e?: React.MouseEvent) => {
+    addItem(
+      {
+        productId: card.id,
+        slug: card.slug,
+        name: card.subName,
+        origin: card.origin,
+        size: "250g",
+        price: card.rawPrice,
+        quantity: 1,
+        batchId: card.batchId,
+        colorSwatch: card.colorHex,
+      },
+      e
+    );
     setAddedSlug(card.slug);
     setTimeout(() => setAddedSlug(null), 1800);
   };
@@ -145,7 +148,7 @@ export function OriginCardsSection() {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  handleQuickAdd(card);
+                  handleQuickAdd(card, e);
                 }}
                 className="absolute bottom-4 right-4 z-20 h-9 px-3.5 rounded-full bg-white/95 hover:bg-white text-[#1C1A17] text-xs font-semibold shadow-md flex items-center gap-1.5 transition-all opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 cursor-pointer"
                 aria-label={`Quick add ${card.title} to cart`}
