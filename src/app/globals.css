@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --bg-primary: #faf8f5;
+  --bg-card: #ffffff;
+  --bg-muted: #f4eee6;
+  --border-subtle: #e8e1d7;
+  --text-main: #24201d;
+  --text-muted: #6e655d;
+  --accent-honey: #b45309;
+  --accent-honey-hover: #92400e;
+  --tab-active-bg: #f7efe4;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Ensure no pill buttons anywhere */
+button, .btn {
+  border-radius: 8px !important;
+}
