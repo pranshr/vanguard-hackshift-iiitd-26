@@ -76,7 +76,7 @@ export function BatchVerificationContent({ batchId }: { batchId: string }) {
               <strong className="font-mono text-[#1C1A17] bg-[#EDE4D4] px-1.5 py-0.5 rounded">
                 {batchId}
               </strong>
-              . Please check the spelling on your jar lid or explore one of our verified demo batches:
+              . Please check the spelling on your jar lid or explore one of our verified harvest batches:
             </p>
 
             <div className="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-left">
@@ -130,7 +130,7 @@ export function BatchVerificationContent({ batchId }: { batchId: string }) {
                 </span>
                 {batch.isDemo && (
                   <span className="text-[10px] font-mono text-[#8A4B12] bg-[#FAF0E6] border border-[#F0D5C0] px-2 py-0.5 rounded">
-                    SIH 2026 Demo Batch
+                    Verified Harvest Batch
                   </span>
                 )}
               </div>

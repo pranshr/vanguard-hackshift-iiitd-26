@@ -12,6 +12,20 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [
+      {
+        source: "/verify",
+        destination: "/beekeeper",
+        permanent: false,
+      },
+      {
+        source: "/verify/:path*",
+        destination: "/beekeeper",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
