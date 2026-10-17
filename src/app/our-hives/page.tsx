@@ -217,7 +217,7 @@ export default function OurHivesPage() {
           </div>
         </section>
 
-        {/* SECTION 4: EXPANDABLE "HOW IT WORKS: TECHNICAL STACK" (For Judges) */}
+        {/* SECTION 4: EXPANDABLE "HOW IT WORKS: TECHNICAL STACK" (Technical Reference) */}
         <section className="bg-[#FAF6EF] border border-[#E3DACB] rounded-xl p-6 sm:p-8 space-y-4">
           <button
             onClick={() => setTechDetailsOpen(!techDetailsOpen)}
@@ -225,7 +225,7 @@ export default function OurHivesPage() {
           >
             <div>
               <span className="text-[10px] font-mono uppercase tracking-wider text-[#8A4B12] font-semibold block">
-                SIH 2026 Evaluation Section
+                Engineering & Architecture
               </span>
               <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1A17] mt-0.5">
                 Technical Stack & Architecture (Click to Expand)
@@ -312,11 +312,11 @@ export default function OurHivesPage() {
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <Link
-              href="/verify/HC-2026-MUS-014"
+              href="/beekeeper"
               className="px-5 py-3 bg-[#8A4B12] hover:bg-[#703C0D] text-white text-xs font-semibold rounded-lg flex items-center gap-2 transition-colors shadow-xs"
             >
               <ShieldCheck className="w-4 h-4" />
-              <span>Inspect Batch Passport</span>
+              <span>Open Beekeepers Dashboard</span>
             </Link>
 
             <Link
