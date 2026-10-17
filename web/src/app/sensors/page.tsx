@@ -61,7 +61,7 @@ export default function SensorsPage() {
 
       {/* Footer */}
       <footer className="hidden md:block border-t border-[#e8e1d7] bg-white/50 py-4 px-4 sm:px-6 text-center text-xs text-[#8a7f72]">
-        BEE-Safe Precision Apiculture &copy; {new Date().getFullYear()} • IoT Telemetry Node Interface v2.4
+        BEE-Safe Precision Apiculture &copy; 2026 • IoT Telemetry Node Interface v2.4
       </footer>
 
       {/* ======================================================== */}
