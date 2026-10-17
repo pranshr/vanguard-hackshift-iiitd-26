@@ -15,11 +15,14 @@ export function StorefrontHeader() {
     { href: "/shop", label: "Shop Origins" },
     { href: "/verify", label: "Verify a Jar" },
     { href: "/our-hives", label: "Our Hives & IoT" },
+    { href: "/sensors", label: "Live Telemetry" },
+    { href: "/marketplace", label: "Apiary Supplies" },
   ];
 
   const isActive = (href: string) => {
     if (href === "/shop" && (pathname === "/shop" || pathname.startsWith("/shop/"))) return true;
     if (href === "/verify" && (pathname === "/verify" || pathname.startsWith("/verify/"))) return true;
+    if (href === "/sensors" && (pathname === "/sensors" || pathname === "/sensor-data")) return true;
     return pathname === href;
   };
 

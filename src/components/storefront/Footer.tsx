@@ -73,6 +73,11 @@ export function StorefrontFooter() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/sensors" className="hover:text-[#1C1A17] transition-colors">
+                    Live Telemetry
+                  </Link>
+                </li>
+                <li>
                   <Link href="/cart" className="hover:text-[#1C1A17] transition-colors">
                     View Cart
                   </Link>
