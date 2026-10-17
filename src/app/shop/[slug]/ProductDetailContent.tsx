@@ -1,19 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Product } from "@/data/types";
-import { getBatchById } from "@/data/batches";
+import { getBatchById, DEMO_BATCHES } from "@/data/batches";
 import { PRODUCTS } from "@/data/storefront";
 import { useCart } from "@/context/CartContext";
 import { StorefrontHeader } from "@/components/storefront/Header";
 import { StorefrontFooter } from "@/components/storefront/Footer";
+import { ProductImage } from "@/components/storefront/ProductImage";
+import { ComparisonTable } from "@/components/storefront/ComparisonTable";
+import { TasteCarousel } from "@/components/storefront/TasteCarousel";
+import { HiveWeightChart } from "@/components/storefront/HiveWeightChart";
 import {
   Check,
-  Plus,
-  Minus,
-  ArrowRight,
-  Gift,
+  ShoppingBag,
+  ShieldCheck,
+  ChevronDown,
+  Calendar,
+  Layers,
+  FileText,
+  User,
+  Hash,
 } from "lucide-react";
 
 interface Props {
@@ -23,15 +31,24 @@ interface Props {
 export function ProductDetailContent({ product }: Props) {
   const { addItem } = useCart();
   const [selectedSizeIndex, setSelectedSizeIndex] = useState(0);
-  const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
-  const [isGift, setIsGift] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const buyButtonRef = useRef<HTMLButtonElement>(null);
 
   const selectedSize = product.sizes[selectedSizeIndex] || product.sizes[0];
-  const batch = getBatchById(product.activeBatchId);
+  const batch = getBatchById(product.activeBatchId) || DEMO_BATCHES["HC-2026-MUS-014"];
 
-  // "Taste Next" recommendations (other honeys)
-  const tasteNextProducts = PRODUCTS.filter((p) => p.id !== product.id).slice(0, 2);
+  // Other single-origin honeys for the "Choose your honey" selector
+  const otherHoneys = PRODUCTS.filter((p) => !p.isTastingBox);
+
+  // Price per 100g calculation
+  const getPricePer100g = (sizeStr: string, price: number) => {
+    if (sizeStr === "250g") return Math.round((price / 250) * 100);
+    if (sizeStr === "500g") return Math.round((price / 500) * 100);
+    if (sizeStr.includes("3x150g")) return Math.round((price / 450) * 100);
+    return null;
+  };
 
   const handleAddToCart = () => {
     addItem({
@@ -41,368 +58,619 @@ export function ProductDetailContent({ product }: Props) {
       origin: product.region,
       size: selectedSize.size,
       price: selectedSize.price,
-      quantity,
+      quantity: 1,
       batchId: product.activeBatchId,
       colorSwatch: product.colorHex,
     });
     setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 2200);
+    setTimeout(() => setIsAdded(false), 2000);
   };
 
+  // IntersectionObserver to show/hide sticky bottom ATC bar
+  useEffect(() => {
+    const target = buyButtonRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Show sticky bar when the main ATC button is scrolled out of view
+        setShowStickyBar(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  const pdpFaqs = [
+    {
+      q: "Taste & Regional Floral Pairings",
+      a: `Notes: ${product.tasteNotes.join(", ")}. Recommended pairings: ${product.pairings.join(", ")}. Because this is raw honey, aromatics are vibrant and clean.`,
+    },
+    {
+      q: "Crystallisation & Proper Storage",
+      a: `${product.crystallisationNote} Keep tightly sealed at room temperature away from moisture.`,
+    },
+    {
+      q: "How to Trace Your Batch on HoneyChain",
+      a: `Each jar features batch code #${product.activeBatchId}. Look up this batch hash on HoneyChain to view continuous scale weight curves from Hive #${batch.hiveId}, harvest date (${batch.harvestDate}), brood thermoregulation, and the laboratory test summary.`,
+    },
+    {
+      q: "Packaging & Dispatch Verification",
+      a: "Every glass jar is packaged in sustainable shock-proof molded pulp cartons. Your package includes an authentic Certificate of Origin linking directly to its cryptographic batch passport.",
+    },
+  ];
+
+  const whatWeCanShowYou = [
+    { label: "Hive ID", value: batch.hiveId, icon: Layers },
+    { label: "Harvest Date", value: batch.harvestDate, icon: Calendar },
+    { label: "Lab Test Record", value: "Laboratory Tested", icon: FileText },
+    { label: "Sepolia tx", value: `${batch.blockchain.txHash.slice(0, 10)}...`, icon: Hash },
+    { label: "Beekeeper", value: batch.beekeeper.name, icon: User },
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#F6F1E7] text-[#1C1A17]">
+    <div className="min-h-screen flex flex-col bg-[var(--paper)] text-[var(--ink)]">
       <StorefrontHeader />
 
-      <main className="flex-1 max-w-[1200px] w-full mx-auto px-4 sm:px-6 py-8 sm:py-14 space-y-12">
+      <main className="flex-1">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-2 text-xs font-mono text-[#665E55]">
-          <Link href="/" className="hover:text-[#1C1A17]">
-            Home
-          </Link>
-          <span>/</span>
-          <Link href="/shop" className="hover:text-[#1C1A17]">
-            Shop
-          </Link>
-          <span>/</span>
-          <span className="text-[#1C1A17] font-semibold truncate max-w-xs">
-            {product.name}
-          </span>
-        </nav>
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 pt-6 pb-2">
+          <nav className="flex items-center gap-2 text-xs font-mono text-[var(--muted-ink)]">
+            <Link href="/" className="hover:text-[var(--ink)]">
+              Home
+            </Link>
+            <span>/</span>
+            <Link href="/shop" className="hover:text-[var(--ink)]">
+              Shop
+            </Link>
+            <span>/</span>
+            <span className="text-[var(--ink)] font-semibold truncate max-w-xs">
+              {product.name}
+            </span>
+          </nav>
+        </div>
 
-        {/* Product Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-          {/* Left Column: Big Jar Display */}
-          <div className="lg:col-span-6 space-y-4">
-            <div
-              className="w-full aspect-[4/5] rounded-2xl border border-[#E3DACB] flex flex-col items-center justify-between p-8 relative overflow-hidden shadow-xs"
-              style={{
-                background: `linear-gradient(145deg, ${product.colorHex}25 0%, #FAF6EF 70%, #EFE8DA 100%)`,
-              }}
-            >
-              {/* Top tags */}
-              <div className="w-full flex items-center justify-between text-xs font-mono">
-                <div className="flex items-center gap-2 bg-white/90 backdrop-blur-xs px-3 py-1 rounded border border-[#E3DACB]">
-                  <span
-                    className="w-3 h-3 rounded-full border border-black/10 shrink-0"
-                    style={{ backgroundColor: product.colorHex }}
+        {/* TOP: TWO-COLUMN BUY BOX */}
+        <section className="py-6 sm:py-10 max-w-[1240px] mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+            {/* LEFT: GALLERY */}
+            <div className="lg:col-span-7 space-y-4">
+              <div
+                className="relative w-full aspect-[4/5] sm:aspect-[1/1] rounded-3xl p-6 sm:p-10 flex flex-col items-center justify-center overflow-hidden shadow-xs border border-[var(--line)]"
+                style={{
+                  backgroundColor: `${product.colorHex}15`,
+                }}
+              >
+                {/* Main Product Image Container */}
+                <div className="w-full max-w-sm aspect-[4/5] relative">
+                  <ProductImage
+                    src={product.image}
+                    alt={product.name}
+                    colorHex={product.colorHex}
+                    productName={product.name}
+                    aspectRatio="aspect-[4/5]"
+                    className="w-full h-full object-cover rounded-2xl shadow-sm"
+                    priority
                   />
-                  <span className="font-semibold text-[#1C1A17]">{product.colorName}</span>
-                </div>
-
-                <Link
-                  href={`/verify/${product.activeBatchId}`}
-                  className="bg-[#FAF0E6] text-[#8A4B12] hover:underline px-2.5 py-1 rounded text-xs font-bold border border-[#F0D5C0]"
-                >
-                  Batch #{product.activeBatchId}
-                </Link>
-              </div>
-
-              {/* Large Backlit Jar Element */}
-              <div className="my-auto text-center space-y-3">
-                <div
-                  className="w-44 h-60 rounded-2xl mx-auto shadow-md border border-black/15 flex flex-col justify-between p-4 relative"
-                  style={{
-                    background: `linear-gradient(to top, ${product.colorHex}, #FAF6EF)`,
-                  }}
-                >
-                  {/* Jar Lid with QR seal cue */}
-                  <div className="w-28 h-5 bg-[#FAF7F0] rounded-t mx-auto border border-[#CFC3AE] flex items-center justify-center">
-                    <span className="text-[8px] font-mono text-[#786E64] uppercase tracking-widest font-bold">
-                      QR SEALED
-                    </span>
-                  </div>
-
-                  {/* Minimalist label */}
-                  <div className="bg-[#FAF7F0] border border-[#E3DACB] rounded-lg p-2.5 text-center shadow-xs">
-                    <span className="text-[9px] font-mono uppercase tracking-widest text-[#786E64] block">
-                      MADHUVAN
-                    </span>
-                    <span className="font-serif text-sm font-bold text-[#1C1A17] block leading-tight">
-                      {product.name.replace(" Raw Honey", "")}
-                    </span>
-                    <span className="text-[9px] font-mono text-[#8A4B12] block mt-1 font-semibold">
-                      {selectedSize.size} · 100% RAW
-                    </span>
-                  </div>
-
-                  <div className="text-[9px] font-mono text-black/60 font-semibold tracking-wider">
-                    {product.botanicalOrigin}
-                  </div>
                 </div>
               </div>
 
-              {/* Jar Footer Caption */}
-              <div className="text-center text-xs font-mono text-[#665E55]">
-                <span>Natural nectar crystallization is guaranteed · Unpasteurized</span>
+              {/* Thumbnail Strip */}
+              <div className="flex items-center gap-3 overflow-x-auto pb-2">
+                <div className="w-20 h-20 rounded-2xl p-1 bg-white border-2 border-[var(--signature)] cursor-pointer shrink-0">
+                  <ProductImage
+                    src={product.image}
+                    alt={`${product.name} thumbnail`}
+                    colorHex={product.colorHex}
+                    productName={product.name}
+                    aspectRatio="aspect-square"
+                    className="w-full h-full rounded-xl"
+                  />
+                </div>
+                <div className="w-20 h-20 rounded-2xl p-1 bg-white border border-[var(--line)] cursor-pointer opacity-70 hover:opacity-100 shrink-0">
+                  <ProductImage
+                    src="/images/iot-smart-hive.jpg"
+                    alt="IoT Smart Hive Telemetry thumbnail"
+                    colorHex="var(--signature)"
+                    productName="IoT Hive"
+                    aspectRatio="aspect-square"
+                    className="w-full h-full rounded-xl"
+                  />
+                </div>
+                <div className="w-20 h-20 rounded-2xl p-1 bg-white border border-[var(--line)] cursor-pointer opacity-70 hover:opacity-100 shrink-0">
+                  <ProductImage
+                    src="/images/spoon.jpg"
+                    alt="Honey texture thumbnail"
+                    colorHex={product.colorHex}
+                    productName="Texture"
+                    aspectRatio="aspect-square"
+                    className="w-full h-full rounded-xl"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Right Column: Spec, Size Picker & Batch Panel */}
-          <div className="lg:col-span-6 space-y-6">
-            <div>
-              <span className="text-xs font-mono text-[#3F4A3A] uppercase tracking-wider block font-semibold">
-                {product.botanicalOrigin}
-              </span>
-              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#1C1A17] tracking-tight mt-1">
-                {product.name}
-              </h1>
-              <p className="text-xs font-mono text-[#665E55] mt-1.5 flex items-center gap-2">
-                <span>Origin: <strong className="text-[#1C1A17]">{product.region}</strong></span>
-              </p>
-            </div>
+            {/* RIGHT: BUY PANEL IN EXACT ORDER */}
+            <div className="lg:col-span-5 space-y-6">
+              {/* 1. Badge row: "Single origin" + taste badge */}
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-medium bg-[var(--tag-bg)] text-[var(--forest)] border border-[var(--tag-border)]">
+                  Single origin
+                </span>
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-medium bg-white text-[var(--ink)] border border-[var(--line)]">
+                  {product.shortTag}
+                </span>
+              </div>
 
-            <p className="text-sm text-[#665E55] leading-relaxed">
-              {product.description}
-            </p>
+              {/* 2. Name (Fraunces) + origin line. NO stars. */}
+              <div className="space-y-1.5">
+                <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[var(--ink)] tracking-tight leading-tight">
+                  {product.name}
+                </h1>
+                <p className="text-xs sm:text-sm font-mono text-[var(--muted-ink)]">
+                  {product.region} · {product.botanicalOrigin}
+                </p>
+              </div>
 
-            {/* Taste Intensity & Flavor Bar */}
-            <div className="p-4 rounded-lg bg-[#FAF6EF] border border-[#E3DACB] space-y-3">
-              <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-[#786E64]">Taste Profile:</span>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] text-[#786E64]">Mild</span>
-                  {[1, 2, 3, 4, 5].map((lvl) => (
-                    <span
-                      key={lvl}
-                      className={`w-2.5 h-2.5 rounded-full ${
-                        lvl <= product.tasteIntensity ? "bg-[#8A4B12]" : "bg-[#E3DACB]"
-                      }`}
-                    />
+              {/* 3. Three short bullet facts from data (true only) */}
+              {product.bullets && product.bullets.length > 0 && (
+                <ul className="space-y-2 py-3 border-y border-[var(--line)] text-xs sm:text-sm text-[var(--ink)]/80">
+                  {product.bullets.map((bullet, idx) => (
+                    <li key={idx} className="flex items-start gap-2.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--signature)] mt-2 shrink-0" />
+                      <span>{bullet}</span>
+                    </li>
                   ))}
-                  <span className="text-[11px] text-[#786E64]">Bold</span>
+                </ul>
+              )}
+
+              {/* 4. "Choose your honey": 3 small tiles to switch origin */}
+              <div className="space-y-2.5">
+                <span className="text-xs font-mono uppercase tracking-wider text-[var(--ink)] font-semibold block">
+                  Choose your honey
+                </span>
+                <div className="grid grid-cols-3 gap-2.5">
+                  {otherHoneys.map((honey) => {
+                    const isCurrent = honey.slug === product.slug;
+                    return (
+                      <Link
+                        key={honey.id}
+                        href={`/shop/${honey.slug}`}
+                        className={`p-2.5 rounded-2xl flex flex-col items-center text-center transition-all ${
+                          isCurrent
+                            ? "bg-[var(--signature)] text-[var(--ink)] font-semibold shadow-2xs"
+                            : "bg-white hover:bg-[var(--sand)] border border-[var(--line)] text-[var(--muted-ink)]"
+                        }`}
+                      >
+                        <span
+                          className="w-4 h-4 rounded-full mb-1.5 border border-black/10"
+                          style={{ backgroundColor: honey.colorHex }}
+                        />
+                        <span className="text-[11px] leading-tight line-clamp-1">
+                          {honey.name.split(" ")[0]}
+                        </span>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 
+              {/* 5. "Choose your size": Option tiles showing price & ₹/100g */}
+              <div className="space-y-2.5">
+                <span className="text-xs font-mono uppercase tracking-wider text-[var(--ink)] font-semibold block">
+                  Choose your size
+                </span>
+                <div className="grid grid-cols-2 gap-3">
+                  {product.sizes.map((sz, idx) => {
+                    const isSelected = idx === selectedSizeIndex;
+                    const per100g = getPricePer100g(sz.size, sz.price);
+                    return (
+                      <button
+                        key={sz.size}
+                        onClick={() => setSelectedSizeIndex(idx)}
+                        className={`p-3.5 rounded-2xl text-left transition-all cursor-pointer ${
+                          isSelected
+                            ? "bg-[var(--signature)] text-[var(--ink)] shadow-2xs border-2 border-black/10"
+                            : "bg-white hover:bg-[var(--sand)] border border-[var(--line)] text-[var(--ink)]"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between font-mono text-xs mb-1">
+                          <span className="font-semibold">{sz.size}</span>
+                          <span className="font-bold">₹{sz.price}</span>
+                        </div>
+                        {per100g && (
+                          <span
+                            className={`text-[10px] font-mono block ${
+                              isSelected ? "text-[var(--ink)]/80" : "text-[var(--muted-ink)]"
+                            }`}
+                          >
+                            ₹{per100g}/100g
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 6. Price (no strike-through) */}
+              <div className="flex items-baseline gap-2 font-mono">
+                <span className="text-3xl font-bold text-[var(--ink)]">
+                  ₹{selectedSize.price}
+                </span>
+                <span className="text-xs text-[var(--muted-ink)]">
+                  ({selectedSize.size})
+                </span>
+              </div>
+
+              {/* 7. "In the box": jar + lid QR linked to its batch */}
+              <div className="p-3.5 rounded-2xl bg-[var(--card-tint)] border border-[var(--tag-border)] text-xs font-mono text-[var(--ink)]/80 space-y-1">
+                <span className="font-semibold text-[var(--ink)] block">
+                  In the box:
+                </span>
+                <p>
+                  1 × {selectedSize.size} sealed glass jar with batch record #{product.activeBatchId} verified by IoT telemetry.
+                </p>
+              </div>
+
+              {/* 8. Full-width signature pill Add to cart */}
               <div>
-                <span className="text-[11px] font-mono text-[#786E64] block mb-1.5">Tasting Notes:</span>
-                <div className="flex flex-wrap gap-1.5">
-                  {product.tasteNotes.map((note) => (
-                    <span
-                      key={note}
-                      className="text-xs font-mono text-[#1C1A17] bg-white border border-[#E3DACB] px-2.5 py-1 rounded"
-                    >
-                      {note}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="pt-2 border-t border-[#E3DACB] text-xs text-[#665E55]">
-                <strong className="text-[#1C1A17] font-mono">Pairings:</strong>{" "}
-                {product.pairings.join(" · ")}
-              </div>
-            </div>
-
-            {/* Size Selector */}
-            <div className="space-y-2.5">
-              <label className="block text-xs font-mono uppercase tracking-wider text-[#786E64] font-semibold">
-                Select Jar Size
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                {product.sizes.map((s, idx) => {
-                  const isSelected = selectedSizeIndex === idx;
-                  return (
-                    <button
-                      key={s.size}
-                      type="button"
-                      onClick={() => setSelectedSizeIndex(idx)}
-                      className={`p-3.5 rounded-lg border text-left transition-all cursor-pointer ${
-                        isSelected
-                          ? "border-[#8A4B12] bg-white ring-1 ring-[#8A4B12]"
-                          : "border-[#E3DACB] bg-[#FAF6EF] hover:bg-white"
-                      }`}
-                    >
-                      <span className="text-xs font-mono font-bold text-[#1C1A17] block">
-                        {s.size}
-                      </span>
-                      <span className="font-mono text-base font-bold text-[#8A4B12] block mt-0.5">
-                        ₹{s.price}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Quantity and Add to Cart */}
-            <div className="space-y-3 pt-2">
-              <div className="flex items-center gap-3">
-                {/* Quantity stepper */}
-                <div className="flex items-center border border-[#E3DACB] rounded-lg bg-white">
-                  <button
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="p-3 text-[#665E55] hover:text-[#1C1A17] cursor-pointer"
-                    aria-label="Decrease quantity"
-                  >
-                    <Minus className="w-3.5 h-3.5" />
-                  </button>
-                  <span className="w-10 text-center font-mono text-sm font-bold text-[#1C1A17]">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => setQuantity((q) => q + 1)}
-                    className="p-3 text-[#665E55] hover:text-[#1C1A17] cursor-pointer"
-                    aria-label="Increase quantity"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-
-                {/* Add to Cart button */}
                 <button
+                  ref={buyButtonRef}
                   onClick={handleAddToCart}
-                  className="flex-1 py-3.5 px-6 bg-[#8A4B12] hover:bg-[#703C0D] text-white text-sm font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs"
+                  className="w-full h-12 rounded-full font-sans text-sm font-semibold bg-[var(--signature)] text-[var(--ink)] hover:brightness-95 transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {isAdded ? (
                     <>
-                      <Check className="w-4 h-4 text-white" />
-                      <span>Added {quantity} to Cart</span>
+                      <Check className="w-4 h-4 text-[var(--verified)]" />
+                      <span>Added to cart</span>
                     </>
                   ) : (
                     <>
-                      <Plus className="w-4 h-4" />
-                      <span>Add to Cart · ₹{selectedSize.price * quantity}</span>
+                      <ShoppingBag className="w-4 h-4" />
+                      <span>Add to cart — ₹{selectedSize.price}</span>
                     </>
                   )}
                 </button>
               </div>
 
-              {/* Gift option */}
-              <label className="flex items-center gap-2 text-xs font-mono text-[#665E55] cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={isGift}
-                  onChange={(e) => setIsGift(e.target.checked)}
-                  className="accent-[#8A4B12] rounded"
-                />
-                <Gift className="w-3.5 h-3.5 text-[#8A4B12]" />
-                <span>Pack in an untreated kraft gift sleeve with sealed lid passport</span>
-              </label>
-            </div>
-
-            {/* BATCH PANEL (Monospace, mandated in Section 6) */}
-            {batch && (
-              <div className="bg-white border-2 border-[#E3DACB] rounded-xl p-5 space-y-3 font-mono text-xs">
-                <div className="flex items-center justify-between pb-2 border-b border-[#E3DACB]">
-                  <span className="text-[#8A4B12] font-bold uppercase tracking-wider text-[11px]">
-                    Current Batch Passport
-                  </span>
-                  <span className="text-[#2F6B3A] font-bold bg-[#EBF2EB] px-2 py-0.5 rounded border border-[#CDE0CD] text-[10px]">
-                    NMR TESTED · SEPOLIA CONFIRMED
-                  </span>
+              {/* 9. Trust row with 3 small icons */}
+              <div className="grid grid-cols-3 gap-2 py-3 border-y border-[var(--line)] text-center text-[10px] font-mono text-[var(--muted-ink)]">
+                <div className="space-y-1">
+                  <ShieldCheck className="w-4 h-4 text-[var(--verified)] mx-auto" />
+                  <span>Lab-tested batch</span>
                 </div>
-
-                <div className="grid grid-cols-2 gap-2 text-[11px] text-[#665E55]">
-                  <div>
-                    <span className="text-[#786E64] block">Batch Code:</span>
-                    <strong className="text-[#1C1A17] font-semibold">{batch.id}</strong>
-                  </div>
-                  <div>
-                    <span className="text-[#786E64] block">Harvest Date:</span>
-                    <strong className="text-[#1C1A17]">{batch.harvestDate}</strong>
-                  </div>
-                  <div>
-                    <span className="text-[#786E64] block">Smart Hive:</span>
-                    <strong className="text-[#1C1A17]">{batch.hiveId} ({batch.district})</strong>
-                  </div>
-                  <div>
-                    <span className="text-[#786E64] block">Master Beekeeper:</span>
-                    <strong className="text-[#1C1A17]">{batch.beekeeper.name}</strong>
-                  </div>
-                  <div>
-                    <span className="text-[#786E64] block">Lab NMR Status:</span>
-                    <strong className="text-[#2F6B3A]">Passed ({batch.labReport.status})</strong>
-                  </div>
-                  <div>
-                    <span className="text-[#786E64] block">Sepolia Block:</span>
-                    <strong className="text-[#1C1A17]">#{batch.blockchain.blockNumber}</strong>
-                  </div>
+                <div className="space-y-1">
+                  <Layers className="w-4 h-4 text-[var(--forest)] mx-auto" />
+                  <span>Traceable to hive</span>
                 </div>
-
-                <div className="pt-2 border-t border-[#E3DACB] flex items-center justify-between">
-                  <span className="text-[10px] text-[#786E64]">
-                    Live telemetry curve available
-                  </span>
-                  <Link
-                    href={`/verify/${batch.id}`}
-                    className="text-[#8A4B12] hover:underline font-bold flex items-center gap-1 text-[11px]"
-                  >
-                    <span>View full batch record</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
+                <div className="space-y-1">
+                  <Hash className="w-4 h-4 text-[var(--signature)] mx-auto" />
+                  <span>Tamper-evident record</span>
                 </div>
               </div>
-            )}
 
-            {/* Crystallization & Storage Note */}
-            <div className="bg-[#FAF6EF] p-4 rounded-lg border border-[#E3DACB] space-y-1.5 text-xs">
-              <span className="font-serif font-bold text-[#1C1A17] block">
-                Crystallisation & Ingredients
+              {/* 10. Outline button: Open Beekeepers Dashboard */}
+              <div>
+                <Link
+                  href="/beekeeper"
+                  className="w-full h-11 rounded-full border border-[var(--ink)] font-sans text-xs font-semibold text-[var(--ink)] hover:bg-black/5 transition-all flex items-center justify-center gap-2"
+                >
+                  <span>Open Beekeepers Dashboard →</span>
+                </Link>
+              </div>
+
+              {/* FAQ Accordion immediately below buy box */}
+              <div className="pt-4 space-y-2.5">
+                {pdpFaqs.map((faq, idx) => {
+                  const isOpen = openFaqIndex === idx;
+                  return (
+                    <div
+                      key={idx}
+                      className={`rounded-2xl transition-colors border ${
+                        isOpen
+                          ? "bg-[var(--signature)]/15 border-[var(--signature)]/40 text-[var(--ink)]"
+                          : "bg-white/80 hover:bg-white border-[var(--line)] text-[var(--ink)]/80"
+                      }`}
+                    >
+                      <button
+                        onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                        className="w-full p-4 flex items-center justify-between text-left text-xs font-semibold cursor-pointer"
+                        aria-expanded={isOpen}
+                      >
+                        <span>{faq.q}</span>
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform duration-200 shrink-0 ${
+                            isOpen ? "rotate-180 text-[var(--signature)]" : "text-[var(--muted-ink)]"
+                          }`}
+                        />
+                      </button>
+                      {isOpen && (
+                        <div className="px-4 pb-4 text-xs text-[var(--ink)]/80 leading-relaxed border-t border-black/5 pt-2">
+                          {faq.a}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* BELOW THE FOLD */}
+
+        {/* 1. "How to use" (photo left, signature card right with 2x2 icon grid) */}
+        <section className="py-14 sm:py-20 max-w-[1240px] mx-auto px-4 sm:px-6">
+          <div className="rounded-3xl sm:rounded-[36px] bg-[var(--sand)] border border-[var(--line)] p-8 sm:p-12 overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              {/* Left Photo */}
+              <div className="lg:col-span-5">
+                <div className="w-full aspect-[4/5] rounded-3xl overflow-hidden shadow-xs border border-[var(--line)]">
+                  <ProductImage
+                    src="/images/hand-jar.jpg"
+                    alt="Hand holding raw honey jar with wooden spoon"
+                    colorHex={product.colorHex}
+                    productName={product.name}
+                    aspectRatio="aspect-[4/5]"
+                    className="w-full h-full object-cover rounded-3xl"
+                  />
+                </div>
+              </div>
+
+              {/* Right Signature 2x2 Grid Card */}
+              <div className="lg:col-span-7 bg-[var(--signature)] text-[var(--ink)] rounded-3xl p-8 sm:p-10 space-y-6 shadow-sm">
+                <div>
+                  <span className="text-[11px] font-mono uppercase tracking-widest font-semibold block text-black/70">
+                    Daily Rituals
+                  </span>
+                  <h2 className="headline-display text-2xl sm:text-3xl lg:text-4xl text-[var(--ink)] mt-1">
+                    How to use.
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                  {/* Cell 1: Taste */}
+                  <div className="p-4 rounded-2xl bg-white/80 backdrop-blur-xs space-y-1">
+                    <span className="text-xs font-mono uppercase font-bold text-[var(--ink)] block">
+                      Taste
+                    </span>
+                    <p className="text-xs text-[var(--ink)]/80 leading-snug">
+                      Intensity {product.tasteIntensity}/5. Notes of {product.tasteNotes.slice(0, 2).join(" and ")}.
+                    </p>
+                  </div>
+
+                  {/* Cell 2: Pair */}
+                  <div className="p-4 rounded-2xl bg-white/80 backdrop-blur-xs space-y-1">
+                    <span className="text-xs font-mono uppercase font-bold text-[var(--ink)] block">
+                      Pair
+                    </span>
+                    <p className="text-xs text-[var(--ink)]/80 leading-snug">
+                      {product.pairings.slice(0, 2).join(", ")}.
+                    </p>
+                  </div>
+
+                  {/* Cell 3: Store */}
+                  <div className="p-4 rounded-2xl bg-white/80 backdrop-blur-xs space-y-1">
+                    <span className="text-xs font-mono uppercase font-bold text-[var(--ink)] block">
+                      Store
+                    </span>
+                    <p className="text-xs text-[var(--ink)]/80 leading-snug">
+                      Airtight at room temperature away from direct sun.
+                    </p>
+                  </div>
+
+                  {/* Cell 4: If it crystallises */}
+                  <div className="p-4 rounded-2xl bg-white/80 backdrop-blur-xs space-y-1">
+                    <span className="text-xs font-mono uppercase font-bold text-[var(--ink)] block">
+                      If it crystallises
+                    </span>
+                    <p className="text-xs text-[var(--ink)]/80 leading-snug">
+                      Enjoy buttery spread, or warm gently in water under 40°C.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 2. Experts: REMOVED */}
+
+        {/* 3. Comparison table */}
+        <ComparisonTable />
+
+        {/* 4. "What we can show you" verification banner */}
+        <section className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6">
+          <div className="p-8 sm:p-10 rounded-3xl bg-[var(--sand)] border border-[var(--line)] space-y-6">
+            <div className="text-center max-w-xl mx-auto space-y-2">
+              <span className="text-xs font-mono uppercase tracking-widest text-[var(--muted-ink)] block">
+                Batch Verification Standard
               </span>
-              <p className="text-[#665E55] leading-relaxed">
-                <strong className="text-[#1C1A17]">Ingredients:</strong> 100% Raw Unpasteurized Honey. {product.crystallisationNote}
+              <h2 className="headline-display text-2xl sm:text-3xl text-[var(--ink)]">
+                What we can show you.
+              </h2>
+              <p className="text-xs sm:text-sm text-[var(--muted-ink)]">
+                Only verifiable parameters present on our testnet passport. No empty certifications.
               </p>
             </div>
-          </div>
-        </div>
 
-        {/* SECTION: TASTE NEXT (Recommendations) */}
-        <section className="pt-8 border-t border-[#E3DACB] space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-wider text-[#8A4B12] font-semibold block">
-                Compare Regional Terroirs
-              </span>
-              <h3 className="font-serif text-2xl font-bold text-[#1C1A17]">
-                Taste Next
-              </h3>
-            </div>
-            <Link href="/shop" className="text-xs font-mono text-[#8A4B12] hover:underline">
-              View all harvests →
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {tasteNextProducts.map((nextProd) => (
-              <Link
-                key={nextProd.id}
-                href={`/shop/${nextProd.slug}`}
-                className="bg-white border border-[#E3DACB] rounded-xl p-5 flex items-center justify-between gap-4 hover:border-[#8A4B12] transition-colors group"
-              >
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="w-3 h-3 rounded-full border border-black/10 shrink-0"
-                      style={{ backgroundColor: nextProd.colorHex }}
-                    />
-                    <span className="text-xs font-mono text-[#665E55]">
-                      {nextProd.colorName} · {nextProd.region}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 pt-2">
+              {whatWeCanShowYou.map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-white border border-[var(--line)] text-center space-y-1.5 shadow-2xs"
+                  >
+                    <Icon className="w-4 h-4 text-[var(--signature)] mx-auto" />
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--muted-ink)] block">
+                      {item.label}
+                    </span>
+                    <span className="font-mono text-xs font-bold text-[var(--ink)] block truncate">
+                      {item.value}
                     </span>
                   </div>
-                  <h4 className="font-serif text-base font-bold text-[#1C1A17] group-hover:text-[#8A4B12] transition-colors">
-                    {nextProd.name}
-                  </h4>
-                  <p className="text-xs text-[#665E55]">
-                    {nextProd.tasteNotes.join(" · ")}
-                  </p>
-                </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
 
-                <div className="text-right shrink-0">
-                  <span className="font-mono text-base font-bold text-[#1C1A17] block">
-                    ₹{nextProd.sizes[0].price}
-                  </span>
-                  <span className="text-xs font-mono text-[#8A4B12] group-hover:underline flex items-center gap-1 justify-end mt-1">
-                    <span>Inspect</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </span>
-                </div>
+        {/* 5. "This jar's hive": Compact weight curve preview using read-only HiveWeightChart */}
+        <section className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6">
+          <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+              <div>
+                <span className="text-xs font-mono uppercase tracking-widest text-[var(--forest)] block">
+                  IoT Sensor Telemetry
+                </span>
+                <h2 className="headline-display text-2xl sm:text-3xl text-[var(--ink)]">
+                  This jar&apos;s hive weight curve.
+                </h2>
+              </div>
+
+              <Link
+                href="/beekeeper"
+                className="text-xs font-mono font-medium text-[var(--ink)] underline hover:text-[var(--signature)]"
+              >
+                Inspect telemetry on Beekeepers Dashboard →
               </Link>
+            </div>
+
+            {/* Read-only HiveWeightChart integration */}
+            <div className="rounded-3xl overflow-hidden border border-[var(--line)] shadow-xs">
+              <HiveWeightChart data={batch.telemetry} hiveId={batch.hiveId} />
+            </div>
+          </div>
+        </section>
+
+        {/* 6. MGO Selector / Taste Carousel */}
+        <TasteCarousel />
+
+        {/* 7. FAQ Grid (Learn Cards) */}
+        <section className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6">
+          <div className="text-center space-y-2 mb-10">
+            <span className="text-xs font-mono uppercase tracking-widest text-[var(--muted-ink)] block">
+              Knowledge Base
+            </span>
+            <h2 className="headline-display text-2xl sm:text-3xl text-[var(--ink)]">
+              Questions & Transparency.
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {pdpFaqs.concat([
+              {
+                q: "Why are Indian honeys often adulterated?",
+                a: "Industrial demand leads commercial packers to blend bulk batches with rice and corn syrups. BEE safe operates single-origin harvest lots verified by laboratory testing.",
+              },
+              {
+                q: "What does cold-filtered mean?",
+                a: "Our honey passes only through coarse 400-micron stainless screens to remove beeswax cappings while leaving natural pollen grains and aromatics intact.",
+              },
+            ]).map((faq, idx) => (
+              <div
+                key={idx}
+                className="p-6 rounded-3xl bg-[var(--sand)] border border-[var(--line)] space-y-2"
+              >
+                <h3 className="font-serif text-base font-bold text-[var(--ink)]">
+                  {faq.q}
+                </h3>
+                <p className="text-xs text-[var(--ink)]/80 leading-relaxed">
+                  {faq.a}
+                </p>
+              </div>
             ))}
+          </div>
+        </section>
+
+        {/* 8. Reviews: REMOVED */}
+
+        {/* 9. Two Image Tiles */}
+        <section className="py-10 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            <Link
+              href="/our-story"
+              className="group relative h-64 rounded-3xl overflow-hidden bg-[var(--dark-card)] p-8 flex flex-col justify-end text-white shadow-sm border border-black/10"
+            >
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105 opacity-40"
+                style={{
+                  backgroundImage: "url('/images/beekeeper-ramdas.jpg'), radial-gradient(circle, var(--amber-deep), var(--ink))",
+                }}
+                aria-hidden="true"
+              />
+              <div className="relative z-10 space-y-1">
+                <span className="text-xs font-mono uppercase tracking-widest text-[var(--signature)] font-semibold block">
+                  Origin Mission
+                </span>
+                <span className="font-serif text-2xl font-bold block">
+                  Our story →
+                </span>
+              </div>
+            </Link>
+
+            <Link
+              href="/beekeeper"
+              className="group relative h-64 rounded-3xl overflow-hidden bg-[var(--dark-card-subtle)] p-8 flex flex-col justify-end text-white shadow-sm border border-black/10"
+            >
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105 opacity-40"
+                style={{
+                  backgroundImage: "url('/images/iot-smart-hive.jpg'), radial-gradient(circle, var(--verified), var(--ink))",
+                }}
+                aria-hidden="true"
+              />
+              <div className="relative z-10 space-y-1">
+                <span className="text-xs font-mono uppercase tracking-widest text-[var(--signature)] font-semibold block">
+                  IoT Dashboard
+                </span>
+                <span className="font-serif text-2xl font-bold block">
+                  Beekeepers Dashboard →
+                </span>
+              </div>
+            </Link>
           </div>
         </section>
       </main>
 
+      {/* 10. Sticky Bottom Bar across all viewports */}
+      {showStickyBar && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-[var(--sand)]/95 backdrop-blur-md border-t border-[var(--line)] py-3 px-4 shadow-lg transition-transform duration-200">
+          <div className="max-w-[1240px] mx-auto flex items-center justify-between gap-4">
+            <div className="min-w-0">
+              <span className="font-serif text-sm font-bold text-[var(--ink)] block truncate">
+                {product.name}
+              </span>
+              <span className="text-xs font-mono text-[var(--muted-ink)]">
+                ₹{selectedSize.price} ({selectedSize.size})
+              </span>
+            </div>
+
+            <button
+              onClick={handleAddToCart}
+              className="h-10 px-6 rounded-full font-sans text-xs font-semibold bg-[var(--signature)] text-[var(--ink)] hover:brightness-95 transition-all shadow-xs flex items-center gap-2 shrink-0 cursor-pointer"
+            >
+              {isAdded ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-[var(--verified)]" />
+                  <span>Added</span>
+                </>
+              ) : (
+                <>
+                  <ShoppingBag className="w-3.5 h-3.5" />
+                  <span>Add to cart</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Footer */}
       <StorefrontFooter />
     </div>
   );

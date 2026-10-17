@@ -19,13 +19,13 @@ export async function generateMetadata({
   const product = PRODUCTS.find((p) => p.slug === slug);
   if (!product) {
     return {
-      title: "Product Not Found | Madhuvan Raw Honey",
+      title: "Product Not Found | BEE safe",
     };
   }
 
   return {
-    title: `${product.name} | Madhuvan Raw Honey`,
-    description: `Raw, single-origin ${product.botanicalOrigin} honey from ${product.region}. Verified on HoneyChain batch #${product.activeBatchId}.`,
+    title: `${product.name} | BEE safe`,
+    description: `Raw, single-origin ${product.botanicalOrigin} honey from ${product.region}. Monitored by IoT and verified on HoneyChain batch #${product.activeBatchId}.`,
   };
 }
 
