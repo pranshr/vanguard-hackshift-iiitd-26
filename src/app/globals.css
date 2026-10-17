@@ -170,6 +170,27 @@ body {
   }
 }
 
+@keyframes bee-body-buzz {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-1px) rotate(-1.5deg);
+  }
+  75% {
+    transform: translateY(1px) rotate(1.5deg);
+  }
+}
+
+@keyframes mosquito-wing {
+  0%, 100% {
+    transform: rotate(0deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(-40deg) scaleY(0.25) skewX(14deg);
+  }
+}
+
 @keyframes beehive-wobble {
   0% {
     transform: scale(1) rotate(0deg);
