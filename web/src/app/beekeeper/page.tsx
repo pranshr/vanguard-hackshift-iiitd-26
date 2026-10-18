@@ -353,14 +353,6 @@ export default function BeekeeperPage() {
 
         {/* Sidebar Footer: Apiarist Profile & Actions */}
         <div className="pt-4 border-t border-[#e8e1d7] space-y-3">
-          {/* Quick Inspection Action Button */}
-          <button
-            onClick={() => setShowInspectionModal(true)}
-            className="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all shadow-xs cursor-pointer active:scale-95"
-          >
-            <Plus className="w-3.5 h-3.5 text-[#1C1A17]" />
-            <span>Log Inspection</span>
-          </button>
 
           {/* User Profile Card (Matches Image 2 - Clickable to open Profile/Settings) */}
           <div
@@ -447,31 +439,8 @@ export default function BeekeeperPage() {
 
           {/* Right Header Status & Action Controls */}
           <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-            {/* Quick Status Badges */}
-            <div className="hidden lg:flex items-center gap-3 text-xs">
-              <div className="flex items-center gap-1.5 text-[#574f46] bg-white border border-[#e8e1d7] px-2.5 py-1 rounded-lg">
-                <Sun className="w-3.5 h-3.5 text-[#F2A007]" />
-                <span>27°C Sunny</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-[#16a34a] bg-white border border-[#e8e1d7] px-2.5 py-1 rounded-lg font-medium">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Colony Healthy</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-[#574f46] bg-white border border-[#e8e1d7] px-2.5 py-1 rounded-lg">
-                <BatteryCharging className="w-3.5 h-3.5 text-[#16a34a]" />
-                <span>Solar 98%</span>
-              </div>
-            </div>
-
-            {/* Quick Log Inspection Button */}
-            <button
-              onClick={() => setShowInspectionModal(true)}
-              className="inline-flex items-center justify-center h-9 px-2.5 sm:px-3.5 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all shadow-xs cursor-pointer active:scale-95"
-              title="Log Inspection"
-            >
-              <Plus className="w-3.5 h-3.5 text-[#1C1A17]" />
-              <span className="hidden sm:inline ml-1">Log Inspection</span>
-            </button>
+            {/* Language Selector — first */}
+            <LanguageSelector variant="header" />
 
             {/* Profile & Settings Button */}
             <button
@@ -480,14 +449,11 @@ export default function BeekeeperPage() {
                 ? "bg-[#f7efe4] text-[#b45309] border-[#b45309]"
                 : "text-[#665e55] bg-white border-[#e0d7cb] hover:bg-[#f5ede2] hover:text-[#b45309]"
                 }`}
-              title="Open Ritesh Kumar Profile & Account Settings"
+              title="Open Profile & Account Settings"
             >
               <Settings className="w-3.5 h-3.5 text-[#b45309]" />
               <span className="hidden md:inline ml-1">Settings</span>
             </button>
-
-            {/* Language Selector */}
-            <LanguageSelector variant="header" />
 
             {/* Header Logout Button */}
             <Link
@@ -1846,10 +1812,8 @@ export default function BeekeeperPage() {
         </main>
       </div>
 
-      {/* ======================================================== */}
-      {/* QUICK LOG INSPECTION MODAL */}
-      {/* ======================================================== */}
-      {showInspectionModal && (
+      {/* Inspection modal removed */}
+      {false && (
         <div className="fixed inset-0 z-50 bg-black/35 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 sm:p-6 w-full max-w-lg shadow-xl">
             <div className="flex items-center justify-between pb-3 border-b border-[#e8e1d7] mb-4">

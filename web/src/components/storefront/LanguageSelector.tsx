@@ -194,15 +194,13 @@ export function LanguageSelector({
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 h-10 px-3 rounded-full border border-[var(--line)] bg-white/90 hover:bg-white text-[var(--ink)] hover:border-[var(--signature)] transition-all shadow-2xs group cursor-pointer"
+        className="flex items-center gap-1.5 h-9 px-2.5 rounded-lg border border-[var(--line)] bg-white hover:bg-[#f5ede2] text-[var(--ink)] hover:border-[var(--signature)] transition-all shadow-2xs group cursor-pointer"
         aria-expanded={isOpen}
         aria-label="Change Language"
         title={`Current Language: ${currentLanguage.name}`}
       >
+        <Globe className="w-3.5 h-3.5 text-[var(--muted-ink)] group-hover:text-[var(--signature)] transition-colors" />
         <span className="text-base leading-none">{currentLanguage.flag}</span>
-        <span className="font-sans font-medium text-xs text-[var(--ink)] tracking-wide hidden lg:inline">
-          {currentLanguage.code.toUpperCase()}
-        </span>
         <ChevronDown
           className={`w-3.5 h-3.5 text-[var(--muted-ink)] group-hover:text-[var(--ink)] transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
