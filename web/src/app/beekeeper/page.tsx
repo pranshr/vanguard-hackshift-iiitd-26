@@ -576,15 +576,15 @@ export default function BeekeeperPage() {
           {activeTab === "home" && (
             <div className="space-y-6">
               {/* Colony Banner */}
-              <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
+              <div className="bg-[#fff8ec] border border-[#f3e3ca] rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
                 <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#F2A007]  px-2 py-0.5 rounded shadow-2xs">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#b45309] bg-[#fef3c7] border border-[#fde68a] px-2.5 py-0.5 rounded-full shadow-2xs">
                       Langstroth 10-Frame Deep
                     </span>
                     <span className="text-xs text-[#7c7267]">Last telemetry packet: 8s ago</span>
                   </div>
-                  <h1 className="text-2xl font-bold text-[#24201d]">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-[#24201d]">
                     Colony Health & Live Telemetry
                   </h1>
                   <p className="text-sm text-[#665e55] mt-1">
@@ -595,7 +595,7 @@ export default function BeekeeperPage() {
                 <div className="flex flex-wrap items-center gap-2.5">
                   <button
                     onClick={() => setActiveTab("sensors")}
-                    className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#1C1A17] bg-[#F2A007]/15 border border-[#F2A007]/40 rounded-lg hover:bg-[#F2A007] transition-all shadow-2xs cursor-pointer"
+                    className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#1C1A17] bg-white border border-[#e8ded0] rounded-lg hover:bg-[#F2A007]/20 hover:border-[#F2A007]/50 transition-all shadow-2xs cursor-pointer"
                   >
                     <RefreshCw className="w-3.5 h-3.5 text-[#1C1A17]" />
                     Live Sensors
@@ -896,9 +896,9 @@ export default function BeekeeperPage() {
           {/* ======================================================== */}
           {activeTab === "hives" && (
             <div className="space-y-6">
-              <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs">
+              <div className="bg-[#fff8ec] border border-[#f3e3ca] rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
                 <div>
-                  <h1 className="text-2xl font-bold text-[#24201d]">My Hives & Apiary Fleet</h1>
+                  <h1 className="text-2xl sm:text-3xl font-bold text-[#24201d]">My Hives &amp; Apiary Fleet</h1>
                   <p className="text-sm text-[#665e55] mt-1">
                     Manage your monitored hive hardware nodes, colony configurations, and queens.
                   </p>
@@ -1040,8 +1040,8 @@ export default function BeekeeperPage() {
           {/* ======================================================== */}
           {activeTab === "harvest" && (
             <div className="space-y-6">
-              <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 sm:p-6 shadow-2xs">
-                <h1 className="text-2xl font-bold text-[#24201d]">Honey Harvest & Extraction Workflow</h1>
+              <div className="bg-[#fff8ec] border border-[#f3e3ca] rounded-2xl p-5 sm:p-6 shadow-xs">
+                <h1 className="text-2xl sm:text-3xl font-bold text-[#24201d]">Honey Harvest &amp; Extraction Workflow</h1>
                 <p className="text-sm text-[#665e55] mt-1">
                   Log honey harvest batches, record refractometer moisture grades, and generate certified consumer traceability tags.
                 </p>
@@ -1281,12 +1281,12 @@ export default function BeekeeperPage() {
           {/* ======================================================== */}
           {activeTab === "advisor" && (
             <div className="space-y-6">
-              <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 sm:p-6 shadow-2xs">
-                <div className="flex items-center gap-2 text-xs font-semibold text-[#8A4B12] uppercase tracking-wider mb-1">
-                  <Sparkles className="w-4 h-4" />
-                  Real-time Multi-Vector AI Diagnostic Engine
+              <div className="bg-[#fff8ec] border border-[#f3e3ca] rounded-2xl p-5 sm:p-6 shadow-xs">
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#8A4B12] uppercase tracking-wider mb-1.5">
+                  <Sparkles className="w-4 h-4 text-[#D97706]" />
+                  <span>Real-time Multi-Vector AI Diagnostic Engine</span>
                 </div>
-                <h1 className="text-2xl font-bold text-[#24201d]">AI Hive Advisor</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold text-[#24201d]">AI Hive Advisor</h1>
                 <p className="text-sm text-[#665e55] mt-1">
                   Automated correlation of acoustic frequency, hive weight dynamics, brood temperature, and local forage phenology.
                 </p>
