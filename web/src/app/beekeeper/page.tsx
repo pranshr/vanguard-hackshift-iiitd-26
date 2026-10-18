@@ -40,7 +40,6 @@ import {
   Phone,
   Edit3,
   Globe,
-  Link2,
   Languages,
 } from "lucide-react";
 
@@ -89,7 +88,17 @@ export default function BeekeeperPage() {
     router.push("/beekeeper/login");
   };
 
-  const [activeTab, setActiveTab] = useState<TabKey>("home");
+  const [activeTab, setActiveTab] = useState<TabKey>(() => {
+    if (typeof window === "undefined") return "home";
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get("tab");
+      if (tabParam && ["home", "hives", "harvest", "sensors", "advisor", "settings"].includes(tabParam)) {
+        return tabParam as TabKey;
+      }
+    } catch {}
+    return "home";
+  });
   const [selectedHive, setSelectedHive] = useState("Hive #01 - Orchard Yard");
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
@@ -1450,7 +1459,7 @@ export default function BeekeeperPage() {
                     </h1>
                   </div>
                   <p className="text-xs sm:text-sm text-[#7c7267] mt-1.5 ml-0 sm:ml-10.5">
-                    Manage your account language, voice advisory, and blockchain credentials
+                    Manage your account language, regional preferences, and voice advisory
                   </p>
                 </div>
 
@@ -1495,12 +1504,6 @@ export default function BeekeeperPage() {
                         <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[11px] font-bold bg-[#fffbeb] text-[#92400e] border border-[#fcd34d] shadow-2xs">
                           <ShieldCheck className="w-3.5 h-3.5 text-[#d97706]" />
                           KVIC Verified
-                        </span>
-
-                        {/* Badge 3: 🔗 Bound (Disconnected) */}
-                        <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[11px] font-medium bg-[#f1f5f9] text-[#475569] border border-[#cbd5e1] shadow-2xs">
-                          <Link2 className="w-3.5 h-3.5 text-[#64748b]" />
-                          Bound (Disconnected)
                         </span>
                       </div>
                     </div>
@@ -1795,8 +1798,8 @@ export default function BeekeeperPage() {
                 </div>
               </div>
 
-              {/* Voice Advisory & Blockchain Credentials Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Voice Advisory Section */}
+              <div className="max-w-2xl">
                 {/* Voice Advisory Card */}
                 <div className="bg-white border border-[#e8e1d7] rounded-2xl shadow-xs p-6 flex flex-col justify-between">
                   <div>
@@ -1834,50 +1837,6 @@ export default function BeekeeperPage() {
                       className="px-3 py-1.5 text-xs font-semibold text-[#b45309] bg-[#fef3c7] border border-[#fde68a] rounded-lg hover:bg-[#fde68a] transition-all cursor-pointer"
                     >
                       Test Voice Alert
-                    </button>
-                  </div>
-                </div>
-
-                {/* Blockchain Credentials Card */}
-                <div className="bg-white border border-[#e8e1d7] rounded-2xl shadow-xs p-6 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#f1f5f9] border border-[#cbd5e1] flex items-center justify-center text-[#475569]">
-                        <Link2 className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-sm text-[#24201d]">Blockchain Credentials</h4>
-                        <p className="text-[11px] text-[#7c7267]">KVIC cryptographic provenance &amp; barrel verification</p>
-                      </div>
-                    </div>
-                    <p className="text-xs text-[#665e55] leading-relaxed mb-4">
-                      Digitally sign raw honey harvest batches with your cryptographic apiary key to guarantee unadulterated origin on the public ledger.
-                    </p>
-                    <div className="space-y-2 text-xs font-mono">
-                      <div className="flex justify-between py-1.5 px-3 bg-[#faf8f5] rounded-lg border border-[#e8e1d7]">
-                        <span className="text-[#7c7267] font-sans">KVIC Apiarist ID</span>
-                        <span className="font-semibold text-[#b45309]">KVIC-BEE-UP-2024-8849</span>
-                      </div>
-                      <div className="flex justify-between py-1.5 px-3 bg-[#faf8f5] rounded-lg border border-[#e8e1d7]">
-                        <span className="text-[#7c7267] font-sans">Public Address</span>
-                        <span className="text-[#475569] truncate max-w-[180px]">0x71C824...A679F (Polygon)</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="pt-4 mt-4 border-t border-[#f0e7db] flex justify-between items-center">
-                    <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#64748b]">
-                      <span className="w-2 h-2 rounded-full bg-[#94a3b8]" />
-                      Bound (Disconnected)
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditSuccessMsg("Connecting to Web3 Hardware Wallet...");
-                        setTimeout(() => setEditSuccessMsg(""), 3500);
-                      }}
-                      className="px-3 py-1.5 text-xs font-semibold text-[#475569] bg-[#f1f5f9] border border-[#cbd5e1] rounded-lg hover:bg-[#e2e8f0] transition-all cursor-pointer"
-                    >
-                      Connect Wallet
                     </button>
                   </div>
                 </div>
@@ -2018,11 +1977,11 @@ export default function BeekeeperPage() {
 
       {/* ======================================================== */}
       {/* FIXED MOBILE BOTTOM NAVIGATION BAR */}
-      {/* 5 clean core tabs: Home, Hives, Harvest, Sensors, Settings */}
+      {/* 5 clean core tabs: Home, Hives, Harvest, Sensors, AI Advisory */}
       {/* ======================================================== */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/95 backdrop-blur-md border-t border-[#e8e1d7] py-2 px-1 flex items-center justify-around shadow-lg">
         {navItems
-          .filter((item) => item.key !== "advisor")
+          .filter((item) => item.key !== "settings")
           .map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.key;
@@ -2035,7 +1994,7 @@ export default function BeekeeperPage() {
                     ? "Harvest"
                     : item.key === "sensors"
                       ? "Sensors"
-                      : "Settings";
+                      : "AI Advisory";
 
             return (
               <button

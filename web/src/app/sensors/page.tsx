@@ -1,4 +1,4 @@
-"use client";
+se client";
 
 import Link from "next/link";
 import {
@@ -8,7 +8,7 @@ import {
   Home,
   Droplet,
   Cpu,
-  Settings,
+  Brain,
 } from "lucide-react";
 import SensorTelemetryDashboard from "@/components/SensorTelemetryDashboard";
 
@@ -98,11 +98,11 @@ export default function SensorsPage() {
           <span className="text-[11px] font-bold leading-none text-[#1c1917]">Sensors</span>
         </Link>
         <Link
-          href="/beekeeper"
+          href="/beekeeper?tab=advisor"
           className="flex flex-col items-center justify-center flex-1 py-1 text-[#7c7267] hover:text-[#24201d]"
         >
-          <Settings className="w-5 h-5 mb-1 stroke-[1.8]" />
-          <span className="text-[11px] font-medium leading-none">Settings</span>
+          <Brain className="w-5 h-5 mb-1 stroke-[1.8]" />
+          <span className="text-[11px] font-medium leading-none">AI Advisory</span>
         </Link>
       </nav>
     </div>
