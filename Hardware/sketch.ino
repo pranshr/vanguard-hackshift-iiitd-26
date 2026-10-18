@@ -87,16 +87,28 @@ void loop() {
   }
 
   // Printing Telemetry
+  // Environmental Data
   for (uint8_t i = 0; i < NUM_SENSORS; i++) {
-    if (statuses[i]) {
-      Serial.printf("S%d [Ch%d] T: %.2f°C H: %.2f%% | ", i + 1, i,
+    if (aht_status[i]) {
+      Serial.printf("AHT%d [Ch%d] T: %.2f°C H: %.2f%%  |  ", i + 1, i,
                     temperatures[i], humidities[i]);
     } else {
-      Serial.printf("S%d [Ch%d] FAILED | ", i + 1, i);
+      Serial.printf("AHT%d [Ch%d] FAILED  |  ", i + 1, i);
     }
   }
-  Serial.printf("Weight: %f g | ");
-  Serial.printf("Mic Peak=%ld\n", (long)peak);
+  Serial.println();
 
+  // Load Cell Data
+  for (uint8_t i = 0; i < NUM_SENSORS; i++) {
+    if (weights[i] != -999.0f) {
+      Serial.printf("Scale %d: %.2f g  |  ", i + 1, weights[i]);
+    } else {
+      Serial.printf("Scale %d: NO DATA  |  ", i + 1);
+    }
+  }
+  Serial.println();
+
+  // Audio Data
+  Serial.printf("Audio Feed -> PDM Mic Peak Amplitude: %ld\n\n", (long)mic_peak);
   delay(1000);
 }

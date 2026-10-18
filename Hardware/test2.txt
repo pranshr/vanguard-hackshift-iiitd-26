@@ -1,0 +1,62 @@
+#include "TCA9548A.h"
+#include "AHT20.h"
+#include <Wire.h>
+
+#define WIRE Wire
+
+TCA9548A<TwoWire> TCA;
+AHT20 AHT;               // sensor object (AHT20 is the class name, AHT is the instance)
+
+void readSensor(uint8_t channel, const char *label)
+{
+  float humi, temp;
+
+  TCA.openChannel(channel);
+  delay(5);                                   // let the mux settle
+  int ret = AHT.getSensor(&humi, &temp);
+  TCA.closeChannel(channel);
+
+  if (ret)
+  {
+    Serial.print(label);
+    Serial.print(" | humidity: ");
+    Serial.print(humi * 100);
+    Serial.print(" %\t temperature: ");
+    Serial.print(temp);
+    Serial.println(" C");
+  }
+  else
+  {
+    Serial.print("DATA FETCH FROM ");
+    Serial.print(label);
+    Serial.println(" FAILED");
+  }
+}
+
+void setup()
+{
+  Serial.begin(115200);
+  while (!Serial && millis() < 3000) {}       // don't hang forever if no monitor is attached
+
+  Wire.begin(5, 6);                           // SDA, SCL (XIAO ESP32S3 defaults)
+  TCA.begin(WIRE);
+
+  TCA.openChannel(TCA_CHANNEL_0);
+  AHT.begin();
+  TCA.closeChannel(TCA_CHANNEL_0);
+
+  TCA.openChannel(TCA_CHANNEL_1);
+  AHT.begin();
+  TCA.closeChannel(TCA_CHANNEL_1);
+
+  Serial.println("AHT20 x2 ready");
+}
+
+void loop()
+{
+  readSensor(TCA_CHANNEL_0, "AHT20 #1");
+  readSensor(TCA_CHANNEL_1, "AHT20 #2");
+  Serial.println();
+
+  delay(1000);                                // AHT20 needs ~80 ms per measurement
+}
