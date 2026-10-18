@@ -85,10 +85,10 @@ export default function HomePage() {
               <div className="lg:col-span-5 flex justify-center">
                 <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl border border-[var(--line)] group">
                   <ProductImage
-                    src="/images/honey-grasp-lid.jpg"
-                    alt="BEE safe Raw Honey Jar with hand opening lid"
+                    src="/images/iot-hive-hero.jpg"
+                    alt="Smart Langstroth Beehive with IoT Telemetry Node in Orchard"
                     colorHex="var(--signature)"
-                    productName="BEE safe Raw Honey"
+                    productName="IoT Smart Beehive"
                     aspectRatio="aspect-square"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     priority
@@ -96,10 +96,10 @@ export default function HomePage() {
                   {/* Subtle Floating Badge */}
                   <div className="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md border border-white/20 rounded-2xl p-3 flex items-center justify-between text-white text-xs font-mono">
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[var(--signature)] animate-pulse" />
-                      <span>Cold-Harvested · Unfiltered</span>
+                      <span className="w-2 h-2 rounded-full bg-[#16a34a] animate-pulse" />
+                      <span>IoT Smart Node · Live</span>
                     </div>
-                    <span className="text-[var(--signature)] font-semibold">100% Floral Nectar</span>
+                    <span className="text-[var(--signature)] font-semibold">24/7 Hive Telemetry</span>
                   </div>
                 </div>
               </div>
