@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
+  Volume2,
 } from "lucide-react";
 
 // =========================================================================
@@ -897,37 +898,24 @@ export default function SensorTelemetryDashboard({
           </span>
         </div>
 
-        {/* Action: IoT Configuration & Controls */}
-        <div className="bg-[#faf8f5] border border-[#e8ded0] rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 col-span-2 lg:col-span-1">
-          <div>
-            <span className="text-[10px] sm:text-[11px] font-bold text-[#8a7f72] uppercase tracking-wide block">
-              Node Status
-            </span>
-            <span className="text-xs font-bold text-[#24201d] flex items-center gap-1.5 mt-0.5">
-              <Radio className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
-              ESP32 Ready
-            </span>
+        {/* Metric 4: INMP441 Audio & Acoustic Data */}
+        <div className="bg-white border border-[#e8e1d7] rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600 shrink-0">
+              <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" />
+            </div>
+            <div>
+              <span className="text-[10px] sm:text-[11px] font-bold text-gray-500 uppercase tracking-wide block">
+                INMP441 Audio
+              </span>
+              <span className="text-base sm:text-xl font-extrabold text-[#24201d]">
+                228 Hz
+              </span>
+            </div>
           </div>
-
-          <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-            <button
-              onClick={() => setIsLiveStream(!isLiveStream)}
-              className="p-1.5 sm:p-2 text-xs font-semibold text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-              title={isLiveStream ? "Pause Live Stream" : "Resume Live Stream"}
-            >
-              {isLiveStream ? (
-                <Wifi className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600" />
-              ) : (
-                <WifiOff className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
-              )}
-            </button>
-            <button
-              onClick={() => setShowIotModal(true)}
-              className="px-2.5 sm:px-3 py-1.5 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all whitespace-nowrap cursor-pointer shadow-xs active:scale-95"
-            >
-              Connect IoT
-            </button>
-          </div>
+          <span className="text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200 self-start sm:self-auto">
+            41.2 dB
+          </span>
         </div>
       </div>
 

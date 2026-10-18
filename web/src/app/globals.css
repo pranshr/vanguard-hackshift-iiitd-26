@@ -294,10 +294,10 @@ font {
   background: var(--honey);
 }
 
-/* Prevent horizontal overflow on mobile screens */
+/* Prevent horizontal overflow on mobile screens without breaking sticky/fixed positioning */
 html,
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100vw;
 }
 

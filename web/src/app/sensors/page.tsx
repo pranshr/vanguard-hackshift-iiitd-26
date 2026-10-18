@@ -16,7 +16,32 @@ import {
 import SensorTelemetryDashboard from "@/components/SensorTelemetryDashboard";
 
 export default function SensorsPage() {
+  const [selectedHive, setSelectedHive] = useState("Hive #02 - Meadow Yard");
   const [isVirtualHiveConnected, setIsVirtualHiveConnected] = useState(true);
+
+  const hiveMetadata: Record<string, { code: string; crop: string; updated: string }> = {
+    "Hive #01 - Orchard Yard": {
+      code: "HC-HIVE-01",
+      crop: "Wildflower & Apple Orchard",
+      updated: "Updated 4 min ago",
+    },
+    "Hive #02 - Meadow Yard": {
+      code: "HC-HIVE-02",
+      crop: "Mustard Flower (Sarson)",
+      updated: "Updated 11 min ago",
+    },
+    "Hive #03 - Valley Creek": {
+      code: "HC-HIVE-03",
+      crop: "Acacia & Clover Bloom",
+      updated: "Updated 18 min ago",
+    },
+  };
+
+  const currentHiveInfo = hiveMetadata[selectedHive] || {
+    code: "HC-HIVE-02",
+    crop: "Mustard Flower (Sarson)",
+    updated: "Updated 11 min ago",
+  };
   return (
     <div className="min-h-screen flex flex-col bg-[#faf8f5] text-[#24201d]">
       {/* Top Header */}
@@ -99,52 +124,76 @@ export default function SensorsPage() {
             <div>
               <div className="flex items-center gap-2.5 flex-wrap">
                 <h2 className="text-xl sm:text-2xl font-bold text-[#111827] tracking-tight">
-                  HC-HIVE-02
+                  {currentHiveInfo.code}
                 </h2>
-                <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
                   isVirtualHiveConnected
-                    ? "bg-[#e0f2fe] text-[#0284c7]"
-                    : "bg-gray-100 text-gray-600"
+                    ? "bg-[#e0f2fe] text-[#0284c7] border-[#bae6fd]"
+                    : "bg-[#fef3c7] text-[#92400e] border-[#fde68a]"
                 }`}>
                   <span className={`w-1.5 h-1.5 rounded-full ${
-                    isVirtualHiveConnected ? "bg-[#0284c7] animate-pulse" : "bg-gray-400"
+                    isVirtualHiveConnected ? "bg-[#0284c7] animate-pulse" : "bg-[#b45309]"
                   }`} />
-                  {isVirtualHiveConnected ? "IoT Simulated" : "Disconnected"}
+                  {isVirtualHiveConnected ? "IoT Simulated" : "Stored Buffer (1)"}
                 </span>
               </div>
 
               <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-[#78716c] font-normal flex-wrap mt-0.5">
-                <span className="font-semibold text-[#9a3412]">Mustard Flower (Sarson)</span>
+                <span className="font-semibold text-[#9a3412]">{currentHiveInfo.crop}</span>
                 <span className="text-[#a8a29e]">•</span>
-                <span>Updated 11 min ago</span>
-                <span className="text-[#a8a29e]">•</span>
-                <span>Digital Twin</span>
+                {isVirtualHiveConnected ? (
+                  <>
+                    <span>{currentHiveInfo.updated}</span>
+                    <span className="text-[#a8a29e]">•</span>
+                    <span>Digital Twin</span>
+                  </>
+                ) : (
+                  <span>WiFi Disconnected • 1 readings stored in local edge buffer</span>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Right Action Button */}
-          <button
-            type="button"
-            onClick={() => setIsVirtualHiveConnected(!isVirtualHiveConnected)}
-            className={`inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2 text-xs sm:text-sm font-semibold rounded-full transition-all cursor-pointer shadow-2xs self-start sm:self-center ${
-              isVirtualHiveConnected
-                ? "text-[#15803d] bg-[#ecfdf5] border border-[#86efac] hover:bg-[#dcfce7]"
-                : "text-[#665e55] bg-white border border-[#e0d7cb] hover:bg-[#f5ede2]"
-            }`}
-          >
-            {isVirtualHiveConnected ? (
-              <>
-                <Wifi className="w-4 h-4 text-[#10b981]" />
-                <span>Disconnect Virtual Hive</span>
-              </>
-            ) : (
-              <>
-                <WifiOff className="w-4 h-4 text-[#7c7267]" />
-                <span>Connect Virtual Hive</span>
-              </>
-            )}
-          </button>
+          {/* Right Controls: Disconnect Virtual Hive & Select Hive Dropdown (Matching Reference 2) */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 self-start sm:self-center">
+            <button
+              type="button"
+              onClick={() => setIsVirtualHiveConnected(!isVirtualHiveConnected)}
+              className={`inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 text-xs font-semibold rounded-full transition-all cursor-pointer shadow-2xs ${
+                isVirtualHiveConnected
+                  ? "text-[#15803d] bg-[#ecfdf5] border border-[#86efac] hover:bg-[#dcfce7]"
+                  : "text-[#92400e] bg-[#fffbeb] border border-[#fde047] hover:bg-[#fef9c3]"
+              }`}
+            >
+              {isVirtualHiveConnected ? (
+                <>
+                  <Wifi className="w-3.5 h-3.5 text-[#10b981]" />
+                  <span>Disconnect Virtual Hive</span>
+                </>
+              ) : (
+                <>
+                  <WifiOff className="w-3.5 h-3.5 text-[#d97706]" />
+                  <span>Connect Virtual Hive</span>
+                </>
+              )}
+            </button>
+
+            {/* Select Hive Dropdown (Matching 2nd Reference Image) */}
+            <div className="flex items-center gap-2 bg-white/95 border border-[#e2d8cb] px-3.5 py-1.5 rounded-full shadow-2xs hover:border-[#F2A007] transition-all">
+              <span className="text-xs font-medium text-[#64748b] whitespace-nowrap">
+                Select Hive:
+              </span>
+              <select
+                value={selectedHive}
+                onChange={(e) => setSelectedHive(e.target.value)}
+                className="text-xs font-bold text-[#1e293b] bg-transparent border-none outline-none cursor-pointer pr-1"
+              >
+                <option value="Hive #01 - Orchard Yard">HC-HIVE-01 • Orchard Yard</option>
+                <option value="Hive #02 - Meadow Yard">HC-HIVE-02 • Mustard Flower (Sarson)</option>
+                <option value="Hive #03 - Valley Creek">HC-HIVE-03 • Valley Creek</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <SensorTelemetryDashboard />

@@ -25,6 +25,7 @@ import {
   X,
   ChevronRight,
   ShieldCheck,
+  AlertTriangle,
   BatteryCharging,
   Wifi,
   WifiOff,
@@ -102,6 +103,7 @@ export default function BeekeeperPage() {
   const [selectedHive, setSelectedHive] = useState("Hive #02 - Meadow Yard");
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [isVirtualHiveConnected, setIsVirtualHiveConnected] = useState(true);
+  const [colonyCondition, setColonyCondition] = useState<"good" | "alert">("good");
 
   const hiveMetadata: Record<string, { code: string; crop: string; updated: string }> = {
     "Hive #01 - Orchard Yard": {
@@ -286,11 +288,11 @@ export default function BeekeeperPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-[#faf8f5] text-[#24201d]">
+    <div className="min-h-screen flex flex-col bg-[#faf8f5] text-[#24201d]">
       {/* ======================================================== */}
-      {/* DESKTOP FULL-HEIGHT SIDEBAR (Full height on laptop screens) */}
+      {/* DESKTOP FULL-HEIGHT FIXED SIDEBAR                         */}
       {/* ======================================================== */}
-      <aside className="hidden md:flex w-64 lg:w-72 shrink-0 bg-white border-r border-[#e8e1d7] h-screen sticky top-0 flex-col justify-between p-4 z-40 overflow-y-auto">
+      <aside className="hidden md:flex w-64 lg:w-72 shrink-0 bg-white border-r border-[#e8e1d7] fixed inset-y-0 left-0 flex-col justify-between p-4 z-40 overflow-y-auto custom-scrollbar">
         <div>
           {/* Top Brand & Portal Info */}
           <div className="pb-5 border-b border-[#e8e1d7] mb-5">
@@ -320,21 +322,6 @@ export default function BeekeeperPage() {
             </div>
           </div>
 
-          {/* Quick Active Hive Selector inside Sidebar */}
-          <div className="mb-5">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#968a7d] mb-1.5 px-1">
-              Active Hive
-            </label>
-            <select
-              value={selectedHive}
-              onChange={(e) => setSelectedHive(e.target.value)}
-              className="w-full text-xs font-semibold bg-white border border-[#e0d7cb] text-[#24201d] rounded-lg p-2.5 focus:outline-none focus:border-[#F2A007] shadow-2xs cursor-pointer"
-            >
-              <option value="Hive #01 - Orchard Yard">Hive #01 - Orchard Yard</option>
-              <option value="Hive #02 - Meadow Yard">Hive #02 - Meadow Yard</option>
-              <option value="Hive #03 - Valley Creek">Hive #03 - Valley Creek</option>
-            </select>
-          </div>
 
           {/* 5 Main Tabs Navigation */}
           <div className="mb-2 px-1 text-[11px] font-bold uppercase tracking-wider text-[#968a7d]">
@@ -422,9 +409,9 @@ export default function BeekeeperPage() {
       </aside>
 
       {/* ======================================================== */}
-      {/* MAIN APP CONTAINER */}
+      {/* MAIN APP CONTAINER (Offset for fixed sidebar on desktop) */}
       {/* ======================================================== */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen md:pl-64 lg:pl-72">
         {/* Top Header Bar for Desktop & Mobile */}
         <header className="sticky top-0 z-30 bg-[#faf8f5]/95 backdrop-blur-md border-b border-[#e8e1d7] h-16 px-3 sm:px-8 flex items-center justify-between gap-2">
           {/* Left: Mobile Toggle + Breadcrumb */}
@@ -456,7 +443,7 @@ export default function BeekeeperPage() {
               </span>
               <span className="text-[#cfc4b5]">•</span>
               <span className="bg-white border border-[#e0d7cb] px-2 py-0.5 rounded text-[11px] font-semibold text-[#4b433b]">
-                {selectedHive}
+                {activeTab === "home" ? "All Colonies Fleet" : selectedHive}
               </span>
             </div>
           </div>
@@ -512,21 +499,6 @@ export default function BeekeeperPage() {
                   </button>
                 </div>
 
-                {/* Mobile Hive Selector in Drawer */}
-                <div className="mb-4">
-                  <label className="block text-[11px] font-bold text-[#7c7267] uppercase mb-1">
-                    Select Apiary Hive
-                  </label>
-                  <select
-                    value={selectedHive}
-                    onChange={(e) => setSelectedHive(e.target.value)}
-                    className="w-full text-xs font-semibold bg-[#faf8f5] border border-[#e0d7cb] text-[#24201d] rounded-lg p-2.5 focus:outline-none focus:border-[#F2A007]"
-                  >
-                    <option value="Hive #01 - Orchard Yard">Hive #01 - Orchard Yard</option>
-                    <option value="Hive #02 - Meadow Yard">Hive #02 - Meadow Yard</option>
-                    <option value="Hive #03 - Valley Creek">Hive #03 - Valley Creek</option>
-                  </select>
-                </div>
 
                 <div className="text-[11px] font-bold uppercase tracking-wider text-[#968a7d] mb-2 px-1">
                   Navigation
@@ -601,20 +573,20 @@ export default function BeekeeperPage() {
           {/* ======================================================== */}
           {activeTab === "home" && (
             <div className="space-y-6">
-              {/* Colony Banner */}
+              {/* Overall Colony Fleet Banner */}
               <div className="bg-[#fff8ec] border border-[#f3e3ca] rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
                 <div>
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="text-[11px] font-bold uppercase tracking-wider text-[#b45309] bg-[#fef3c7] border border-[#fde68a] px-2.5 py-0.5 rounded-full shadow-2xs">
-                      Langstroth 10-Frame Deep
+                      Apiary Fleet Intelligence
                     </span>
-                    <span className="text-xs text-[#7c7267]">Last telemetry packet: 8s ago</span>
+                    <span className="text-xs text-[#7c7267]">3 Managed Colonies Monitored</span>
                   </div>
                   <h1 className="text-2xl sm:text-3xl font-bold text-[#24201d]">
-                    Colony Health & Live Telemetry
+                    Colony Health &amp; Fleet Overview
                   </h1>
                   <p className="text-sm text-[#665e55] mt-1">
-                    Monitoring <span className="font-semibold text-[#24201d]">{selectedHive}</span> — Queen Carniolan (Active brood rearing, no swarm signals).
+                    Overall biological vital monitoring across all active apiary yards — Queen status, population biomass, nectar influx, and disease prevention.
                   </p>
                 </div>
 
@@ -624,7 +596,7 @@ export default function BeekeeperPage() {
                     className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#1C1A17] bg-white border border-[#e8ded0] rounded-lg hover:bg-[#F2A007]/20 hover:border-[#F2A007]/50 transition-all shadow-2xs cursor-pointer"
                   >
                     <RefreshCw className="w-3.5 h-3.5 text-[#1C1A17]" />
-                    Live Sensors
+                    Hive Sensor Nodes
                   </button>
                   <button
                     onClick={() => setActiveTab("advisor")}
@@ -636,196 +608,253 @@ export default function BeekeeperPage() {
                 </div>
               </div>
 
-              {/* 4 Core Parameter Cards (Temp, Humidity, Hive Weight, Bee Acoustic Monitoring) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {/* 1. Temperature */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#F2A007] transition-all">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-[#7c7267]">
-                      Temperature
-                    </span>
-                    <div className="w-8 h-8 rounded-md bg-[#F2A007]/15 border border-[#F2A007]/30 flex items-center justify-center text-[#8A4B12]">
-                      <Thermometer className="w-4 h-4" />
+              {/* Dynamic Colony Condition Status Banner (Green for Good, Red for Alert) */}
+              {colonyCondition === "good" ? (
+                <div className="bg-gradient-to-r from-emerald-50 via-green-50 to-emerald-100/40 border border-emerald-300/80 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
+                  <div className="flex items-start sm:items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm shadow-emerald-500/25">
+                      <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
                     </div>
-                  </div>
-                  <div className="text-2xl font-extrabold text-[#24201d]">
-                    {telemetry.temp}
-                  </div>
-                  <div className="text-xs text-[#665e55] mt-2 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] shrink-0" />
-                    <span>{telemetry.tempStatus}</span>
-                  </div>
-                  <div className="mt-3 pt-2 border-t border-[#f4ede3] text-[11px] text-[#7c7267] flex justify-between">
-                    <span>Ambient: {telemetry.tempAmbient}</span>
-                    <span className="font-semibold text-[#16a34a]">Stable Δ8.4°C</span>
-                  </div>
-                </div>
-
-                {/* 2. Humidity */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#F2A007] transition-all">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-[#7c7267]">
-                      Humidity
-                    </span>
-                    <div className="w-8 h-8 rounded-md bg-[#F2A007]/15 border border-[#F2A007]/30 flex items-center justify-center text-[#8A4B12]">
-                      <Droplets className="w-4 h-4" />
-                    </div>
-                  </div>
-                  <div className="text-2xl font-extrabold text-[#24201d]">
-                    {telemetry.humidity}
-                  </div>
-                  <div className="text-xs text-[#665e55] mt-2 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] shrink-0" />
-                    <span>{telemetry.humidityStatus}</span>
-                  </div>
-                  <div className="mt-3 pt-2 border-t border-[#f4ede3] text-[11px] text-[#7c7267] flex justify-between">
-                    <span>Ambient: {telemetry.humidityAmbient}</span>
-                    <span className="font-semibold text-[#16a34a]">Well Ventilated</span>
-                  </div>
-                </div>
-
-                {/* 3. Hive Weight */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#F2A007] transition-all">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-[#7c7267]">
-                      Hive Weight
-                    </span>
-                    <div className="w-8 h-8 rounded-md bg-[#F2A007]/15 border border-[#F2A007]/30 flex items-center justify-center text-[#8A4B12]">
-                      <Scale className="w-4 h-4" />
-                    </div>
-                  </div>
-                  <div className="text-2xl font-extrabold text-[#24201d]">
-                    {telemetry.weight}
-                  </div>
-                  <div className="text-xs text-[#665e55] mt-2 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#F2A007] shrink-0" />
-                    <span>{telemetry.weightStatus}</span>
-                  </div>
-                  <div className="mt-3 pt-2 border-t border-[#f4ede3] text-[11px] text-[#7c7267] flex justify-between">
-                    <span>Honey Super: ~14.8 kg</span>
-                    <span className="font-semibold text-[#8A4B12]">Flow Active</span>
-                  </div>
-                </div>
-
-                {/* 4. Bee Acoustic Monitoring */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs hover:border-[#F2A007] transition-all">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-[#7c7267]">
-                      Acoustic Sound
-                    </span>
-                    <div className="w-8 h-8 rounded-md bg-[#F2A007]/15 border border-[#F2A007]/30 flex items-center justify-center text-[#8A4B12]">
-                      <Activity className="w-4 h-4" />
-                    </div>
-                  </div>
-                  <div className="text-2xl font-extrabold text-[#24201d]">
-                    {telemetry.acoustics}
-                  </div>
-                  <div className="text-xs text-[#665e55] mt-2 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] shrink-0" />
-                    <span>{telemetry.acousticsStatus}</span>
-                  </div>
-                  <div className="mt-3 pt-2 border-t border-[#f4ede3] text-[11px] text-[#7c7267] flex justify-between">
-                    <span>Power: {telemetry.acousticDb}</span>
-                    <span className="font-semibold text-[#16a34a]">Swarm Risk &lt;2%</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Realistic Operational Grid */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Real-time Acoustic Spectrum Stream Card */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 lg:col-span-2 shadow-2xs space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#e8e1d7]">
                     <div>
-                      <h3 className="font-bold text-base text-[#24201d] flex items-center gap-2">
-                        <Volume2 className="w-4 h-4 text-[#F2A007]" />
-                        <span>Acoustic Frequency Spectrum & Colony Resonance</span>
-                      </h3>
-                      <p className="text-xs text-[#7c7267] mt-0.5">
-                        High-precision MEMS microphone capturing in-hive vibration harmonics.
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 border border-emerald-300 px-2.5 py-0.5 rounded-full">
+                          Colonies Status: Optimal &amp; Thriving
+                        </span>
+                        <span className="text-xs text-emerald-700 font-medium">Fleet-wide audit nominal</span>
+                      </div>
+                      <h2 className="text-xl sm:text-2xl font-bold text-[#14532d]">
+                        All Managed Colonies in Prime Health
+                      </h2>
+                      <p className="text-xs sm:text-sm text-[#166534] mt-0.5 max-w-3xl">
+                        Robust worker workforce, active foraging flight paths, steady nectar accumulation, and zero swarming or disease signatures detected across all 3 apiary yards.
                       </p>
                     </div>
-                    <span className="text-xs font-bold text-[#16a34a] bg-[#F2A007]/15 border border-[#F2A007]/30 px-2.5 py-1 rounded-md self-start sm:self-auto">
-                      Normal Brood Hum (200-250 Hz)
-                    </span>
                   </div>
 
-                  {/* Simulated Acoustic Waveform / Bar Spectrum */}
-                  <div className="p-4 bg-[#faf8f5] border border-[#e8e1d7] rounded-lg space-y-3">
-                    <div className="flex justify-between items-end h-24 gap-1.5 px-2">
-                      {[35, 42, 60, 85, 95, 78, 55, 40, 28, 22, 18, 15, 12, 14, 11].map((h, idx) => (
-                        <div key={idx} className="flex-1 flex flex-col items-center gap-1">
-                          <div
-                            className={`w-full rounded-xs transition-all ${idx >= 3 && idx <= 5
-                                ? "bg-[#F2A007]"
-                                : idx > 8
-                                  ? "bg-[#cfc4b5]"
-                                  : "bg-[#d97706]"
-                              }`}
-                            style={{ height: `${h}%` }}
-                          />
-                        </div>
-                      ))}
+                  <div className="flex items-center gap-2 shrink-0 self-start md:self-center">
+                    <button
+                      type="button"
+                      onClick={() => setColonyCondition("alert")}
+                      className="text-xs font-semibold text-emerald-800 hover:text-emerald-950 bg-white/80 hover:bg-white border border-emerald-300 px-3 py-1.5 rounded-lg transition-all cursor-pointer shadow-2xs"
+                      title="Simulate Anomaly Warning"
+                    >
+                      Simulate Alert
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="bg-gradient-to-r from-red-50 via-rose-50 to-red-100/40 border border-red-300/80 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
+                  <div className="flex items-start sm:items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-sm shadow-red-500/30 animate-pulse">
+                      <AlertTriangle className="w-6 h-6 stroke-[2.2]" />
                     </div>
-                    <div className="flex justify-between text-[10px] text-[#7c7267] font-semibold border-t border-[#e8ded0] pt-1">
-                      <span>100 Hz</span>
-                      <span className="text-[#8A4B12] font-bold">228 Hz (Peak)</span>
-                      <span>350 Hz (Queen)</span>
-                      <span>500 Hz (Swarm Band)</span>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-red-800 bg-red-100 border border-red-300 px-2.5 py-0.5 rounded-full">
+                          Colony Attention Required: Fleet Anomaly Alert
+                        </span>
+                        <span className="text-xs text-red-700 font-medium">Yard inspection needed</span>
+                      </div>
+                      <h2 className="text-xl sm:text-2xl font-bold text-[#7f1d1d]">
+                        Colony Agitation &amp; Swarm Signals Detected
+                      </h2>
+                      <p className="text-xs sm:text-sm text-[#991b1b] mt-0.5 max-w-3xl">
+                        High worker agitation and pre-swarm piping signals detected in Meadow Yard colony. Immediate yard inspection, brood frame check, and honey super addition recommended.
+                      </p>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                    <div className="p-2.5 bg-[#faf8f5] border border-[#e8e1d7] rounded-md">
-                      <div className="text-[11px] text-[#7c7267]">Brood Vibration</div>
-                      <div className="font-bold text-[#24201d]">228 Hz (Normal)</div>
+                  <div className="flex items-center gap-2 shrink-0 self-start md:self-center">
+                    <button
+                      type="button"
+                      onClick={() => setColonyCondition("good")}
+                      className="text-xs font-bold text-white bg-red-600 hover:bg-red-700 px-3.5 py-1.5 rounded-lg transition-all shadow-xs cursor-pointer"
+                    >
+                      Clear &amp; Mark Normal
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Comprehensive Colony Health Metrics Dashboard (Colony-wide / Fleet-wide Data) */}
+              <div className="bg-white border border-[#e8e1d7] rounded-2xl p-5 sm:p-6 shadow-xs space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-[#f0eae1]">
+                  <div>
+                    <div className="flex items-center gap-2 text-xs font-bold text-[#b45309] uppercase tracking-wider mb-1">
+                      <Layers className="w-4 h-4 text-[#F2A007]" />
+                      <span>Apiary Fleet Health Matrix &amp; Biomass Diagnostics</span>
                     </div>
-                    <div className="p-2.5 bg-[#faf8f5] border border-[#e8e1d7] rounded-md">
-                      <div className="text-[11px] text-[#7c7267]">Queen Piping Alert</div>
-                      <div className="font-bold text-[#16a34a]">None Detected</div>
+                    <h3 className="font-bold text-lg sm:text-xl text-[#24201d]">
+                      Overall Colony Vital Indicators (3 Colonies Fleet)
+                    </h3>
+                  </div>
+                  <span className={`text-xs font-extrabold px-3 py-1 rounded-full border self-start sm:self-auto ${
+                    colonyCondition === "good"
+                      ? "text-emerald-800 bg-emerald-50 border-emerald-200"
+                      : "text-red-800 bg-red-50 border-red-200"
+                  }`}>
+                    {colonyCondition === "good" ? "Fleet Health: 98% (Prime)" : "Fleet Health: 62% (Warning)"}
+                  </span>
+                </div>
+
+                {/* 6 Overall Colony / Fleet-Level Metric Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {/* Metric 1: Colony Population Biomass */}
+                  <div className="p-4 rounded-xl bg-[#faf8f5] border border-[#e8ded0] space-y-2">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="font-semibold text-[#7c7267]">Colony Biomass Population</span>
+                      <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[10px]">
+                        3 Colonies Active
+                      </span>
                     </div>
-                    <div className="p-2.5 bg-[#faf8f5] border border-[#e8e1d7] rounded-md">
-                      <div className="text-[11px] text-[#7c7267]">Swarming Prediction</div>
-                      <div className="font-bold text-[#16a34a]">Low Probability (1.8%)</div>
+                    <div className="text-xl font-black text-[#24201d]">
+                      ~145,000 Bees
+                    </div>
+                    <div className="text-xs text-[#665e55] flex items-center justify-between pt-1 border-t border-[#f0eae1]">
+                      <span>Forager Force: ~82,000</span>
+                      <span className="font-semibold text-emerald-700">Strong Workforce</span>
+                    </div>
+                  </div>
+
+                  {/* Metric 2: Queen-Right Status & Laying Rate */}
+                  <div className="p-4 rounded-xl bg-[#faf8f5] border border-[#e8ded0] space-y-2">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="font-semibold text-[#7c7267]">Queen-Right Viability</span>
+                      <span className="font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-200 text-[10px]">
+                        100% Laying
+                      </span>
+                    </div>
+                    <div className="text-xl font-black text-[#24201d]">
+                      3 / 3 Queens Active
+                    </div>
+                    <div className="text-xs text-[#665e55] flex items-center justify-between pt-1 border-t border-[#f0eae1]">
+                      <span>Fleet Rate: ~5,400 eggs/day</span>
+                      <span className="font-semibold text-emerald-700">Dense Brood</span>
+                    </div>
+                  </div>
+
+                  {/* Metric 3: Honey Yield & Nectar Flow */}
+                  <div className="p-4 rounded-xl bg-[#faf8f5] border border-[#e8ded0] space-y-2">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="font-semibold text-[#7c7267]">Apiary Honey Reserve</span>
+                      <span className="font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 text-[10px]">
+                        Flow Active
+                      </span>
+                    </div>
+                    <div className="text-xl font-black text-[#24201d]">
+                      128 kg Estimated
+                    </div>
+                    <div className="text-xs text-[#665e55] flex items-center justify-between pt-1 border-t border-[#f0eae1]">
+                      <span>Net Gain: +4.2 kg/day</span>
+                      <span className="font-semibold text-amber-800">Harvest Ready</span>
+                    </div>
+                  </div>
+
+                  {/* Metric 4: Swarm Probability Index */}
+                  <div className="p-4 rounded-xl bg-[#faf8f5] border border-[#e8ded0] space-y-2">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="font-semibold text-[#7c7267]">Fleet Swarm Risk Index</span>
+                      <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[10px]">
+                        Threshold: &lt;15%
+                      </span>
+                    </div>
+                    <div className={`text-xl font-black ${colonyCondition === "good" ? "text-emerald-700" : "text-red-700"}`}>
+                      {colonyCondition === "good" ? "1.8 % (Very Low)" : "64.2 % (High Alert)"}
+                    </div>
+                    <div className="text-xs text-[#665e55] flex items-center justify-between pt-1 border-t border-[#f0eae1]">
+                      <span>Queen Piping: {colonyCondition === "good" ? "Zero Detected" : "Detected in Meadow"}</span>
+                      <span className={`font-semibold ${colonyCondition === "good" ? "text-emerald-700" : "text-red-700"}`}>
+                        {colonyCondition === "good" ? "Calm Colony State" : "Swarm Warning"}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Metric 5: Pest & Varroa Mite Infestation */}
+                  <div className="p-4 rounded-xl bg-[#faf8f5] border border-[#e8ded0] space-y-2">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="font-semibold text-[#7c7267]">Varroa &amp; Pest Status</span>
+                      <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[10px]">
+                        Safe Limit: &lt;3%
+                      </span>
+                    </div>
+                    <div className="text-xl font-black text-[#24201d]">
+                      &lt;0.8 % (Clean)
+                    </div>
+                    <div className="text-xs text-[#665e55] flex items-center justify-between pt-1 border-t border-[#f0eae1]">
+                      <span>Organic Mite Wash</span>
+                      <span className="font-semibold text-emerald-700">Clean Colonies</span>
+                    </div>
+                  </div>
+
+                  {/* Metric 6: Forager Flight Velocity */}
+                  <div className="p-4 rounded-xl bg-[#faf8f5] border border-[#e8ded0] space-y-2">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="font-semibold text-[#7c7267]">Forager Flight Activity</span>
+                      <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[10px]">
+                        Bloom Active
+                      </span>
+                    </div>
+                    <div className="text-xl font-black text-[#24201d]">
+                      142 bees/min
+                    </div>
+                    <div className="text-xs text-[#665e55] flex items-center justify-between pt-1 border-t border-[#f0eae1]">
+                      <span>Foraging Coverage: Sarson &amp; Acacia</span>
+                      <span className="font-semibold text-emerald-700">High Traffic</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Colony Status & Queen Card */}
-                <div className="bg-white border border-[#e8e1d7] rounded-lg p-5 shadow-2xs space-y-4">
-                  <div className="pb-3 border-b border-[#e8e1d7]">
-                    <div className="flex items-center gap-2 text-xs font-semibold text-[#8A4B12] uppercase tracking-wider mb-1">
-                      <Layers className="w-3.5 h-3.5" />
-                      Colony Health Matrix
-                    </div>
-                    <h3 className="font-bold text-base text-[#24201d]">Queen & Brood Metrics</h3>
+                {/* Multi-Colony Yard Status Cards (Showing the 3 Colonies at a Glance) */}
+                <div className="pt-4 border-t border-[#f0eae1] space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#8A4B12]">
+                      Colony Fleet Status Breakdown
+                    </h4>
+                    <button
+                      onClick={() => setActiveTab("hives")}
+                      className="text-xs font-bold text-[#b45309] hover:text-[#1C1A17] hover:underline cursor-pointer"
+                    >
+                      Manage All Hives &rarr;
+                    </button>
                   </div>
 
-                  <div className="space-y-3 text-xs">
-                    <div className="flex justify-between pb-2 border-b border-[#f4ede3]">
-                      <span className="text-[#665e55]">Queen Breed:</span>
-                      <span className="font-bold text-[#24201d]">Carniolan (Apis m. carnica)</span>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                    <div className="p-3 bg-[#faf8f5] border border-[#e8ded0] rounded-xl space-y-1.5">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-[#24201d]">Hive #01 — Orchard Yard</span>
+                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                          Flow Active
+                        </span>
+                      </div>
+                      <div className="text-[11px] text-[#665e55]">Queen Carniolan (2025 Blue) • 42.6 kg Biomass</div>
+                      <div className="text-[10px] text-[#7c7267]">Honey Super ~14.8 kg • Brood Rearing Steady</div>
                     </div>
-                    <div className="flex justify-between pb-2 border-b border-[#f4ede3]">
-                      <span className="text-[#665e55]">Marking Color:</span>
-                      <span className="font-bold text-[#8A4B12]">Blue (Year 2025)</span>
-                    </div>
-                    <div className="flex justify-between pb-2 border-b border-[#f4ede3]">
-                      <span className="text-[#665e55]">Laying Pattern:</span>
-                      <span className="font-bold text-[#16a34a]">Dense & Concentric (Solid)</span>
-                    </div>
-                    <div className="flex justify-between pb-2 border-b border-[#f4ede3]">
-                      <span className="text-[#665e55]">Varroa Mite Status:</span>
-                      <span className="font-bold text-[#16a34a]">Clean (&lt;1% per 100 bees)</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-[#665e55]">Last Inspection:</span>
-                      <span className="font-semibold text-[#24201d]">3 days ago (14 Oct)</span>
-                    </div>
-                  </div>
 
-                  <div className="p-3 bg-[#F2A007]/10 border border-[#F2A007]/25 rounded-lg text-xs text-[#574f46]">
-                    <strong>Apiarist Tip:</strong> Acacia nectar flow is peaking in your district. Keep entrance reducers open for optimal forager bee traffic.
+                    <div className="p-3 bg-[#faf8f5] border border-[#e8ded0] rounded-xl space-y-1.5">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-[#24201d]">Hive #02 — Meadow Yard</span>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+                          colonyCondition === "good"
+                            ? "text-emerald-700 bg-emerald-50 border-emerald-200"
+                            : "text-red-700 bg-red-50 border-red-200"
+                        }`}>
+                          {colonyCondition === "good" ? "Fast Influx" : "Swarm Check"}
+                        </span>
+                      </div>
+                      <div className="text-[11px] text-[#665e55]">Queen Italian Cordovan • 49.1 kg Biomass</div>
+                      <div className="text-[10px] text-[#7c7267]">Honey Super ~18.5 kg • Mustard Bloom Peaking</div>
+                    </div>
+
+                    <div className="p-3 bg-[#faf8f5] border border-[#e8ded0] rounded-xl space-y-1.5">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-[#24201d]">Hive #03 — Valley Creek</span>
+                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                          Brood Solid
+                        </span>
+                      </div>
+                      <div className="text-[11px] text-[#665e55]">Queen Caucasian Hybrid • 36.4 kg Biomass</div>
+                      <div className="text-[10px] text-[#7c7267]">Acacia &amp; Clover Bloom • Clean Mite Wash</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1294,50 +1323,74 @@ export default function BeekeeperPage() {
                       <h2 className="text-xl sm:text-2xl font-bold text-[#111827] tracking-tight">
                         {currentHiveInfo.code}
                       </h2>
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
                         isVirtualHiveConnected
-                          ? "bg-[#e0f2fe] text-[#0284c7]"
-                          : "bg-gray-100 text-gray-600"
+                          ? "bg-[#e0f2fe] text-[#0284c7] border-[#bae6fd]"
+                          : "bg-[#fef3c7] text-[#92400e] border-[#fde68a]"
                       }`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${
-                          isVirtualHiveConnected ? "bg-[#0284c7] animate-pulse" : "bg-gray-400"
+                          isVirtualHiveConnected ? "bg-[#0284c7] animate-pulse" : "bg-[#b45309]"
                         }`} />
-                        {isVirtualHiveConnected ? "IoT Simulated" : "Disconnected"}
+                        {isVirtualHiveConnected ? "IoT Simulated" : "Stored Buffer (1)"}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-[#78716c] font-normal flex-wrap mt-0.5">
                       <span className="font-semibold text-[#9a3412]">{currentHiveInfo.crop}</span>
                       <span className="text-[#a8a29e]">•</span>
-                      <span>{currentHiveInfo.updated}</span>
-                      <span className="text-[#a8a29e]">•</span>
-                      <span>Digital Twin</span>
+                      {isVirtualHiveConnected ? (
+                        <>
+                          <span>{currentHiveInfo.updated}</span>
+                          <span className="text-[#a8a29e]">•</span>
+                          <span>Digital Twin</span>
+                        </>
+                      ) : (
+                        <span>WiFi Disconnected • 1 readings stored in local edge buffer</span>
+                      )}
                     </div>
                   </div>
                 </div>
 
-                {/* Right Action Button */}
-                <button
-                  type="button"
-                  onClick={() => setIsVirtualHiveConnected(!isVirtualHiveConnected)}
-                  className={`inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2 text-xs sm:text-sm font-semibold rounded-full transition-all cursor-pointer shadow-2xs self-start sm:self-center ${
-                    isVirtualHiveConnected
-                      ? "text-[#15803d] bg-[#ecfdf5] border border-[#86efac] hover:bg-[#dcfce7]"
-                      : "text-[#665e55] bg-white border border-[#e0d7cb] hover:bg-[#f5ede2]"
-                  }`}
-                >
-                  {isVirtualHiveConnected ? (
-                    <>
-                      <Wifi className="w-4 h-4 text-[#10b981]" />
-                      <span>Disconnect Virtual Hive</span>
-                    </>
-                  ) : (
-                    <>
-                      <WifiOff className="w-4 h-4 text-[#7c7267]" />
-                      <span>Connect Virtual Hive</span>
-                    </>
-                  )}
-                </button>
+                {/* Right Controls: Disconnect Virtual Hive & Select Hive Dropdown (Matching Reference 2) */}
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 self-start sm:self-center">
+                  <button
+                    type="button"
+                    onClick={() => setIsVirtualHiveConnected(!isVirtualHiveConnected)}
+                    className={`inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 text-xs font-semibold rounded-full transition-all cursor-pointer shadow-2xs ${
+                      isVirtualHiveConnected
+                        ? "text-[#15803d] bg-[#ecfdf5] border border-[#86efac] hover:bg-[#dcfce7]"
+                        : "text-[#92400e] bg-[#fffbeb] border border-[#fde047] hover:bg-[#fef9c3]"
+                    }`}
+                  >
+                    {isVirtualHiveConnected ? (
+                      <>
+                        <Wifi className="w-3.5 h-3.5 text-[#10b981]" />
+                        <span>Disconnect Virtual Hive</span>
+                      </>
+                    ) : (
+                      <>
+                        <WifiOff className="w-3.5 h-3.5 text-[#d97706]" />
+                        <span>Connect Virtual Hive</span>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Select Hive Dropdown (Matching 2nd Reference Image) */}
+                  <div className="flex items-center gap-2 bg-white/95 border border-[#e2d8cb] px-3.5 py-1.5 rounded-full shadow-2xs hover:border-[#F2A007] transition-all">
+                    <span className="text-xs font-medium text-[#64748b] whitespace-nowrap">
+                      Select Hive:
+                    </span>
+                    <select
+                      value={selectedHive}
+                      onChange={(e) => setSelectedHive(e.target.value)}
+                      className="text-xs font-bold text-[#1e293b] bg-transparent border-none outline-none cursor-pointer pr-1"
+                    >
+                      <option value="Hive #01 - Orchard Yard">HC-HIVE-01 • Orchard Yard</option>
+                      <option value="Hive #02 - Meadow Yard">HC-HIVE-02 • Mustard Flower (Sarson)</option>
+                      <option value="Hive #03 - Valley Creek">HC-HIVE-03 • Valley Creek</option>
+                    </select>
+                  </div>
+                </div>
               </div>
 
               {/* Full Interactive Sensor Graphs (Temp, Humidity, Hive Weight) */}

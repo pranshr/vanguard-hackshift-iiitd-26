@@ -298,8 +298,8 @@ function BeekeeperLoginForm() {
                 setErrorMsg(null);
               }}
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${mode === "login"
-                  ? "bg-white text-[#1C1A17] shadow-xs"
-                  : "text-[#665E55] hover:text-[#1C1A17]"
+                ? "bg-white text-[#1C1A17] shadow-xs"
+                : "text-[#665E55] hover:text-[#1C1A17]"
                 }`}
             >
               Sign In
@@ -311,8 +311,8 @@ function BeekeeperLoginForm() {
                 setErrorMsg(null);
               }}
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${mode === "register"
-                  ? "bg-white text-[#1C1A17] shadow-xs"
-                  : "text-[#665E55] hover:text-[#1C1A17]"
+                ? "bg-white text-[#1C1A17] shadow-xs"
+                : "text-[#665E55] hover:text-[#1C1A17]"
                 }`}
             >
               Register
