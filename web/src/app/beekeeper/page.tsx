@@ -27,7 +27,6 @@ import {
   ShieldCheck,
   BatteryCharging,
   Wifi,
-  Sun,
   Layers,
   FileText,
   QrCode,
@@ -201,7 +200,6 @@ export default function BeekeeperPage() {
     { key: "harvest" as TabKey, label: "Harvest Honey", icon: Droplet, badge: "Ready" },
     { key: "sensors" as TabKey, label: "Sensor Data", icon: Cpu, badge: "4 Ch" },
     { key: "advisor" as TabKey, label: "AI Advisor", icon: Brain, badge: "Active" },
-    { key: "settings" as TabKey, label: "Settings", icon: Settings, badge: "KVIC" },
   ];
 
   // Handle AI question submit
