@@ -18,7 +18,7 @@ export default function HomePage() {
   const demoBatch = DEMO_BATCHES["HC-2026-MUS-014"];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--paper)] text-[var(--ink)]">
+    <div className="flex flex-col bg-[var(--paper)] min-h-screen text-[var(--ink)]">
       {/* 1. Black Marquee Ticker */}
       <MarqueeTicker />
 
@@ -27,52 +27,51 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* 3. Full-Bleed Hero with Generated Product Photography */}
-        <section className="relative min-h-[580px] sm:min-h-[640px] flex items-center border-b border-[var(--line)] overflow-hidden bg-radial from-[var(--sand)] to-[var(--paper)]">
-          <div className="relative max-w-[1240px] w-full mx-auto px-4 sm:px-6 py-16 sm:py-24 z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <section className="relative flex items-center bg-radial from-[var(--sand)] to-[var(--paper)] border-[var(--line)] border-b min-h-[580px] sm:min-h-[640px] overflow-hidden">
+          <div className="z-10 relative mx-auto px-4 sm:px-6 py-16 sm:py-24 w-full max-w-[1240px]">
+            <div className="items-center gap-10 lg:gap-14 grid grid-cols-1 lg:grid-cols-12">
               {/* Left Column: Mission & CTAs */}
-              <div className="lg:col-span-7 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium text-[var(--verified)] bg-[var(--verified)]/15 border border-[var(--verified)]/30">
+              <div className="space-y-6 lg:col-span-7">
+                <div className="inline-flex items-center gap-2 bg-[var(--verified)]/15 px-3.5 py-1.5 border border-[var(--verified)]/30 rounded-full font-mono font-medium text-[var(--verified)] text-xs">
                   <ShieldCheck className="w-3.5 h-3.5" />
                   <span>Verified by HoneyChain & IoT Telemetry</span>
                 </div>
 
-                <h1 className="headline-display text-4xl sm:text-6xl lg:text-7xl text-[var(--ink)]">
+                <h1 className="text-[var(--ink)] text-4xl sm:text-6xl lg:text-7xl headline-display">
                   Most honey in India is syrup. Ours comes with proof.
                 </h1>
 
-                <p className="text-base sm:text-xl text-[var(--ink)]/80 font-sans leading-relaxed max-w-xl">
+                <p className="max-w-xl font-sans text-[var(--ink)]/80 text-base sm:text-xl leading-relaxed">
                   BEE safe monitors every colony with continuous IoT load scales and acoustic sensors. Real-time telemetry anchors directly to on-chain batch records.
                 </p>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
+                <div className="flex sm:flex-row flex-col items-stretch sm:items-center gap-3.5 pt-2">
                   <Link
                     href="/shop"
-                    className="btn-pill-primary shadow-xs"
+                    className="shadow-xs btn-pill-primary"
                   >
                     <span>Shop honey</span>
-                    <ArrowRight className="w-4 h-4 ml-2" />
+                    <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>
 
                   <Link
-                    href="/sensors"
-                    className="btn-pill-secondary flex items-center gap-2"
+                    href="/beekeeper/login"
+                    className="flex items-center gap-2 btn-pill-secondary"
                   >
-                    <Radio className="w-4 h-4 text-[var(--verified)] animate-pulse" />
-                    <span>Live IoT Telemetry</span>
+                    <span>Beekeeper Dashboard</span>
                   </Link>
                 </div>
 
                 {/* CSE Citation Callout */}
-                <div className="pt-6 border-t border-[var(--line)]">
-                  <div className="flex items-center gap-2 text-xs font-mono text-[var(--muted-ink)]">
+                <div className="pt-6 border-[var(--line)] border-t">
+                  <div className="flex items-center gap-2 font-mono text-[var(--muted-ink)] text-xs">
                     <span>{CSE_STUDY_DATA.headline}</span>
                     <a
                       href={CSE_STUDY_DATA.sourceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[var(--ink)] underline hover:text-[var(--signature)] transition-colors"
+                      className="inline-flex items-center gap-1 text-[var(--ink)] hover:text-[var(--signature)] underline transition-colors"
                     >
                       <span>Source</span>
                       <ExternalLink className="w-3 h-3" />
@@ -82,24 +81,24 @@ export default function HomePage() {
               </div>
 
               {/* Right Column: Hero Product Image with Golden Light */}
-              <div className="lg:col-span-5 flex justify-center">
-                <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl border border-[var(--line)] group">
+              <div className="flex justify-center lg:col-span-5">
+                <div className="group relative shadow-2xl border border-[var(--line)] rounded-3xl w-full max-w-md aspect-square overflow-hidden">
                   <ProductImage
                     src="/images/iot-hive-hero.jpg"
                     alt="Smart Langstroth Beehive with IoT Telemetry Node in Orchard"
                     colorHex="var(--signature)"
                     productName="IoT Smart Beehive"
                     aspectRatio="aspect-square"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     priority
                   />
                   {/* Subtle Floating Badge */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md border border-white/20 rounded-2xl p-3 flex items-center justify-between text-white text-xs font-mono">
+                  <div className="right-4 bottom-4 left-4 absolute flex justify-between items-center bg-black/60 backdrop-blur-md p-3 border border-white/20 rounded-2xl font-mono text-white text-xs">
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#16a34a] animate-pulse" />
+                      <span className="bg-[#16a34a] rounded-full w-2 h-2 animate-pulse" />
                       <span>IoT Smart Node · Live</span>
                     </div>
-                    <span className="text-[var(--signature)] font-semibold">24/7 Hive Telemetry</span>
+                    <span className="font-semibold text-[var(--signature)]">24/7 Hive Telemetry</span>
                   </div>
                 </div>
               </div>
@@ -111,8 +110,8 @@ export default function HomePage() {
         <OriginCardsSection />
 
         {/* 5. "Meet BEE safe" Statement with Inline Chips */}
-        <section className="py-16 sm:py-24 max-w-[1100px] mx-auto px-4 sm:px-6 text-center border-y border-[var(--line)]">
-          <p className="headline-display text-2xl sm:text-3xl lg:text-4xl text-[var(--ink)] leading-snug">
+        <section className="mx-auto px-4 sm:px-6 py-16 sm:py-24 border-[var(--line)] border-y max-w-[1100px] text-center">
+          <p className="text-[var(--ink)] text-2xl sm:text-3xl lg:text-4xl leading-snug headline-display">
             BEE safe is raw, single-origin honey from
             <InlineChip colorHex="var(--honey)" title="Bihar litchi groves" />
             Bihar&apos;s litchi groves,
@@ -130,42 +129,42 @@ export default function HomePage() {
         <ComparisonTable />
 
         {/* 8. Tasting Trio Split Promo */}
-        <section className="py-14 sm:py-20 max-w-[1240px] mx-auto px-4 sm:px-6">
-          <div className="rounded-3xl sm:rounded-[32px] bg-[var(--sand)] border border-[var(--line)] p-8 sm:p-12 lg:p-14 overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <section className="mx-auto px-4 sm:px-6 py-14 sm:py-20 max-w-[1240px]">
+          <div className="bg-[var(--sand)] p-8 sm:p-12 lg:p-14 border border-[var(--line)] rounded-3xl sm:rounded-[32px] overflow-hidden">
+            <div className="items-center gap-10 grid grid-cols-1 lg:grid-cols-12">
               {/* Text Left */}
-              <div className="lg:col-span-6 space-y-5">
-                <div className="inline-block text-xs font-mono uppercase tracking-widest text-[var(--muted-ink)]">
+              <div className="space-y-5 lg:col-span-6">
+                <div className="inline-block font-mono text-[var(--muted-ink)] text-xs uppercase tracking-widest">
                   Tasting Flight
                 </div>
 
-                <h2 className="headline-display text-3xl sm:text-4xl lg:text-5xl text-[var(--ink)]">
+                <h2 className="text-[var(--ink)] text-3xl sm:text-4xl lg:text-5xl headline-display">
                   Three origins, one box.
                 </h2>
 
-                <p className="text-base text-[var(--muted-ink)] leading-relaxed">
+                <p className="text-[var(--muted-ink)] text-base leading-relaxed">
                   Compare how regional flower blossoms shape the color and character of honest honey. Features 3 × 150g jars of Litchi Blossom, White Acacia, and Wild Mangrove, each linked to its verified smart hive record.
                 </p>
 
                 <div className="flex flex-wrap items-baseline gap-3 pt-1 font-mono">
                   <div className="flex items-baseline gap-1.5">
-                    <span className="text-[11px] uppercase tracking-wider text-[#b45309] font-bold">Our Price</span>
-                    <span className="text-2xl font-bold text-[var(--ink)]">
+                    <span className="font-bold text-[#b45309] text-[11px] uppercase tracking-wider">Our Price</span>
+                    <span className="font-bold text-[var(--ink)] text-2xl">
                       ₹{trioProduct.sizes[0].price}
                     </span>
                   </div>
                   {trioProduct.sizes[0].marketPrice && (
-                    <div className="flex items-baseline gap-1.5 pl-2.5 border-l border-[var(--line)]">
-                      <span className="text-[11px] uppercase tracking-wider text-[var(--muted-ink)]">Market</span>
-                      <span className="text-base line-through text-[var(--muted-ink)] font-semibold">
+                    <div className="flex items-baseline gap-1.5 pl-2.5 border-[var(--line)] border-l">
+                      <span className="text-[11px] text-[var(--muted-ink)] uppercase tracking-wider">Market</span>
+                      <span className="font-semibold text-[var(--muted-ink)] text-base line-through">
                         ₹{trioProduct.sizes[0].marketPrice}
                       </span>
-                      <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-[#fef3c7] text-[#92400e]">
+                      <span className="bg-[#fef3c7] px-1.5 py-0.2 rounded-full font-bold text-[#92400e] text-[10px]">
                         Save ₹150
                       </span>
                     </div>
                   )}
-                  <span className="text-xs text-[var(--muted-ink)]">
+                  <span className="text-[var(--muted-ink)] text-xs">
                     / 3 × 150g glass jars
                   </span>
                 </div>
@@ -173,16 +172,16 @@ export default function HomePage() {
                 <div className="pt-2">
                   <Link
                     href={`/shop/${trioProduct.slug}`}
-                    className="btn-pill-primary shadow-xs"
+                    className="shadow-xs btn-pill-primary"
                   >
                     <span>Shop the trio</span>
-                    <ArrowRight className="w-4 h-4 ml-2" />
+                    <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>
                 </div>
               </div>
 
               {/* Product Photo Right */}
-              <div className="lg:col-span-6 flex justify-center">
+              <div className="flex justify-center lg:col-span-6">
                 <div className="w-full max-w-md">
                   <ProductImage
                     src="/images/starter-kit.jpg"
@@ -190,7 +189,7 @@ export default function HomePage() {
                     colorHex="var(--honey)"
                     productName="Tasting Trio Flight"
                     aspectRatio="aspect-[4/3]"
-                    className="rounded-3xl shadow-md"
+                    className="shadow-md rounded-3xl"
                   />
                 </div>
               </div>
@@ -199,8 +198,8 @@ export default function HomePage() {
         </section>
 
         {/* 10. Ethics Statement with Inline Chips */}
-        <section className="py-16 sm:py-24 max-w-[1000px] mx-auto px-4 sm:px-6 text-center">
-          <p className="headline-display text-2xl sm:text-3xl lg:text-4xl text-[var(--ink)] leading-snug">
+        <section className="mx-auto px-4 sm:px-6 py-16 sm:py-24 max-w-[1000px] text-center">
+          <p className="text-[var(--ink)] text-2xl sm:text-3xl lg:text-4xl leading-snug headline-display">
             Every batch is recorded from
             <InlineChip colorHex="var(--verified)" title="The IoT hive scale" />
             the smart hive, through
@@ -212,12 +211,12 @@ export default function HomePage() {
         </section>
 
         {/* 11. "Meet Ramdas Mahato" Beekeeper Feature */}
-        <section className="py-14 sm:py-20 max-w-[1240px] mx-auto px-4 sm:px-6">
-          <div className="rounded-3xl sm:rounded-[32px] bg-[var(--sand)] border border-[var(--line)] p-8 sm:p-12 overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <section className="mx-auto px-4 sm:px-6 py-14 sm:py-20 max-w-[1240px]">
+          <div className="bg-[var(--sand)] p-8 sm:p-12 border border-[var(--line)] rounded-3xl sm:rounded-[32px] overflow-hidden">
+            <div className="items-center gap-8 lg:gap-12 grid grid-cols-1 md:grid-cols-12">
               {/* Photo Card Left */}
               <div className="md:col-span-5">
-                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-[var(--line)] shadow-xs">
+                <div className="relative shadow-xs border border-[var(--line)] rounded-2xl aspect-[4/5] overflow-hidden">
                   <ProductImage
                     src="/images/beekeeper-ramdas.jpg"
                     alt="Ramdas Mahato, Lead Apiarist"
@@ -226,17 +225,17 @@ export default function HomePage() {
                     aspectRatio="aspect-[4/5]"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-[10px] font-mono">
-                    <span className="bg-black/60 text-white px-2.5 py-1 rounded-full backdrop-blur-xs">
+                  <div className="top-4 right-4 left-4 absolute flex justify-between items-center font-mono text-[10px]">
+                    <span className="bg-black/60 backdrop-blur-xs px-2.5 py-1 rounded-full text-white">
                       Muzaffarpur Yard
                     </span>
-                    <span className="px-2 py-0.5 rounded-full bg-[var(--signature)] text-[var(--ink)] font-semibold">
+                    <span className="bg-[var(--signature)] px-2 py-0.5 rounded-full font-semibold text-[var(--ink)]">
                       IoT Operator
                     </span>
                   </div>
-                  <div className="absolute bottom-4 left-4 right-4 bg-black/70 backdrop-blur-md rounded-xl p-3 text-white text-xs font-mono">
-                    <span className="font-bold block text-sm">Ramdas Mahato</span>
-                    <span className="text-[var(--text-light)] text-[11px] block">
+                  <div className="right-4 bottom-4 left-4 absolute bg-black/70 backdrop-blur-md p-3 rounded-xl font-mono text-white text-xs">
+                    <span className="block font-bold text-sm">Ramdas Mahato</span>
+                    <span className="block text-[11px] text-[var(--text-light)]">
                       14 Years Experience · Hive #H-04
                     </span>
                   </div>
@@ -244,20 +243,20 @@ export default function HomePage() {
               </div>
 
               {/* Quote & Signature Right */}
-              <div className="md:col-span-7 space-y-6">
-                <div className="inline-block text-xs font-mono uppercase tracking-widest text-[var(--muted-ink)]">
+              <div className="space-y-6 md:col-span-7">
+                <div className="inline-block font-mono text-[var(--muted-ink)] text-xs uppercase tracking-widest">
                   Our Beekeepers
                 </div>
 
-                <blockquote className="font-serif text-xl sm:text-2xl lg:text-3xl text-[var(--ink)] italic leading-relaxed">
+                <blockquote className="font-serif text-[var(--ink)] text-xl sm:text-2xl lg:text-3xl italic leading-relaxed">
                   &ldquo;{demoBatch.beekeeper.quote}&rdquo;
                 </blockquote>
 
                 <div className="space-y-1">
-                  <span className="font-serif text-lg font-bold text-[var(--ink)] block">
+                  <span className="block font-serif font-bold text-[var(--ink)] text-lg">
                     — {demoBatch.beekeeper.name}
                   </span>
-                  <span className="text-xs font-mono text-[var(--muted-ink)] block">
+                  <span className="block font-mono text-[var(--muted-ink)] text-xs">
                     Lead Apiarist, Muzaffarpur Regional Yard
                   </span>
                 </div>
@@ -268,7 +267,7 @@ export default function HomePage() {
                     className="btn-pill-secondary"
                   >
                     <span>Our story</span>
-                    <ArrowRight className="w-4 h-4 ml-2" />
+                    <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>
                 </div>
               </div>
@@ -277,25 +276,25 @@ export default function HomePage() {
         </section>
 
         {/* 12. Two Large Split Image Tiles */}
-        <section className="py-10 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        <section className="mx-auto px-4 sm:px-6 py-10 sm:py-16 max-w-[1240px]">
+          <div className="gap-6 sm:gap-8 grid grid-cols-1 md:grid-cols-2">
             {/* Tile 1: Emotional breakfast honey drizzle */}
             <Link
               href="/shop"
-              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden bg-[var(--dark-card)] p-8 flex flex-col justify-end text-white shadow-sm border border-black/10"
+              className="group relative flex flex-col justify-end bg-[var(--dark-card)] shadow-sm p-8 border border-black/10 rounded-3xl h-72 sm:h-80 overflow-hidden text-white"
             >
               <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105 opacity-60"
+                className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:scale-105 transition-transform duration-500"
                 style={{
                   backgroundImage: "url('/images/honey-breakfast-emotion.jpg'), radial-gradient(circle, var(--amber-deep), var(--ink))",
                 }}
                 aria-hidden="true"
               />
-              <div className="relative z-10 space-y-2">
-                <span className="text-xs font-mono uppercase tracking-widest text-[var(--signature)] font-semibold block">
+              <div className="z-10 relative space-y-2">
+                <span className="block font-mono font-semibold text-[var(--signature)] text-xs uppercase tracking-widest">
                   Pure Raw Ritual
                 </span>
-                <span className="font-serif text-2xl sm:text-3xl font-bold block">
+                <span className="block font-serif font-bold text-2xl sm:text-3xl">
                   Shop the origins →
                 </span>
               </div>
@@ -304,20 +303,20 @@ export default function HomePage() {
             {/* Tile 2: IoT Smart Hive Telemetry */}
             <Link
               href="/sensors"
-              className="group relative h-72 sm:h-80 rounded-3xl overflow-hidden bg-[var(--dark-card-subtle)] p-8 flex flex-col justify-end text-white shadow-sm border border-black/10"
+              className="group relative flex flex-col justify-end bg-[var(--dark-card-subtle)] shadow-sm p-8 border border-black/10 rounded-3xl h-72 sm:h-80 overflow-hidden text-white"
             >
               <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105 opacity-50"
+                className="absolute inset-0 bg-cover bg-center opacity-50 group-hover:scale-105 transition-transform duration-500"
                 style={{
                   backgroundImage: "url('/images/iot-smart-hive.jpg'), radial-gradient(circle, var(--verified), var(--ink))",
                 }}
                 aria-hidden="true"
               />
-              <div className="relative z-10 space-y-2">
-                <span className="text-xs font-mono uppercase tracking-widest text-[var(--signature)] font-semibold block">
+              <div className="z-10 relative space-y-2">
+                <span className="block font-mono font-semibold text-[var(--signature)] text-xs uppercase tracking-widest">
                   IoT Hardware MVP
                 </span>
-                <span className="font-serif text-2xl sm:text-3xl font-bold block">
+                <span className="block font-serif font-bold text-2xl sm:text-3xl">
                   Live sensor dashboard →
                 </span>
               </div>
@@ -329,18 +328,18 @@ export default function HomePage() {
         <LearnCards />
 
         {/* 14. "Not sure where to start?" Banner */}
-        <section className="py-16 sm:py-24 text-center max-w-[800px] mx-auto px-4 sm:px-6">
+        <section className="mx-auto px-4 sm:px-6 py-16 sm:py-24 max-w-[800px] text-center">
           <div className="space-y-4">
-            <h2 className="headline-display text-3xl sm:text-4xl text-[var(--ink)]">
+            <h2 className="text-[var(--ink)] text-3xl sm:text-4xl headline-display">
               Not sure where to start?
             </h2>
-            <p className="text-sm sm:text-base text-[var(--muted-ink)]">
+            <p className="text-[var(--muted-ink)] text-sm sm:text-base">
               Experience all three Indian harvest profiles side by side in our flight box.
             </p>
             <div className="pt-3">
               <Link
                 href="/shop/terroir-tasting-trio"
-                className="btn-pill-primary shadow-xs"
+                className="shadow-xs btn-pill-primary"
               >
                 <span>Try the Tasting Trio</span>
               </Link>
