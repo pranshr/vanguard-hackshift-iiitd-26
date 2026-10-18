@@ -1,0 +1,9 @@
+# Wokwi Library List
+# See https://docs.wokwi.com/guides/libraries
+
+HX711
+Adafruit BME280 Library
+Adafruit BusIO
+Adafruit Unified Sensor
+Seeed Arduino 8Channel I2C Hub
+Seeed_Arduino_AHT20

@@ -1,0 +1,508 @@
+{
+  "version": 1,
+  "author": "Velxio",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-velxio-xiao-esp32s3-sense",
+      "id": "xiao-esp32s3-sense",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-grove-8-channel-i2c-multiplexer-tca9548a",
+      "id": "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg",
+      "top": -293,
+      "left": -372,
+      "rotate": 270,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-grove-aht20",
+      "id": "grove_aht20_1792276152438_cc8eg3km8",
+      "top": -151,
+      "left": -680,
+      "rotate": 180,
+      "attrs": {
+        "temperature": -36.2,
+        "humidity": 72
+      }
+    },
+    {
+      "type": "wokwi-grove-aht20",
+      "id": "grove_aht20_1792276220704_9ja52fhv7",
+      "top": -169,
+      "left": -54,
+      "attrs": {
+        "temperature": 3.8,
+        "humidity": 83
+      }
+    },
+    {
+      "type": "wokwi-grove-aht20",
+      "id": "grove_aht20_1792278371548_biztjhsyu",
+      "top": -353,
+      "left": -684,
+      "rotate": 180,
+      "attrs": {
+        "temperature": 0.2,
+        "humidity": 51
+      }
+    },
+    {
+      "type": "wokwi-grove-aht20",
+      "id": "grove_aht20_1792278391062_kj8e8l6kl",
+      "top": -253,
+      "left": -682,
+      "rotate": 180,
+      "attrs": {
+        "temperature": -4.3,
+        "humidity": 63
+      }
+    },
+    {
+      "type": "wokwi-grove-aht20",
+      "id": "grove_aht20_1792278437139_o536fyuz1",
+      "top": -373,
+      "left": -50,
+      "attrs": {
+        "temperature": 36.6,
+        "humidity": 40
+      }
+    },
+    {
+      "type": "wokwi-grove-aht20",
+      "id": "grove_aht20_1792278480078_5b9qm7ssh",
+      "top": -274,
+      "left": -51,
+      "attrs": {
+        "temperature": -20.1,
+        "humidity": 42
+      }
+    },
+    {
+      "type": "chip-my-chip",
+      "id": "custom_chip_1792286311943_9t7lglodb",
+      "top": -330,
+      "left": 241,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-grove-adc-for-load-cell-hx711",
+      "id": "grove_adc_for_load_cell_hx711_1792287121807_79f94oeu2",
+      "top": -178,
+      "left": 460,
+      "attrs": {
+        "weight_g": 3317,
+        "counts_per_gram": 420,
+        "tare_offset": 50000
+      }
+    },
+    {
+      "type": "wokwi-grove-adc-for-load-cell-hx711",
+      "id": "grove_adc_for_load_cell_hx711_1792287135324_qmjs5hdl6",
+      "top": -279,
+      "left": 456,
+      "attrs": {
+        "weight_g": 3317,
+        "counts_per_gram": 420,
+        "tare_offset": 50000
+      }
+    },
+    {
+      "type": "wokwi-grove-adc-for-load-cell-hx711",
+      "id": "grove_adc_for_load_cell_hx711_1792287146499_jjbelr2d3",
+      "top": -395,
+      "left": 454,
+      "attrs": {
+        "weight_g": 3317,
+        "counts_per_gram": 420,
+        "tare_offset": 50000
+      }
+    },
+    {
+      "type": "wokwi-grove-adc-for-load-cell-hx711",
+      "id": "grove_adc_for_load_cell_hx711_1792287152092_v920nyp7k",
+      "top": -386,
+      "left": 827,
+      "attrs": {
+        "weight_g": 3317,
+        "counts_per_gram": 420,
+        "tare_offset": 50000
+      }
+    },
+    {
+      "type": "wokwi-grove-adc-for-load-cell-hx711",
+      "id": "grove_adc_for_load_cell_hx711_1792287178873_lc717cf2v",
+      "top": -248,
+      "left": 834,
+      "attrs": {
+        "weight_g": 3317,
+        "counts_per_gram": 420,
+        "tare_offset": 50000
+      }
+    },
+    {
+      "type": "wokwi-grove-adc-for-load-cell-hx711",
+      "id": "grove_adc_for_load_cell_hx711_1792287184867_wpc4fn5n0",
+      "top": -491,
+      "left": 820,
+      "attrs": {
+        "weight_g": 3317,
+        "counts_per_gram": 420,
+        "tare_offset": 50000
+      }
+    }
+  ],
+  "connections": [
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:GND",
+      "xiao-esp32s3-sense:GND",
+      "black",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:VCC",
+      "xiao-esp32s3-sense:3V3",
+      "#cc0000",
+      []
+    ],
+    [
+      "xiao-esp32s3-sense:D5",
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SCL",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SDA",
+      "xiao-esp32s3-sense:D4",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_aht20_1792276152438_cc8eg3km8:SCL",
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SC0",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_aht20_1792276152438_cc8eg3km8:SDA",
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SD0",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_aht20_1792276152438_cc8eg3km8:VCC",
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:VCC0",
+      "#cc0000",
+      []
+    ],
+    [
+      "grove_aht20_1792276152438_cc8eg3km8:GND",
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:GND0",
+      "black",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SC1",
+      "grove_aht20_1792276220704_9ja52fhv7:SCL",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SD1",
+      "grove_aht20_1792276220704_9ja52fhv7:SDA",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:VCC1",
+      "grove_aht20_1792276220704_9ja52fhv7:VCC",
+      "#cc0000",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:GND1",
+      "grove_aht20_1792276220704_9ja52fhv7:GND",
+      "black",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:GND3",
+      "grove_aht20_1792278480078_5b9qm7ssh:GND",
+      "black",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:VCC3",
+      "grove_aht20_1792278480078_5b9qm7ssh:VCC",
+      "#cc0000",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SC3",
+      "grove_aht20_1792278480078_5b9qm7ssh:SCL",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SD3",
+      "grove_aht20_1792278480078_5b9qm7ssh:SDA",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SC5",
+      "grove_aht20_1792278437139_o536fyuz1:SCL",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SD5",
+      "grove_aht20_1792278437139_o536fyuz1:SDA",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:VCC5",
+      "grove_aht20_1792278437139_o536fyuz1:VCC",
+      "#cc0000",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:GND5",
+      "grove_aht20_1792278437139_o536fyuz1:GND",
+      "black",
+      []
+    ],
+    [
+      "grove_aht20_1792278371548_biztjhsyu:SCL",
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SC4",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SD4",
+      "grove_aht20_1792278371548_biztjhsyu:SDA",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_aht20_1792278371548_biztjhsyu:VCC",
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:VCC4",
+      "#cc0000",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:GND4",
+      "grove_aht20_1792278371548_biztjhsyu:GND",
+      "black",
+      []
+    ],
+    [
+      "grove_aht20_1792278391062_kj8e8l6kl:GND",
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:GND2",
+      "black",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:VCC2",
+      "grove_aht20_1792278391062_kj8e8l6kl:VCC",
+      "#cc0000",
+      []
+    ],
+    [
+      "grove_aht20_1792278391062_kj8e8l6kl:SDA",
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SD2",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_8_channel_i2c_multiplexer_tca9548a_1792246537993_s9xxjqjhg:SC2",
+      "grove_aht20_1792278391062_kj8e8l6kl:SCL",
+      "#22c55e",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:GND",
+      "grove_adc_for_load_cell_hx711_1792287146499_jjbelr2d3:GND",
+      "black",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:GND",
+      "xiao-esp32s3-sense:GND",
+      "black",
+      []
+    ],
+    [
+      "grove_adc_for_load_cell_hx711_1792287135324_qmjs5hdl6:GND",
+      "custom_chip_1792286311943_9t7lglodb:GND",
+      "black",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:GND",
+      "grove_adc_for_load_cell_hx711_1792287121807_79f94oeu2:GND",
+      "black",
+      []
+    ],
+    [
+      "grove_adc_for_load_cell_hx711_1792287184867_wpc4fn5n0:GND",
+      "custom_chip_1792286311943_9t7lglodb:GND",
+      "black",
+      []
+    ],
+    [
+      "grove_adc_for_load_cell_hx711_1792287152092_v920nyp7k:GND",
+      "custom_chip_1792286311943_9t7lglodb:GND",
+      "black",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:GND",
+      "grove_adc_for_load_cell_hx711_1792287178873_lc717cf2v:GND",
+      "black",
+      []
+    ],
+    [
+      "grove_adc_for_load_cell_hx711_1792287135324_qmjs5hdl6:VCC",
+      "custom_chip_1792286311943_9t7lglodb:VCC",
+      "#cc0000",
+      []
+    ],
+    [
+      "grove_adc_for_load_cell_hx711_1792287146499_jjbelr2d3:VCC",
+      "custom_chip_1792286311943_9t7lglodb:VCC",
+      "#cc0000",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:VCC",
+      "xiao-esp32s3-sense:3V3",
+      "#cc0000",
+      []
+    ],
+    [
+      "grove_adc_for_load_cell_hx711_1792287121807_79f94oeu2:VCC",
+      "custom_chip_1792286311943_9t7lglodb:VCC",
+      "#cc0000",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:VCC",
+      "grove_adc_for_load_cell_hx711_1792287178873_lc717cf2v:VCC",
+      "#cc0000",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:VCC",
+      "grove_adc_for_load_cell_hx711_1792287184867_wpc4fn5n0:VCC",
+      "#cc0000",
+      []
+    ],
+    [
+      "grove_adc_for_load_cell_hx711_1792287152092_v920nyp7k:VCC",
+      "custom_chip_1792286311943_9t7lglodb:VCC",
+      "#cc0000",
+      []
+    ],
+    [
+      "xiao-esp32s3-sense:D1",
+      "grove_adc_for_load_cell_hx711_1792287121807_79f94oeu2:SCK",
+      "#22c55e",
+      []
+    ],
+    [
+      "xiao-esp32s3-sense:D1",
+      "grove_adc_for_load_cell_hx711_1792287135324_qmjs5hdl6:SCK",
+      "#22c55e",
+      []
+    ],
+    [
+      "xiao-esp32s3-sense:D1",
+      "grove_adc_for_load_cell_hx711_1792287146499_jjbelr2d3:SCK",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_adc_for_load_cell_hx711_1792287178873_lc717cf2v:SCK",
+      "xiao-esp32s3-sense:D1",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_adc_for_load_cell_hx711_1792287184867_wpc4fn5n0:SCK",
+      "xiao-esp32s3-sense:D1",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_adc_for_load_cell_hx711_1792287152092_v920nyp7k:SCK",
+      "xiao-esp32s3-sense:D1",
+      "#22c55e",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:IN0",
+      "grove_adc_for_load_cell_hx711_1792287184867_wpc4fn5n0:DOUT",
+      "#22c55e",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:IN1",
+      "grove_adc_for_load_cell_hx711_1792287152092_v920nyp7k:DOUT",
+      "#22c55e",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:IN2",
+      "grove_adc_for_load_cell_hx711_1792287178873_lc717cf2v:DOUT",
+      "#22c55e",
+      []
+    ],
+    [
+      "grove_adc_for_load_cell_hx711_1792287146499_jjbelr2d3:DOUT",
+      "custom_chip_1792286311943_9t7lglodb:IN3",
+      "#22c55e",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:IN4",
+      "grove_adc_for_load_cell_hx711_1792287135324_qmjs5hdl6:DOUT",
+      "#22c55e",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:IN5",
+      "grove_adc_for_load_cell_hx711_1792287121807_79f94oeu2:DOUT",
+      "#22c55e",
+      []
+    ],
+    [
+      "xiao-esp32s3-sense:D0",
+      "custom_chip_1792286311943_9t7lglodb:OUT",
+      "#22c55e",
+      []
+    ],
+    [
+      "xiao-esp32s3-sense:D7",
+      "custom_chip_1792286311943_9t7lglodb:S0",
+      "#22c55e",
+      []
+    ],
+    [
+      "custom_chip_1792286311943_9t7lglodb:S1",
+      "xiao-esp32s3-sense:D8",
+      "#22c55e",
+      []
+    ],
+    [
+      "xiao-esp32s3-sense:D9",
+      "custom_chip_1792286311943_9t7lglodb:S2",
+      "#22c55e",
+      []
+    ]
+  ]
+}

@@ -43,4 +43,4 @@ next-env.d.ts
 **/node_modules/
 web/.next/
 test.txt
-test2.txt
+test*.txt

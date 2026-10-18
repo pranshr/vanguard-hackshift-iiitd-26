@@ -1,0 +1,9 @@
+{
+  "schema": "velxio-chip/v1",
+  "name": "Custom 8:1 Multiplexer",
+  "pins": [
+    "S0", "S1", "S2", "EN", "OUT", "GND", "VCC", "NC",
+    "IN0", "IN1", "IN2", "IN3", "IN4", "IN5", "IN6", "IN7"
+  ],
+  "attributes": []
+}
