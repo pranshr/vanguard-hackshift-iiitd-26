@@ -8,6 +8,11 @@
 #define NUM_SENSORS 6
 
 
+// MUX Select Pins for Custom Load Cell Mux
+const int MUX_S0 = 7; 
+const int MUX_S1 = 8;
+const int MUX_S2 = 9; 
+
 const int HX711_DT_PIN = 1;
 const int HX711_SCK_PIN = 2;
 const int PDM_CLK_PIN = 42;
@@ -16,16 +21,29 @@ const int PDM_DATA_PIN = 41;
 TCA9548A<TwoWire> TCA;
 AHT20 AHT;
 HX711 scale;
-I2SClass I2S;
 
+
+void setupMUX() {
+  pinMode(MUX_S0, OUTPUT);
+  pinMode(MUX_S1, OUTPUT);
+  pinMode(MUX_S2, OUTPUT);
+}
+
+void selectLoadCellChannel(uint8_t channel) {
+  if (channel > 7)
+    return;
+  digitalWrite(MUX_S0, (channel & 0x01) ? HIGH : LOW);
+  digitalWrite(MUX_S1, (channel & 0x02) ? HIGH : LOW);
+  digitalWrite(MUX_S2, (channel & 0x04) ? HIGH : LOW);
+  delay(5);
+}
 
 void setup() {
   Serial.begin(115200);
   delay(300);
 
   Serial.println(
-    "Initializing XIAO ESP32S3 Sense Multi-Sensor Half Multiplexed Test..."
-  );
+      "Initializing XIAO ESP32S3 Sense Multi-Sensor Half Multiplexed Test...");
   Wire.begin(5, 6);
   TCA.begin(WIRE);
 
@@ -37,15 +55,16 @@ void setup() {
     Serial.printf("[+] Initialized AHT20 on TCA Channel %d\n", i);
   }
 
+  setupMUX();
   scale.begin(HX711_DT_PIN, HX711_SCK_PIN);
   scale.set_scale(2280.f);
   scale.tare();
   Serial.println("[+] HX711 Scale initialized successfully.");
 
-  I2S.setPinsPdmRx(PDM_CLK_PIN, PDM_DATA_PIN);
-  if (!I2S.begin(I2S_MODE_PDM_RX, 16000, I2S_DATA_BIT_WIDTH_16BIT,
+  i2s.setPinsPdmRx(PDM_CLK_PIN, PDM_DATA_PIN);
+  if (!i2s.begin(I2S_MODE_PDM_RX, 16000, I2S_DATA_BIT_WIDTH_16BIT,
                  I2S_SLOT_MODE_MONO)) {
-    Serial.println("[-] I2S.begin FAILED");
+    Serial.println("[-] i2s.begin FAILED");
     while (1)
       delay(1000);
   }
@@ -72,24 +91,32 @@ void loop() {
     }
   }
 
-  // HX711 + Load Cell
-  float weight = scale.get_units(3);
+  // HX711 + Load Cells (Multiplexed 0-5)
+  float weights[NUM_SENSORS];
+  for (uint8_t i = 0; i < NUM_SENSORS; i++) {
+    selectLoadCellChannel(i);
+    if (scale.is_ready()) {
+      weights[i] = scale.get_units(3);
+    } else {
+      weights[i] = -999.0f;
+    }
+  }
 
   // I2S Mic
-  int32_t peak = 0;
+  int32_t mic_peak = 0;
   for (int i = 0; i < 2000; i++) {
-    int s = I2S.read();
+    int s = i2s.read();
     if (s == 0 || s == -1)
       continue;
     int16_t v = (int16_t)s;
-    if (abs(v) > peak)
-      peak = abs(v);
+    if (abs(v) > mic_peak)
+      mic_peak = abs(v);
   }
 
   // Printing Telemetry
   // Environmental Data
   for (uint8_t i = 0; i < NUM_SENSORS; i++) {
-    if (aht_status[i]) {
+    if (statuses[i]) {
       Serial.printf("AHT%d [Ch%d] T: %.2f°C H: %.2f%%  |  ", i + 1, i,
                     temperatures[i], humidities[i]);
     } else {
