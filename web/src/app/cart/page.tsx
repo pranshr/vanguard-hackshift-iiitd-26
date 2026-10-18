@@ -19,6 +19,12 @@ import {
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, subtotal, totalCount, isHydrated } = useCart();
+  const totalSavings = items.reduce((sum, item) => {
+    if (item.marketPrice && item.marketPrice > item.price) {
+      return sum + (item.marketPrice - item.price) * item.quantity;
+    }
+    return sum;
+  }, 0);
 
   if (!isHydrated) {
     return (
@@ -98,7 +104,14 @@ export default function CartPage() {
                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-mono text-[#665E55]">
                           <span>Size: <strong className="text-[#1C1A17]">{item.size}</strong></span>
                           <span>•</span>
-                          <span>Unit: ₹{item.price}</span>
+                          <span>
+                            Our Price: <strong className="text-[#8A4B12]">₹{item.price}</strong>
+                            {item.marketPrice && (
+                              <span className="ml-1.5 text-[11px] line-through text-[#8C8276]">
+                                (Market: ₹{item.marketPrice})
+                              </span>
+                            )}
+                          </span>
                           <span>•</span>
                           <span>{item.origin}</span>
                         </div>
@@ -188,6 +201,12 @@ export default function CartPage() {
                       <span>Subtotal ({totalCount} items)</span>
                       <span className="text-[#1C1A17] font-semibold">₹{subtotal}</span>
                     </div>
+                    {totalSavings > 0 && (
+                      <div className="flex justify-between text-[#15803d]">
+                        <span>Direct-From-Apiary Savings</span>
+                        <span className="font-bold">-₹{totalSavings}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between">
                       <span>Temperature-Safe Insured Delivery</span>
                       <span className="text-[#2F6B3A] font-bold">FREE</span>

@@ -1,6 +1,7 @@
 export interface ProductSize {
   size: "250g" | "500g" | "Tasting Trio (3x150g)" | string;
   price: number;
+  marketPrice?: number;
 }
 
 export interface Product {

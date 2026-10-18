@@ -30,6 +30,7 @@ export function TasteCarousel() {
         origin: product.region,
         size: size.size,
         price: size.price,
+        marketPrice: size.marketPrice,
         quantity: 1,
         batchId: product.activeBatchId,
         colorSwatch: product.colorHex,
@@ -142,10 +143,23 @@ export function TasteCarousel() {
                         {honey.tasteNotes.join(" · ")}
                       </p>
 
-                      <div className="pt-2 flex items-center justify-between">
-                        <span className="font-mono text-xs font-semibold">
-                          ₹{honey.sizes[0].price} <span className="text-[10px] font-normal opacity-70">/ {honey.sizes[0].size}</span>
-                        </span>
+                      <div className="pt-2 flex flex-col gap-0.5">
+                        <div className="flex items-baseline gap-2 font-mono text-xs">
+                          <span className="font-bold text-[#b45309]">
+                            Our: ₹{honey.sizes[0].price}
+                          </span>
+                          {honey.sizes[0].marketPrice && (
+                            <span className="text-[11px] line-through text-[var(--muted-ink)]">
+                              Market: ₹{honey.sizes[0].marketPrice}
+                            </span>
+                          )}
+                          <span className="text-[10px] font-normal opacity-70">/ {honey.sizes[0].size}</span>
+                        </div>
+                        {honey.sizes[0].marketPrice && (
+                          <span className="text-[9px] font-bold text-[#15803d] font-mono">
+                            Save ₹{honey.sizes[0].marketPrice - honey.sizes[0].price}
+                          </span>
+                        )}
                       </div>
 
                       <button

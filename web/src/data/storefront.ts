@@ -20,8 +20,8 @@ export const PRODUCTS: Product[] = [
     crystallisationNote: "Crystallises naturally within 3–5 months into a smooth, buttery texture. Gently warm jar in water under 40°C to reliquefy.",
     description: "Cold-harvested from orchard hives situated across the litchi groves of Muzaffarpur during the peak 18-day March blossom window. Unheated and coarse-filtered to preserve floral aromatics and native pollen grains.",
     sizes: [
-      { size: "250g", price: 480 },
-      { size: "500g", price: 890 },
+      { size: "250g", price: 330, marketPrice: 480 },
+      { size: "500g", price: 740, marketPrice: 890 },
     ],
     activeBatchId: "HC-2026-MUS-014",
     image: "/images/honey-litchi.jpg",
@@ -49,8 +49,8 @@ export const PRODUCTS: Product[] = [
     crystallisationNote: "Naturally high in fructose, meaning it remains fluid and crystal-free for 12+ months when kept at room temperature.",
     description: "Gathered at 1,800m elevation in the Kashmir Valley. Because acacia bloom lasts less than two weeks before Himalayan mountain weather arrives, colonies are monitored by weight scales daily to capture the exact nectar peak without blending.",
     sizes: [
-      { size: "250g", price: 650 },
-      { size: "500g", price: 1200 },
+      { size: "250g", price: 500, marketPrice: 650 },
+      { size: "500g", price: 1050, marketPrice: 1200 },
     ],
     activeBatchId: "HC-2026-KSH-008",
     image: "/images/honey-acacia.jpg",
@@ -78,8 +78,8 @@ export const PRODUCTS: Product[] = [
     crystallisationNote: "Contains micro-minerals from tidal waters; sets into a fine granular crystal within 2 months of extraction.",
     description: "Collected sustainably in community apiaries established along the buffer boundary of the Sundarbans mangrove delta. Rich in minerals and natural mangrove nectar notes with a distinctive hint of coastal salt air.",
     sizes: [
-      { size: "250g", price: 540 },
-      { size: "500g", price: 980 },
+      { size: "250g", price: 390, marketPrice: 540 },
+      { size: "500g", price: 830, marketPrice: 980 },
     ],
     activeBatchId: "HC-2026-SUN-021",
     image: "/images/honey-mangrove.jpg",
@@ -107,7 +107,7 @@ export const PRODUCTS: Product[] = [
     crystallisationNote: "Three distinct nectar types will show three distinct crystallization timelines in your pantry.",
     description: "Three 150g glass jars packed in an untreated kraft gift sleeve. Compare how soil, altitude, and blossom variety shape the color and taste of honest honey. Every jar links directly to its verified hive telemetry and laboratory certificate.",
     sizes: [
-      { size: "Tasting Trio (3x150g)", price: 1450 },
+      { size: "Tasting Trio (3x150g)", price: 1300, marketPrice: 1450 },
     ],
     activeBatchId: "HC-2026-MUS-014",
     image: "/images/honey-trio.jpg",

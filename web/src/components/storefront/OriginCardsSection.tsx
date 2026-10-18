@@ -16,6 +16,7 @@ interface RitualItem {
   reviewCount: string;
   price: string;
   rawPrice: number;
+  marketPrice?: number;
   batchId: string;
   origin: string;
   colorHex: string;
@@ -33,8 +34,9 @@ const RITUAL_CARDS: RitualItem[] = [
     badge: "Delicate & Floral",
     rating: "4.9",
     reviewCount: "1,855",
-    price: "FROM ₹480",
-    rawPrice: 480,
+    price: "FROM ₹330",
+    rawPrice: 330,
+    marketPrice: 480,
     batchId: "HC-2026-MUS-014",
     origin: "Muzaffarpur District, Bihar",
     colorHex: "#E5A93C",
@@ -50,8 +52,9 @@ const RITUAL_CARDS: RitualItem[] = [
     badge: "Crystal Clear & Vanilla",
     rating: "4.89",
     reviewCount: "18,018",
-    price: "FROM ₹650",
-    rawPrice: 650,
+    price: "FROM ₹500",
+    rawPrice: 500,
+    marketPrice: 650,
     batchId: "HC-2026-KSH-008",
     origin: "Pulwama District, Kashmir",
     colorHex: "#F3E2B8",
@@ -67,8 +70,9 @@ const RITUAL_CARDS: RitualItem[] = [
     badge: "Bold, Saline & Complex",
     rating: "4.88",
     reviewCount: "2,968",
-    price: "FROM ₹540",
-    rawPrice: 540,
+    price: "FROM ₹390",
+    rawPrice: 390,
+    marketPrice: 540,
     batchId: "HC-2026-SUN-021",
     origin: "Sundarbans Buffer Reserve, West Bengal",
     colorHex: "#5E300A",
@@ -91,6 +95,7 @@ export function OriginCardsSection() {
         origin: card.origin,
         size: "250g",
         price: card.rawPrice,
+        marketPrice: card.marketPrice,
         quantity: 1,
         batchId: card.batchId,
         colorSwatch: card.colorHex,
@@ -199,10 +204,22 @@ export function OriginCardsSection() {
                 </Link>
               </h3>
 
-              {/* Price */}
-              <p className="text-xs font-mono uppercase tracking-widest text-[var(--muted-ink)] font-medium">
-                {card.price}
-              </p>
+              {/* Price: Our Price & Market Price */}
+              <div className="flex items-center justify-center gap-2 pt-0.5 font-mono">
+                <span className="text-xs uppercase tracking-wider font-bold text-[#8A4B12]">
+                  Our Price: ₹{card.rawPrice}
+                </span>
+                {card.marketPrice && (
+                  <span className="text-xs line-through text-[var(--muted-ink)]">
+                    Market: ₹{card.marketPrice}
+                  </span>
+                )}
+                {card.marketPrice && (
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#fef3c7] text-[#92400e] border border-[#fde68a]">
+                    Save ₹{card.marketPrice - card.rawPrice}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         ))}

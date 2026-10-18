@@ -11,6 +11,7 @@ export interface CartItem {
   origin: string;
   size: string;
   price: number;
+  marketPrice?: number;
   quantity: number;
   batchId: string;
   colorSwatch: string;

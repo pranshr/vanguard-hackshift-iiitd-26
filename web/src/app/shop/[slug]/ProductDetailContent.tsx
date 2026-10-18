@@ -63,6 +63,7 @@ export function ProductDetailContent({ product }: Props) {
         origin: product.region,
         size: selectedSize.size,
         price: selectedSize.price,
+        marketPrice: selectedSize.marketPrice,
         quantity: 1,
         batchId: product.activeBatchId,
         colorSwatch: product.colorHex,
@@ -293,31 +294,61 @@ export function ProductDetailContent({ product }: Props) {
                       >
                         <div className="flex items-center justify-between font-mono text-xs mb-1">
                           <span className="font-semibold">{sz.size}</span>
-                          <span className="font-bold">₹{sz.price}</span>
+                          <div className="text-right">
+                            {sz.marketPrice && (
+                              <span className="text-[10px] line-through text-[var(--muted-ink)] mr-1.5 font-normal">
+                                ₹{sz.marketPrice}
+                              </span>
+                            )}
+                            <span className="font-bold">₹{sz.price}</span>
+                          </div>
                         </div>
-                        {per100g && (
-                          <span
-                            className={`text-[10px] font-mono block ${
-                              isSelected ? "text-[var(--ink)]/80" : "text-[var(--muted-ink)]"
-                            }`}
-                          >
-                            ₹{per100g}/100g
-                          </span>
-                        )}
+                        <div className="flex items-center justify-between">
+                          {per100g && (
+                            <span
+                              className={`text-[10px] font-mono block ${
+                                isSelected ? "text-[var(--ink)]/80" : "text-[var(--muted-ink)]"
+                              }`}
+                            >
+                              ₹{per100g}/100g
+                            </span>
+                          )}
+                          {sz.marketPrice && (
+                            <span className="text-[9px] font-bold text-[#15803d]">
+                              Save ₹{sz.marketPrice - sz.price}
+                            </span>
+                          )}
+                        </div>
                       </button>
                     );
                   })}
                 </div>
               </div>
 
-              {/* 6. Price (no strike-through) */}
-              <div className="flex items-baseline gap-2 font-mono">
-                <span className="text-3xl font-bold text-[var(--ink)]">
-                  ₹{selectedSize.price}
-                </span>
-                <span className="text-xs text-[var(--muted-ink)]">
-                  ({selectedSize.size})
-                </span>
+              {/* 6. Price: Our Price and Market Price */}
+              <div className="space-y-1 font-mono">
+                <div className="flex flex-wrap items-baseline gap-3">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-xs uppercase tracking-wider text-[#b45309] font-bold">Our Price</span>
+                    <span className="text-3xl font-bold text-[var(--ink)]">
+                      ₹{selectedSize.price}
+                    </span>
+                  </div>
+                  {selectedSize.marketPrice && (
+                    <div className="flex items-baseline gap-2 pl-3 border-l border-[var(--line)]">
+                      <span className="text-xs uppercase tracking-wider text-[var(--muted-ink)]">Market Price</span>
+                      <span className="text-xl line-through text-[var(--muted-ink)] font-semibold">
+                        ₹{selectedSize.marketPrice}
+                      </span>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-[#fef3c7] text-[#92400e] border border-[#fde68a]">
+                        Save ₹{selectedSize.marketPrice - selectedSize.price}
+                      </span>
+                    </div>
+                  )}
+                  <span className="text-xs text-[var(--muted-ink)]">
+                    ({selectedSize.size})
+                  </span>
+                </div>
               </div>
 
               {/* 7. "In the box": jar + lid QR linked to its batch */}
@@ -660,9 +691,16 @@ export function ProductDetailContent({ product }: Props) {
               <span className="font-serif text-sm font-bold text-[var(--ink)] block truncate">
                 {product.name}
               </span>
-              <span className="text-xs font-mono text-[var(--muted-ink)]">
-                ₹{selectedSize.price} ({selectedSize.size})
-              </span>
+              <div className="text-xs font-mono">
+                <span className="text-[var(--muted-ink)]">Our Price: </span>
+                <strong className="text-[var(--ink)] font-bold">₹{selectedSize.price}</strong>
+                {selectedSize.marketPrice && (
+                  <span className="text-[var(--muted-ink)] ml-1 line-through">
+                    ₹{selectedSize.marketPrice}
+                  </span>
+                )}
+                <span className="text-[var(--muted-ink)] ml-1">({selectedSize.size})</span>
+              </div>
             </div>
 
             <button

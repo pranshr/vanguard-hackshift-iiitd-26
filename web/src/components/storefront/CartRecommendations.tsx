@@ -56,6 +56,7 @@ export function CartRecommendations({
         origin: rec.origin,
         size: rec.size,
         price: rec.price,
+        marketPrice: rec.marketPrice,
         quantity: 1,
         batchId: rec.batchId,
         colorSwatch: rec.colorSwatch,
@@ -118,9 +119,14 @@ export function CartRecommendations({
                     <span className="font-serif text-xs font-bold text-[#1C1A17] block truncate">
                       {rec.name}
                     </span>
-                    <span className="font-mono text-[11px] text-[#8A4B12] font-semibold block">
-                      +₹{rec.price}
-                    </span>
+                    <div className="flex items-baseline gap-1 font-mono text-[11px]">
+                      <span className="text-[#8A4B12] font-semibold">+₹{rec.price}</span>
+                      {rec.marketPrice && (
+                        <span className="text-[10px] line-through text-[#8C8276]">
+                          ₹{rec.marketPrice}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 
@@ -229,9 +235,14 @@ export function CartRecommendations({
 
               {/* Price & Action */}
               <div className="pt-2.5 mt-2 border-t border-[#E3DACB]/60 flex items-center justify-between gap-2">
-                <span className="font-mono text-xs font-bold text-[#1C1A17]">
-                  ₹{rec.price}
-                </span>
+                <div className="flex items-baseline gap-1.5 font-mono text-xs">
+                  <span className="font-bold text-[#1C1A17]">Our: ₹{rec.price}</span>
+                  {rec.marketPrice && (
+                    <span className="text-[10px] line-through text-[#8C8276]">
+                      ₹{rec.marketPrice}
+                    </span>
+                  )}
+                </div>
 
                 {inCartItem ? (
                   <div className="flex items-center border border-[#2F6B3A] rounded-md bg-[#EBF2EB] overflow-hidden">

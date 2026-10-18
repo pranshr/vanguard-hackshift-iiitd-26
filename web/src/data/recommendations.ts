@@ -10,6 +10,7 @@ export interface LastMinuteRecommendation {
   description: string;
   size: string;
   price: number;
+  marketPrice?: number;
   origin: string;
   batchId: string;
   colorSwatch: string;
@@ -41,6 +42,7 @@ export const ARTISANAL_ACCESSORIES: LastMinuteRecommendation[] = PRODUCTS.filter
     description: p.description,
     size: defaultSize.size,
     price: defaultSize.price,
+    marketPrice: defaultSize.marketPrice,
     origin: p.region,
     batchId: p.activeBatchId,
     colorSwatch: p.colorHex,
@@ -69,6 +71,7 @@ export function getRecommendedAdditions(cartProductIds: string[] = []): LastMinu
       description: p.description,
       size: defaultSize.size,
       price: defaultSize.price,
+      marketPrice: defaultSize.marketPrice,
       origin: p.region,
       batchId: p.activeBatchId,
       colorSwatch: p.colorHex,

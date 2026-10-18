@@ -50,6 +50,7 @@ export function ShopCatalogPage() {
         origin: product.region,
         size: defaultSize.size,
         price: defaultSize.price,
+        marketPrice: defaultSize.marketPrice,
         quantity: 1,
         batchId: product.activeBatchId,
         colorSwatch: product.colorHex,
@@ -175,12 +176,26 @@ export function ShopCatalogPage() {
               {/* Price & Actions */}
               <div className="pt-6 mt-4 border-t border-black/5 flex items-center justify-between">
                 <div>
-                  <span className="font-sans text-base font-bold text-[var(--ink)] block">
-                    From ₹{prod.sizes[0].price}
-                  </span>
-                  <span className="text-[10px] font-mono text-[var(--muted-ink)]">
-                    ({prod.sizes[0].size})
-                  </span>
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-sans text-base font-bold text-[var(--ink)] block">
+                      Our Price: ₹{prod.sizes[0].price}
+                    </span>
+                    {prod.sizes[0].marketPrice && (
+                      <span className="text-xs line-through text-[var(--muted-ink)] font-mono">
+                        Market: ₹{prod.sizes[0].marketPrice}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-1.5 font-mono">
+                    <span className="text-[10px] text-[var(--muted-ink)]">
+                      ({prod.sizes[0].size})
+                    </span>
+                    {prod.sizes[0].marketPrice && (
+                      <span className="text-[10px] font-bold text-[#15803d]">
+                        Save ₹{prod.sizes[0].marketPrice - prod.sizes[0].price}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2">

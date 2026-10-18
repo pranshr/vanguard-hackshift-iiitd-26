@@ -34,6 +34,7 @@ export interface MarketplaceProduct {
   name: string;
   category: "honey" | "beeswax" | "hardware" | "colonies" | "gear";
   price: number;
+  marketPrice?: number;
   rating: number;
   reviewCount: number;
   shortDesc: string;
@@ -61,7 +62,8 @@ const PRODUCTS: MarketplaceProduct[] = [
     id: "prod-1",
     name: "Wildflower Reserve Raw Honey (1kg)",
     category: "honey",
-    price: 850,
+    price: 700,
+    marketPrice: 850,
     rating: 4.9,
     reviewCount: 124,
     shortDesc: "Single-origin raw unfiltered forest wildflower honey with verified low moisture index.",
@@ -148,7 +150,8 @@ const PRODUCTS: MarketplaceProduct[] = [
     id: "prod-5",
     name: "Kashmir Acacia Monofloral Raw Honey (500g)",
     category: "honey",
-    price: 520,
+    price: 370,
+    marketPrice: 520,
     rating: 4.85,
     reviewCount: 67,
     shortDesc: "Delicate, light amber blossom honey naturally slow to crystallize.",
@@ -210,7 +213,8 @@ const PRODUCTS: MarketplaceProduct[] = [
     id: "prod-8",
     name: "Comb Honey Hex-Square Box (350g)",
     category: "honey",
-    price: 650,
+    price: 500,
+    marketPrice: 650,
     rating: 5.0,
     reviewCount: 39,
     shortDesc: "Virgin raw comb cut straight from the hive super into eco wooden frames.",
@@ -826,10 +830,24 @@ export default function MarketplacePage() {
                       {/* Pricing & Cart Action Row */}
                       <div className="pt-3 flex items-center justify-between gap-2 mt-2">
                         <div>
-                          <span className="text-[10px] font-mono text-[#665E55] block">Price (INR)</span>
-                          <span className="font-serif text-xl font-bold text-[#1C1A17]">
-                            ₹{prod.price.toLocaleString("en-IN")}
-                          </span>
+                          <div className="flex items-center gap-1.5 font-mono">
+                            <span className="text-[10px] text-[#8A4B12] font-semibold block">Our Price</span>
+                            {prod.marketPrice && (
+                              <span className="text-[10px] line-through text-[#8C8276]">
+                                Market: ₹{prod.marketPrice}
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex items-baseline gap-2">
+                            <span className="font-serif text-xl font-bold text-[#1C1A17]">
+                              ₹{prod.price.toLocaleString("en-IN")}
+                            </span>
+                            {prod.marketPrice && (
+                              <span className="text-[10px] font-bold font-mono px-1.5 py-0.2 rounded bg-[#fef3c7] text-[#92400e]">
+                                -₹150
+                              </span>
+                            )}
+                          </div>
                         </div>
 
                         <div className="flex items-center gap-2">
@@ -1164,7 +1182,19 @@ export default function MarketplacePage() {
             {/* Modal Bottom Action */}
             <div className="pt-4 border-t border-[#E3DACB] flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
-                <span className="text-[10px] font-mono text-[#665E55] block">Price (INR, Taxes Included)</span>
+                <div className="flex items-center gap-2 font-mono">
+                  <span className="text-[10px] text-[#8A4B12] font-semibold uppercase">Our Price</span>
+                  {selectedProduct.marketPrice && (
+                    <span className="text-[11px] line-through text-[#8C8276]">
+                      Market: ₹{selectedProduct.marketPrice.toLocaleString("en-IN")}
+                    </span>
+                  )}
+                  {selectedProduct.marketPrice && (
+                    <span className="text-[10px] font-bold text-[#15803d] px-1.5 py-0.5 bg-[#f0fdf4] border border-[#bbf7d0] rounded-full">
+                      Save ₹{selectedProduct.marketPrice - selectedProduct.price}
+                    </span>
+                  )}
+                </div>
                 <span className="font-serif text-2xl font-bold text-[#1C1A17]">
                   ₹{selectedProduct.price.toLocaleString("en-IN")}
                 </span>

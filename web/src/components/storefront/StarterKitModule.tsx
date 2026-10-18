@@ -21,6 +21,7 @@ export function StarterKitModule() {
         origin: trio.region,
         size: size.size,
         price: size.price,
+        marketPrice: size.marketPrice,
         quantity: 1,
         batchId: trio.activeBatchId,
         colorSwatch: trio.colorHex,
@@ -89,12 +90,28 @@ export function StarterKitModule() {
 
             {/* Honest Price & Full-Width Pill CTA */}
             <div className="pt-4 border-t border-[var(--line)] space-y-4">
-              <div className="flex items-baseline gap-2 font-mono">
-                <span className="text-3xl font-bold text-[var(--ink)]">
-                  ₹{trio.sizes[0].price}
-                </span>
-                <span className="text-xs text-[var(--muted-ink)]">
-                  Honest pricing · No fake discounts
+              <div className="space-y-1 font-mono">
+                <div className="flex flex-wrap items-baseline gap-3">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-xs uppercase tracking-wider text-[#b45309] font-bold">Our Price</span>
+                    <span className="text-3xl font-bold text-[var(--ink)]">
+                      ₹{trio.sizes[0].price}
+                    </span>
+                  </div>
+                  {trio.sizes[0].marketPrice && (
+                    <div className="flex items-baseline gap-2 pl-3 border-l border-[var(--line)]">
+                      <span className="text-xs uppercase tracking-wider text-[var(--muted-ink)]">Market Price</span>
+                      <span className="text-xl line-through text-[var(--muted-ink)] font-semibold">
+                        ₹{trio.sizes[0].marketPrice}
+                      </span>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-[#fef3c7] text-[#92400e] border border-[#fde68a]">
+                        Save ₹{trio.sizes[0].marketPrice - trio.sizes[0].price}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <span className="text-xs text-[var(--muted-ink)] block">
+                  Direct from verified apiaries · Save ₹150 vs Market Price
                 </span>
               </div>
 

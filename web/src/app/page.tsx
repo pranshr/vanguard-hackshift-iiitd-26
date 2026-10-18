@@ -147,10 +147,24 @@ export default function HomePage() {
                   Compare how regional flower blossoms shape the color and character of honest honey. Features 3 × 150g jars of Litchi Blossom, White Acacia, and Wild Mangrove, each linked to its verified smart hive record.
                 </p>
 
-                <div className="flex items-baseline gap-2 pt-1 font-mono">
-                  <span className="text-2xl font-bold text-[var(--ink)]">
-                    ₹{trioProduct.sizes[0].price}
-                  </span>
+                <div className="flex flex-wrap items-baseline gap-3 pt-1 font-mono">
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-[11px] uppercase tracking-wider text-[#b45309] font-bold">Our Price</span>
+                    <span className="text-2xl font-bold text-[var(--ink)]">
+                      ₹{trioProduct.sizes[0].price}
+                    </span>
+                  </div>
+                  {trioProduct.sizes[0].marketPrice && (
+                    <div className="flex items-baseline gap-1.5 pl-2.5 border-l border-[var(--line)]">
+                      <span className="text-[11px] uppercase tracking-wider text-[var(--muted-ink)]">Market</span>
+                      <span className="text-base line-through text-[var(--muted-ink)] font-semibold">
+                        ₹{trioProduct.sizes[0].marketPrice}
+                      </span>
+                      <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-[#fef3c7] text-[#92400e]">
+                        Save ₹150
+                      </span>
+                    </div>
+                  )}
                   <span className="text-xs text-[var(--muted-ink)]">
                     / 3 × 150g glass jars
                   </span>
