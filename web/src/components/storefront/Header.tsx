@@ -55,11 +55,11 @@ export function StorefrontHeader() {
     <header className="sticky top-0 z-50 bg-[var(--paper)]/95 backdrop-blur-md border-b border-[var(--line)]">
       <div className="max-w-[1240px] mx-auto px-4 sm:px-6 h-18 sm:h-20 flex items-center justify-between gap-4">
         {/* Brand identity: left */}
-        <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-          <span className="font-serif text-2xl sm:text-[26px] font-bold tracking-tight text-[var(--ink)] group-hover:text-[var(--signature)] transition-colors">
+        <Link href="/" className="flex items-center gap-2 sm:gap-2.5 shrink-0 group">
+          <span className="font-serif text-xl sm:text-[26px] font-bold tracking-tight text-[var(--ink)] group-hover:text-[var(--signature)] transition-colors">
             BEE safe
           </span>
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--forest)] bg-[var(--tag-bg)] border border-[var(--tag-border)] px-2 py-0.5 rounded-full whitespace-nowrap">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--forest)] bg-[var(--tag-bg)] border border-[var(--tag-border)] px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap hidden sm:inline">
             HoneyChain
           </span>
         </Link>

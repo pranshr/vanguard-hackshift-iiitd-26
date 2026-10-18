@@ -8,7 +8,7 @@ import {
   Home,
   Droplet,
   Cpu,
-  Brain,
+  Settings,
 } from "lucide-react";
 import SensorTelemetryDashboard from "@/components/SensorTelemetryDashboard";
 
@@ -101,8 +101,8 @@ export default function SensorsPage() {
           href="/beekeeper"
           className="flex flex-col items-center justify-center flex-1 py-1 text-[#7c7267] hover:text-[#24201d]"
         >
-          <Brain className="w-5 h-5 mb-1 stroke-[1.8]" />
-          <span className="text-[11px] font-medium leading-none">Advisor</span>
+          <Settings className="w-5 h-5 mb-1 stroke-[1.8]" />
+          <span className="text-[11px] font-medium leading-none">Settings</span>
         </Link>
       </nav>
     </div>

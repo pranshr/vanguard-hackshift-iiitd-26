@@ -212,7 +212,7 @@ export function LanguageSelector({
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl bg-[var(--sand)] border border-[var(--line)] shadow-2xl p-2.5 space-y-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute right-0 top-full mt-2 w-72 max-w-[calc(100vw-24px)] rounded-2xl bg-[var(--sand)] border border-[var(--line)] shadow-2xl p-2.5 space-y-2 z-50 animate-in fade-in zoom-in-95 duration-150">
           {/* Header */}
           <div className="flex items-center justify-between px-2 pt-1 pb-1 border-b border-[var(--line)]">
             <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--muted-ink)] flex items-center gap-1.5">

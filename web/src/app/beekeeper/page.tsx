@@ -401,23 +401,25 @@ export default function BeekeeperPage() {
       {/* ======================================================== */}
       <div className="flex-1 flex flex-col min-w-0 min-h-screen">
         {/* Top Header Bar for Desktop & Mobile */}
-        <header className="sticky top-0 z-30 bg-[#faf8f5]/95 backdrop-blur-md border-b border-[#e8e1d7] h-16 px-4 sm:px-8 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-[#faf8f5]/95 backdrop-blur-md border-b border-[#e8e1d7] h-16 px-3 sm:px-8 flex items-center justify-between gap-2">
           {/* Left: Mobile Toggle + Breadcrumb */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <button
               onClick={() => setMobileDrawerOpen(true)}
-              className="p-2 text-[#4b433b] hover:bg-[#f5ede2] rounded-lg border border-[#e0d7cb] md:hidden"
+              className="p-2 text-[#4b433b] hover:bg-[#f5ede2] rounded-lg border border-[#e0d7cb] md:hidden cursor-pointer"
               aria-label="Open sidebar drawer"
             >
               <Menu className="w-5 h-5" />
             </button>
 
             {/* Mobile Brand Link */}
-            <Link href="/" className="flex items-center gap-2 md:hidden group">
-              <div className="w-8 h-8 flex items-center justify-center text-[#F2A007]">
+            <Link href="/" className="flex items-center gap-1.5 md:hidden group">
+              <div className="w-7 h-7 flex items-center justify-center text-[#F2A007] shrink-0">
                 <Hexagon className="w-5 h-5 stroke-[2.2]" />
               </div>
-              <span className="font-serif font-bold text-lg text-[#24201d] group-hover:text-[var(--signature)] transition-colors">BEE safe</span>
+              <span className="font-serif font-bold text-base text-[#24201d] group-hover:text-[var(--signature)] transition-colors hidden sm:inline">
+                BEE safe
+              </span>
             </Link>
 
             {/* Desktop Breadcrumbs & Context */}
@@ -435,7 +437,7 @@ export default function BeekeeperPage() {
           </div>
 
           {/* Right Header Status & Action Controls */}
-          <div className="flex items-center gap-2.5 sm:gap-4">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {/* Quick Status Badges */}
             <div className="hidden lg:flex items-center gap-3 text-xs">
               <div className="flex items-center gap-1.5 text-[#574f46] bg-white border border-[#e8e1d7] px-2.5 py-1 rounded-lg">
@@ -455,24 +457,24 @@ export default function BeekeeperPage() {
             {/* Quick Log Inspection Button */}
             <button
               onClick={() => setShowInspectionModal(true)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all shadow-xs cursor-pointer active:scale-95"
+              className="inline-flex items-center justify-center h-9 px-2.5 sm:px-3.5 text-xs font-bold text-[#1C1A17] bg-[#F2A007] rounded-lg hover:bg-[#d98f06] transition-all shadow-xs cursor-pointer active:scale-95"
+              title="Log Inspection"
             >
               <Plus className="w-3.5 h-3.5 text-[#1C1A17]" />
-              <span className="hidden sm:inline">Log Inspection</span>
-              <span className="sm:hidden">Inspect</span>
+              <span className="hidden sm:inline ml-1">Log Inspection</span>
             </button>
 
             {/* Profile & Settings Button */}
             <button
               onClick={() => setActiveTab("settings")}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${activeTab === "settings"
+              className={`inline-flex items-center justify-center h-9 px-2.5 sm:px-3 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${activeTab === "settings"
                 ? "bg-[#f7efe4] text-[#b45309] border-[#b45309]"
                 : "text-[#665e55] bg-white border-[#e0d7cb] hover:bg-[#f5ede2] hover:text-[#b45309]"
                 }`}
               title="Open Ritesh Kumar Profile & Account Settings"
             >
               <Settings className="w-3.5 h-3.5 text-[#b45309]" />
-              <span className="hidden sm:inline">Settings</span>
+              <span className="hidden md:inline ml-1">Settings</span>
             </button>
 
             {/* Language Selector */}
@@ -481,10 +483,11 @@ export default function BeekeeperPage() {
             {/* Header Logout Button */}
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#665e55] bg-white border border-[#e0d7cb] rounded-lg hover:bg-[#F2A007]/20 hover:text-[#1C1A17] hover:border-[#F2A007]/40 transition-all cursor-pointer"
+              className="inline-flex items-center justify-center h-9 w-9 sm:w-auto sm:px-3 text-xs font-semibold text-[#665e55] bg-white border border-[#e0d7cb] rounded-lg hover:bg-[#F2A007]/20 hover:text-[#1C1A17] hover:border-[#F2A007]/40 transition-all cursor-pointer"
+              title="Log Out of Apiary"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Log Out</span>
+              <span className="hidden md:inline ml-1">Log Out</span>
             </Link>
           </div>
         </header>
@@ -593,7 +596,7 @@ export default function BeekeeperPage() {
         )}
 
         {/* Content View Area */}
-        <main className="flex-1 p-4 sm:p-8 pb-24 md:pb-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-3.5 sm:p-8 pb-28 sm:pb-28 md:pb-8 max-w-7xl w-full mx-auto">
           {/* ======================================================== */}
           {/* TAB 1: HOME (OPERATIONAL COMMAND CENTER) */}
           {/* ======================================================== */}
@@ -1462,16 +1465,16 @@ export default function BeekeeperPage() {
               {/* Profile Card & Account Details Container (Images 1, 2, & 3) */}
               <div className="bg-white border border-[#e8e1d7] rounded-2xl shadow-xs overflow-hidden">
                 {/* Profile Hero Header */}
-                <div className="p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gradient-to-r from-[#fffcf7] via-white to-[#faf6ee]">
-                  <div className="flex items-center gap-5">
+                <div className="p-4 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-5 bg-gradient-to-r from-[#fffcf7] via-white to-[#faf6ee]">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
                     {/* Orange Rounded Avatar with Letter 'R' (from Image 3) */}
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#ea580c] via-[#d97706] to-[#b45309] shadow-md flex items-center justify-center text-white text-3xl sm:text-4xl font-bold font-serif shrink-0 border-2 border-white/60">
+                    <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#ea580c] via-[#d97706] to-[#b45309] shadow-md flex items-center justify-center text-white text-2xl sm:text-4xl font-bold font-serif shrink-0 border-2 border-white/60">
                       {userName ? userName.charAt(0).toUpperCase() : "R"}
                     </div>
 
-                    <div className="space-y-1.5">
-                      <div className="flex flex-wrap items-center gap-2.5">
-                        <h2 className="text-xl sm:text-2xl font-bold text-[#24201d] tracking-tight">
+                    <div className="space-y-1.5 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="text-xl sm:text-2xl font-bold text-[#24201d] tracking-tight truncate">
                           {userName}
                         </h2>
                         {/* Designation from Image 2 */}
@@ -1481,21 +1484,21 @@ export default function BeekeeperPage() {
                       </div>
 
                       {/* Badges Row (from Image 3) */}
-                      <div className="flex flex-wrap items-center gap-2 pt-1">
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-1">
                         {/* Badge 1: ● BEEKEEPER */}
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-[#fef3c7] text-[#92400e] border border-[#fde68a] shadow-2xs">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[11px] font-bold bg-[#fef3c7] text-[#92400e] border border-[#fde68a] shadow-2xs">
                           <span className="w-2 h-2 rounded-full bg-[#d97706]" />
                           BEEKEEPER
                         </span>
 
                         {/* Badge 2: 🛡️ KVIC Verified */}
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-[#fffbeb] text-[#92400e] border border-[#fcd34d] shadow-2xs">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[11px] font-bold bg-[#fffbeb] text-[#92400e] border border-[#fcd34d] shadow-2xs">
                           <ShieldCheck className="w-3.5 h-3.5 text-[#d97706]" />
                           KVIC Verified
                         </span>
 
                         {/* Badge 3: 🔗 Bound (Disconnected) */}
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium bg-[#f1f5f9] text-[#475569] border border-[#cbd5e1] shadow-2xs">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[11px] font-medium bg-[#f1f5f9] text-[#475569] border border-[#cbd5e1] shadow-2xs">
                           <Link2 className="w-3.5 h-3.5 text-[#64748b]" />
                           Bound (Disconnected)
                         </span>
@@ -1504,7 +1507,7 @@ export default function BeekeeperPage() {
                   </div>
 
                   {/* Registered Metadata */}
-                  <div className="flex items-center gap-4 text-xs text-[#7c7267] md:border-l md:border-[#ede3d5] md:pl-6">
+                  <div className="grid grid-cols-2 gap-3 pt-3 border-t border-[#ede3d5] md:border-t-0 md:border-l md:pl-6 md:pt-0 w-full md:w-auto text-xs text-[#7c7267]">
                     <div>
                       <div className="text-[10px] uppercase font-bold text-[#968a7d] tracking-wider">Registered Apiary</div>
                       <div className="font-semibold text-[#24201d] mt-0.5">Orchard Yard · 4 Hives</div>
@@ -1519,7 +1522,7 @@ export default function BeekeeperPage() {
                 {/* ======================================================== */}
                 {/* ACCOUNT DETAILS SUB-SECTION (EXACTLY MATCHING IMAGE 1) */}
                 {/* ======================================================== */}
-                <div className="p-6 sm:p-7 border-t border-[#f0e7db] bg-white">
+                <div className="p-4 sm:p-7 border-t border-[#f0e7db] bg-white">
                   {/* Card Section Header with User Icon */}
                   <div className="flex items-center justify-between pb-3">
                     <div className="flex items-center gap-2">
@@ -2014,47 +2017,49 @@ export default function BeekeeperPage() {
       )}
 
       {/* ======================================================== */}
-      {/* FIXED MOBILE BOTTOM NAVIGATION BAR (MATCHING USER IMAGE) */}
-      {/* Icon on top, label directly underneath                  */}
+      {/* FIXED MOBILE BOTTOM NAVIGATION BAR */}
+      {/* 5 clean core tabs: Home, Hives, Harvest, Sensors, Settings */}
       {/* ======================================================== */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/95 backdrop-blur-md border-t border-[#e8e1d7] py-2 px-1 flex items-center justify-around shadow-lg">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.key;
-          const label =
-            item.key === "home"
-              ? "Home"
-              : item.key === "hives"
-                ? "Hives"
-                : item.key === "harvest"
-                  ? "Harvest"
-                  : item.key === "sensors"
-                    ? "Sensors"
-                    : "Advisor";
+        {navItems
+          .filter((item) => item.key !== "advisor")
+          .map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.key;
+            const label =
+              item.key === "home"
+                ? "Home"
+                : item.key === "hives"
+                  ? "Hives"
+                  : item.key === "harvest"
+                    ? "Harvest"
+                    : item.key === "sensors"
+                      ? "Sensors"
+                      : "Settings";
 
-          return (
-            <button
-              key={item.key}
-              onClick={() => {
-                setActiveTab(item.key);
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              className={`flex flex-col items-center justify-center flex-1 py-1 transition-all cursor-pointer ${isActive ? "text-[#1c1917]" : "text-[#7c7267] hover:text-[#24201d]"
-                }`}
-            >
-              <Icon
-                className={`w-5 h-5 mb-1 transition-transform ${isActive ? "text-[#F2A007] stroke-[2.4] scale-110" : "text-[#7c7267] stroke-[1.8]"
-                  }`}
-              />
-              <span
-                className={`text-[11px] leading-none ${isActive ? "font-bold text-[#1c1917]" : "font-medium text-[#7c7267]"
+            return (
+              <button
+                key={item.key}
+                onClick={() => {
+                  setActiveTab(item.key);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className={`flex flex-col items-center justify-center flex-1 py-1 transition-all cursor-pointer ${isActive ? "text-[#1c1917]" : "text-[#7c7267] hover:text-[#24201d]"
                   }`}
               >
-                {label}
-              </span>
-            </button>
-          );
-        })}
+                <Icon
+                  className={`w-5 h-5 mb-1 transition-transform ${isActive ? "text-[#F2A007] stroke-[2.4] scale-110" : "text-[#7c7267] stroke-[1.8]"
+                    }`}
+                />
+                <span
+                  className={`text-[11px] leading-none ${isActive ? "font-bold text-[#1c1917]" : "font-medium text-[#7c7267]"
+                    }`}
+                >
+                  {label}
+                </span>
+              </button>
+            );
+          })}
       </nav>
     </div>
   );
